@@ -1,0 +1,21 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Analysis",
+            "type": "shell",
+            "command": "python3 analysis.py",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Start Jupyter Lab",
+            "type": "shell",
+            "command": "jupyter lab --ip=0.0.0.0 --no-browser",
+            "problemMatcher": []
+        }
+    ]
+}
