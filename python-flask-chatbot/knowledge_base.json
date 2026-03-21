@@ -1,0 +1,9 @@
+{
+  "company_name": "Your Company Name",
+  "faqs": [
+    {
+      "question": "What does your company do?",
+      "answer": "Replace this with your own FAQ content!"
+    }
+  ]
+}
