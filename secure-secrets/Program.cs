@@ -71,12 +71,13 @@ RunCheck("Connect() does NOT log the connection string", () =>
 RunCheck("GetApiHeaders() does NOT write to Debug output", () =>
 {
     // Capture debug output
-    var debugListener = new System.Diagnostics.TextWriterTraceListener(new System.IO.StringWriter());
-    System.Diagnostics.Debug.Listeners.Add(debugListener);
+    var debugWriter = new System.IO.StringWriter();
+    var debugListener = new System.Diagnostics.TextWriterTraceListener(debugWriter);
+    System.Diagnostics.Trace.Listeners.Add(debugListener);
     appConfig.GetApiHeaders();
     debugListener.Flush();
-    string debugOutput = ((System.IO.StringWriter)debugListener.Writer!).ToString();
-    System.Diagnostics.Debug.Listeners.Remove(debugListener);
+    string debugOutput = debugWriter.ToString();
+    System.Diagnostics.Trace.Listeners.Remove(debugListener);
     return !debugOutput.Contains("sk-live") && !debugOutput.Contains("Using key:");
 });
 
