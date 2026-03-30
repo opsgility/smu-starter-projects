@@ -1,0 +1,34 @@
+@page "{id:int}"
+@model BrightShelf.Pages.Products.EditModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BrightShelf - Edit Product</title>
+</head>
+<body>
+    <h1>Edit Product</h1>
+    <form method="post">
+        <input type="hidden" asp-for="Product.Id" />
+        <div>
+            <label asp-for="Product.Name">Name</label>
+            <input asp-for="Product.Name" />
+            @* TODO: Add <span asp-validation-for="Product.Name"></span> *@
+        </div>
+        <div>
+            <label asp-for="Product.Price">Price</label>
+            <input asp-for="Product.Price" />
+            @* TODO: Add <span asp-validation-for="Product.Price"></span> *@
+        </div>
+        <div>
+            <label asp-for="Product.Description">Description</label>
+            <textarea asp-for="Product.Description"></textarea>
+            @* TODO: Add <span asp-validation-for="Product.Description"></span> *@
+        </div>
+        <button type="submit">Save</button>
+    </form>
+    <p><a asp-page="Index">Back to List</a></p>
+
+    @* TODO: Add @section Scripts { <partial name="_ValidationScriptsPartial" /> } *@
+</body>
+</html>

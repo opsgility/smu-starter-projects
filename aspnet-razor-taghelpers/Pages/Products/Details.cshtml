@@ -1,0 +1,29 @@
+@page "{id:int}"
+@model BrightShelf.Pages.Products.DetailsModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BrightShelf - Product Details</title>
+</head>
+<body>
+    <h1>Product Details</h1>
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/Products">Products</a>
+    </nav>
+
+    <dl>
+        <dt>Name</dt>
+        <dd>@Model.Product.Name</dd>
+        <dt>Price</dt>
+        <dd>@Model.Product.Price.ToString("C")</dd>
+        <dt>Description</dt>
+        <dd>@Model.Product.Description</dd>
+        <dt>Category</dt>
+        <dd>@Model.CategoryName</dd>
+    </dl>
+    <a href="/Products/Edit/@Model.Product.Id">Edit</a> |
+    <a href="/Products">Back to List</a>
+</body>
+</html>

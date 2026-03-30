@@ -1,0 +1,26 @@
+@page "{id:int}"
+@model BrightShelf.Pages.Products.DeleteModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BrightShelf - Delete Product</title>
+</head>
+<body>
+    <h1>Delete Product</h1>
+    <p>Are you sure you want to delete <strong>@Model.Product.Name</strong>?</p>
+    <dl>
+        <dt>Name</dt>
+        <dd>@Model.Product.Name</dd>
+        <dt>Price</dt>
+        <dd>@Model.Product.Price.ToString("C")</dd>
+        <dt>Description</dt>
+        <dd>@Model.Product.Description</dd>
+    </dl>
+    <form method="post">
+        <input type="hidden" asp-for="Product.Id" />
+        <button type="submit">Confirm Delete</button>
+    </form>
+    <p><a asp-page="Index">Back to List</a></p>
+</body>
+</html>

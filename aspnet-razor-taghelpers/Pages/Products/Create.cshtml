@@ -1,0 +1,42 @@
+@page
+@model BrightShelf.Pages.Products.CreateModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BrightShelf - Create Product</title>
+</head>
+<body>
+    <h1>Create Product</h1>
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/Products">Products</a>
+    </nav>
+
+    <form method="post" action="/Products/Create">
+        <div>
+            <label for="Product_Name">Name</label>
+            <input type="text" id="Product_Name" name="Product.Name" value="" />
+        </div>
+        <div>
+            <label for="Product_Price">Price</label>
+            <input type="text" id="Product_Price" name="Product.Price" value="" />
+        </div>
+        <div>
+            <label for="Product_Description">Description</label>
+            <textarea id="Product_Description" name="Product.Description"></textarea>
+        </div>
+        <div>
+            <label for="Product_CategoryId">Category</label>
+            <select id="Product_CategoryId" name="Product.CategoryId">
+                <option value="">-- Select Category --</option>
+                <option value="1">Electronics</option>
+                <option value="2">Accessories</option>
+                <option value="3">Peripherals</option>
+            </select>
+        </div>
+        <button type="submit">Create</button>
+    </form>
+    <p><a href="/Products">Back to List</a></p>
+</body>
+</html>
