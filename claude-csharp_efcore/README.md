@@ -15,5 +15,6 @@ This project is a fully functional Book Library API using in-memory collections.
 
 1. Run `dotnet run` to start the API
 2. Navigate to `/swagger` to explore the endpoints
-3. Use Claude Code to add EF Core with SQLite or SQL Server
+3. Use Claude Code to add EF Core with PostgreSQL (Npgsql provider)
 4. Replace the in-memory repositories with EF Core implementations
+5. PostgreSQL is pre-installed. Connection string: `Host=localhost;Database=library;Username=coder;Password=coder`
