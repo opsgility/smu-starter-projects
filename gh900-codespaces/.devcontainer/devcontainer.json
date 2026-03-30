@@ -1,0 +1,14 @@
+{
+  "name": "CloudNest Dev Environment",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:9.0",
+  "features": {},
+  "customizations": {
+    "vscode": {
+      "extensions": [],
+      "settings": {}
+    }
+  },
+  "postCreateCommand": "",
+  "forwardPorts": [],
+  "remoteUser": "vscode"
+}
