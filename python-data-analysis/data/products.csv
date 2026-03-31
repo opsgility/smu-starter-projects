@@ -1,0 +1,13 @@
+product,sku,category,cost,supplier
+Widget Pro,WP-001,Electronics,12.50,TechCorp
+Gadget Mini,GM-002,Electronics,22.00,TechCorp
+Office Chair,OC-003,Furniture,95.00,FurnishCo
+Standing Desk,SD-004,Furniture,175.00,FurnishCo
+USB Hub,UH-005,Electronics,6.50,TechCorp
+Monitor Arm,MA-006,Furniture,35.00,FurnishCo
+Keyboard,KB-007,Electronics,38.00,TechCorp
+Notebook,NB-008,Stationery,1.50,PaperPlus
+Pen Set,PS-009,Stationery,5.00,PaperPlus
+Webcam,WC-010,Electronics,18.00,TechCorp
+Desk Lamp,DL-011,Furniture,22.00,FurnishCo
+Sticky Notes,SN-012,Stationery,0.75,PaperPlus

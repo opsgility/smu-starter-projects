@@ -1,0 +1,13 @@
+customer_id,name,email,signup_date,tier
+C001,Alice Johnson,alice@example.com,2023-01-15,Gold
+C002,Bob Smith,bob@example.com,2023-03-22,Silver
+C003,Carol Davis,carol@example.com,2023-06-10,Gold
+C004,David Wilson,david@example.com,2023-08-05,Bronze
+C005,Emma Brown,emma@example.com,2023-09-18,Silver
+C006,Frank Miller,frank@example.com,2023-11-02,Bronze
+C007,Grace Lee,grace@example.com,2024-01-08,Bronze
+C008,Henry Taylor,henry@example.com,2024-02-14,Silver
+C009,Iris Wang,iris@example.com,2024-03-01,Bronze
+C010,Jack Chen,jack@example.com,2023-05-20,Gold
+C011,Karen White,karen@example.com,2023-07-30,Silver
+C012,Leo Garcia,leo@example.com,2023-12-15,Bronze
