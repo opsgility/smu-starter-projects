@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+azure-identity
+azure-mgmt-resource
+azure-mgmt-web
+azure-mgmt-storage
+azure-storage-blob
+azure-storage-queue
+azure-data-tables
+azure-cosmos
+azure-keyvault-secrets
+azure-functions
+python-dotenv
+httpx

@@ -1,0 +1,11 @@
+openai
+azure-identity
+azure-search-documents
+azure-storage-blob
+azure-keyvault-secrets
+tiktoken
+fastapi
+uvicorn
+httpx
+pydantic
+python-dotenv
