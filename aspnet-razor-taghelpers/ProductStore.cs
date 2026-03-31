@@ -4,52 +4,48 @@ namespace BrightShelf;
 
 public static class ProductStore
 {
-    private static readonly List<Category> _categories = new()
+    private static int _nextId = 6;
+
+    public static List<Product> Products { get; } = new()
     {
-        new Category { Id = 1, Name = "Electronics" },
-        new Category { Id = 2, Name = "Accessories" },
-        new Category { Id = 3, Name = "Peripherals" }
+        new() { Id = 1, Name = "The Midnight Library", Author = "Matt Haig",
+                Category = "Fiction", Price = 14.99m,
+                Description = "Between life and death there is a library." },
+        new() { Id = 2, Name = "A Short History of Nearly Everything", Author = "Bill Bryson",
+                Category = "Science", Price = 12.99m,
+                Description = "A journey through science from the Big Bang to civilization." },
+        new() { Id = 3, Name = "Clean Code", Author = "Robert C. Martin",
+                Category = "Technology", Price = 29.99m,
+                Description = "A handbook of agile software craftsmanship." },
+        new() { Id = 4, Name = "Sapiens", Author = "Yuval Noah Harari",
+                Category = "History", Price = 16.99m,
+                Description = "A brief history of humankind." },
+        new() { Id = 5, Name = "Dune", Author = "Frank Herbert",
+                Category = "Fiction", Price = 11.99m,
+                Description = "A science fiction masterpiece set on the desert planet Arrakis." }
     };
 
-    private static readonly List<Product> _products = new()
-    {
-        new Product { Id = 1, Name = "Wireless Mouse", Price = 29.99m, Description = "Ergonomic wireless mouse with USB receiver.", CategoryId = 3 },
-        new Product { Id = 2, Name = "Mechanical Keyboard", Price = 79.99m, Description = "RGB mechanical keyboard with Cherry MX switches.", CategoryId = 3 },
-        new Product { Id = 3, Name = "USB-C Hub", Price = 49.99m, Description = "7-in-1 USB-C hub with HDMI and ethernet.", CategoryId = 2 },
-        new Product { Id = 4, Name = "Monitor Stand", Price = 39.99m, Description = "Adjustable monitor stand with cable management.", CategoryId = 2 }
-    };
+    public static int GetNextId() => _nextId++;
 
-    private static int _nextId = 5;
-
-    public static List<Product> GetAll() => _products.ToList();
-    public static Product? GetById(int id) => _products.FirstOrDefault(p => p.Id == id);
-    public static List<Category> GetCategories() => _categories.ToList();
-    public static Category? GetCategoryById(int id) => _categories.FirstOrDefault(c => c.Id == id);
-
-    public static void Add(Product product)
-    {
-        product.Id = _nextId++;
-        _products.Add(product);
-    }
+    public static Product? GetById(int id) => Products.FirstOrDefault(p => p.Id == id);
 
     public static void Update(Product product)
     {
-        var existing = _products.FirstOrDefault(p => p.Id == product.Id);
+        var existing = GetById(product.Id);
         if (existing != null)
         {
             existing.Name = product.Name;
+            existing.Author = product.Author;
+            existing.Category = product.Category;
             existing.Price = product.Price;
             existing.Description = product.Description;
-            existing.CategoryId = product.CategoryId;
         }
     }
 
     public static void Delete(int id)
     {
-        var product = _products.FirstOrDefault(p => p.Id == id);
-        if (product != null)
-        {
-            _products.Remove(product);
-        }
+        var existing = GetById(id);
+        if (existing != null)
+            Products.Remove(existing);
     }
 }

@@ -9,16 +9,18 @@ public class CreateModel : PageModel
     [BindProperty]
     public Product Product { get; set; } = new();
 
-    public List<Category> Categories { get; set; } = new();
-
-    public void OnGet()
+    public List<string> Categories { get; } = new()
     {
-        Categories = ProductStore.GetCategories();
-    }
+        "Fiction", "Science", "Technology", "History", "Biography", "Self-Help"
+    };
+
+    public void OnGet() { }
 
     public IActionResult OnPost()
     {
-        ProductStore.Add(Product);
+        Product.Id = ProductStore.GetNextId();
+        Product.CreatedAt = DateTime.UtcNow;
+        ProductStore.Products.Add(Product);
         return RedirectToPage("Index");
     }
 }

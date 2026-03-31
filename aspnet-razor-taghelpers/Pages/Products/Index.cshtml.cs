@@ -9,6 +9,6 @@ public class IndexModel : PageModel
 
     public void OnGet()
     {
-        Products = ProductStore.GetAll();
+        Products = ProductStore.Products;
     }
 }

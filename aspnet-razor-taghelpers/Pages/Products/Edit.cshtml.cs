@@ -9,17 +9,21 @@ public class EditModel : PageModel
     [BindProperty]
     public Product Product { get; set; } = new();
 
-    public List<Category> Categories { get; set; } = new();
+    public List<string> Categories { get; } = new()
+    {
+        "Fiction", "Science", "Technology", "History", "Biography", "Self-Help"
+    };
 
     public IActionResult OnGet(int id)
     {
         var product = ProductStore.GetById(id);
-        if (product == null)
+        if (product == null) return NotFound();
+        Product = new Product
         {
-            return NotFound();
-        }
-        Product = product;
-        Categories = ProductStore.GetCategories();
+            Id = product.Id, Name = product.Name, Author = product.Author,
+            Category = product.Category, Price = product.Price,
+            Description = product.Description, CreatedAt = product.CreatedAt
+        };
         return Page();
     }
 

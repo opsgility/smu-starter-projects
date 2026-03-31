@@ -30,7 +30,7 @@
                 <tr>
                     <td>@product.Name</td>
                     <td>@product.Price.ToString("C")</td>
-                    <td>@(ProductStore.GetCategoryById(product.CategoryId)?.Name ?? "Unknown")</td>
+                    <td>@(product.Category)</td>
                     <td>
                         <a href="/Products/Details/@product.Id">Details</a> |
                         <a href="/Products/Edit/@product.Id">Edit</a> |

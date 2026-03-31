@@ -16,7 +16,7 @@ public class CreateModel : PageModel
     public IActionResult OnPost()
     {
         // TODO: Add ModelState.IsValid check
-        ProductStore.Add(Product);
+        Product.Id = ProductStore.GetNextId(); Product.CreatedAt = DateTime.UtcNow; ProductStore.Products.Add(Product);
         return RedirectToPage("Index");
     }
 }
