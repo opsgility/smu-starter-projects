@@ -50,7 +50,7 @@ public class ProductService : IProductService
         Thread.Sleep(1500);
 
         return await _context.Products
-            .Where(p => p.Category == category)
+            .Where(p => p.Category!.Name == category)
             .ToListAsync();
     }
 }
