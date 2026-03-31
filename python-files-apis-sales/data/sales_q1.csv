@@ -1,0 +1,21 @@
+date,product,category,quantity,unit_price,region
+2024-01-05,Widget Pro,Electronics,15,29.99,North
+2024-01-08,Gadget Mini,Electronics,8,49.99,South
+2024-01-12,Office Chair,Furniture,3,199.99,East
+2024-01-15,Widget Pro,Electronics,22,29.99,West
+2024-01-18,Standing Desk,Furniture,5,349.99,North
+2024-01-22,USB Hub,Electronics,30,14.99,South
+2024-01-25,Monitor Arm,Furniture,7,79.99,East
+2024-02-01,Widget Pro,Electronics,18,29.99,North
+2024-02-05,Keyboard,Electronics,12,89.99,West
+2024-02-08,Gadget Mini,Electronics,6,49.99,South
+2024-02-12,Office Chair,Furniture,4,199.99,North
+2024-02-15,Notebook,Stationery,50,4.99,East
+2024-02-18,Standing Desk,Furniture,2,349.99,West
+2024-02-22,Pen Set,Stationery,25,12.99,South
+2024-02-25,Widget Pro,Electronics,20,29.99,North
+2024-03-01,USB Hub,Electronics,35,14.99,East
+2024-03-05,Monitor Arm,Furniture,9,79.99,West
+2024-03-08,Gadget Mini,Electronics,11,49.99,North
+2024-03-12,Notebook,Stationery,40,4.99,South
+2024-03-15,Office Chair,Furniture,6,199.99,East
