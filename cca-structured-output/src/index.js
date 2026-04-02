@@ -1,4 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
+const Anthropic = require("@anthropic-ai/sdk");
 const client = new Anthropic();
 // DocStream Structured Output - JSON schema design with tool_use
 const classificationSchema = {

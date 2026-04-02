@@ -1,4 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
+const Anthropic = require("@anthropic-ai/sdk");
 
 // DocStream Reliability Testing
 // This project has intentional failure points for testing error handling
@@ -25,5 +25,5 @@ class AgentError {
   }
 }
 
-export { CircuitBreaker, AgentError };
+module.exports = { CircuitBreaker, AgentError };
 console.log("DocStream Reliability Module - Ready for testing");
