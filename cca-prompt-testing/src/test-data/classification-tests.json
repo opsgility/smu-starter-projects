@@ -1,0 +1,62 @@
+{
+  "test_suite": "docstream-classifier-v1",
+  "created": "2026-03-30",
+  "cases": [
+    {
+      "id": "TC001",
+      "text": "Invoice #2026-1234 from Acme Corp. Amount Due: $15,750.00. Payment Terms: Net 30. Services: Cloud infrastructure management, March 2026.",
+      "expected_category": "invoice",
+      "difficulty": "easy",
+      "tags": ["financial", "clear-format"]
+    },
+    {
+      "id": "TC002",
+      "text": "This Service Level Agreement between NovaPulse (Provider) and GlobalTech (Client) establishes performance standards for the DocStream platform. Section 2.1: Uptime guarantee of 99.9%. Section 2.2: Response time for critical issues: 15 minutes. Penalties: 5% credit per hour of downtime exceeding the SLA.",
+      "expected_category": "contract",
+      "difficulty": "medium",
+      "tags": ["legal", "technical-overlap"]
+    },
+    {
+      "id": "TC003",
+      "text": "From: ops@novapulse.com\nTo: engineering@novapulse.com\nSubject: Production Incident Report\n\nAt 02:14 UTC the document processing pipeline experienced a 23-minute outage. Root cause: database connection pool exhaustion. Remediation: Increased pool size from 50 to 200. No data loss occurred. Full postmortem attached.",
+      "expected_category": "report",
+      "difficulty": "hard",
+      "tags": ["email-format", "report-content", "ambiguous"]
+    },
+    {
+      "id": "TC004",
+      "text": "Hey Sarah -- just wanted to follow up on our conversation about the budget for Q2. Can you send me the updated numbers by EOD Thursday? Also, the contracts team needs the vendor list for the new AI tools we discussed. Thanks!",
+      "expected_category": "correspondence",
+      "difficulty": "easy",
+      "tags": ["informal", "multiple-topics"]
+    },
+    {
+      "id": "TC005",
+      "text": "DocStream Document Processing API\n\n## Authentication\nAll requests require Bearer token in Authorization header.\n\n## Endpoints\n\n### POST /v2/process\nSubmit a document for processing.\n\nRequest:\n```json\n{\"document_url\": \"string\", \"options\": {\"ocr\": boolean}}\n```\n\nResponse:\n```json\n{\"job_id\": \"string\", \"status\": \"queued\"}\n```\n\nRate limit: 500 requests/minute.",
+      "expected_category": "technical_spec",
+      "difficulty": "easy",
+      "tags": ["api-docs", "code-blocks"]
+    },
+    {
+      "id": "TC006",
+      "text": "Amendment to Master Services Agreement dated January 1, 2026. Effective April 1, 2026. Section 4.1 is hereby replaced: Monthly service fee increased from $50,000 to $65,000 to reflect expanded scope including AI document processing. Payment due within 15 business days of invoice receipt. All other terms remain unchanged.",
+      "expected_category": "contract",
+      "difficulty": "hard",
+      "tags": ["financial-overlap", "amendment", "ambiguous"]
+    },
+    {
+      "id": "TC007",
+      "text": "Purchase Order PO-NP-2026-0089\nTo: DataPipeline Solutions\nShip To: NovaPulse HQ, 100 AI Drive\nItem: GPU Cluster Rental (3 months)\nQty: 4 nodes\nUnit Price: $8,500/month\nTotal: $102,000\nApproval: VP Engineering",
+      "expected_category": "invoice",
+      "difficulty": "medium",
+      "tags": ["purchase-order", "technical-items"]
+    },
+    {
+      "id": "TC008",
+      "text": "Weekly Engineering Standup Notes - March 23, 2026\n\nAttendees: 12\nKey Updates:\n- DocStream v2.1 deployed to staging\n- 3 critical bugs fixed in document parser\n- New hire starting Monday (ML engineer)\n\nBlockers:\n- GPU quota increase pending AWS approval\n- Contract review for new vendor still with legal",
+      "expected_category": "report",
+      "difficulty": "medium",
+      "tags": ["meeting-notes", "informal-report"]
+    }
+  ]
+}

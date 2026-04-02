@@ -1,0 +1,236 @@
+MASTER SERVICES AGREEMENT
+
+This Master Services Agreement ("Agreement") is entered into as of March 1, 2026, by and between NovaPulse Technologies Inc., a Delaware corporation with its principal place of business at 100 AI Drive, San Francisco, CA 94105 ("Client"), and CloudScale Solutions LLC, a California limited liability company with its principal place of business at 500 Tech Boulevard, Austin, TX 78701 ("Provider").
+
+RECITALS
+
+WHEREAS, Client desires to engage Provider to provide certain cloud infrastructure and AI platform services as described herein; and
+
+WHEREAS, Provider desires to provide such services to Client under the terms and conditions set forth in this Agreement.
+
+NOW, THEREFORE, in consideration of the mutual covenants and agreements hereinafter set forth and for other good and valuable consideration, the receipt and sufficiency of which are hereby acknowledged, the parties agree as follows:
+
+ARTICLE 1: DEFINITIONS
+
+1.1 "Services" means the cloud infrastructure management, AI platform support, and document processing pipeline services described in Exhibit A attached hereto.
+
+1.2 "Deliverables" means all work product, software, documentation, and other materials created by Provider in connection with the Services.
+
+1.3 "Confidential Information" means any non-public information disclosed by either party to the other party, whether orally or in writing, that is designated as confidential or that reasonably should be understood to be confidential given the nature of the information and the circumstances of disclosure.
+
+1.4 "Intellectual Property Rights" means all patents, copyrights, trademarks, trade secrets, and other intellectual property rights worldwide.
+
+ARTICLE 2: SERVICES AND DELIVERABLES
+
+2.1 Scope of Services. Provider shall provide the following services to Client:
+
+(a) Cloud Infrastructure Management: Management and optimization of Client's AWS infrastructure, including EC2 instances, RDS databases, S3 storage, and CloudFront distributions. Current infrastructure consists of 47 microservices deployed across 3 availability zones.
+
+(b) AI Platform Support: Technical support for Client's DocStream AI document processing platform, including the Anthropic Claude API integration, document classification pipeline, and MCP server infrastructure.
+
+(c) Database Administration: Management of Client's PostgreSQL database cluster running on Amazon Aurora, with current storage of approximately 4.7 terabytes of document data.
+
+(d) Security and Compliance: Monthly security audits, vulnerability assessments, and compliance reporting for SOC 2 Type II certification.
+
+2.2 Service Level Agreement. Provider guarantees the following service levels:
+
+(a) Platform Uptime: 99.95% monthly uptime for all production systems, measured on a rolling 30-day basis.
+
+(b) Incident Response: Critical incidents (Severity 1) must receive initial response within 15 minutes; High incidents (Severity 2) within 2 hours; Medium incidents (Severity 3) within 8 business hours.
+
+(c) Resolution Times: Severity 1 issues resolved within 4 hours; Severity 2 within 24 hours; Severity 3 within 5 business days.
+
+ARTICLE 3: COMPENSATION AND PAYMENT TERMS
+
+3.1 Base Service Fee. Client shall pay Provider a monthly base service fee of $125,000 (one hundred twenty-five thousand US dollars), due within 15 business days of invoice receipt.
+
+3.2 Variable Usage Fees. In addition to the base service fee, Client shall pay for:
+
+(a) Anthropic API costs: Passed through at cost plus 8% administrative markup. Estimated monthly usage: $18,500 based on current DocStream volume of approximately 847,000 document classifications per month.
+
+(b) Additional AWS infrastructure costs: Any AWS costs exceeding $45,000 per month shall be billed at cost plus 5% administrative markup.
+
+(c) Emergency on-call support: $450 per hour for requests outside normal business hours (Monday-Friday, 9 AM - 6 PM Pacific Time), with a minimum 2-hour charge.
+
+3.3 Payment Schedule. The following one-time fees apply:
+
+(a) Onboarding and migration fee: $75,000, due upon execution of this Agreement.
+(b) Initial system audit and documentation: $22,500, due within 30 days of Agreement execution.
+(c) Staff training (4 sessions, maximum 12 participants per session): $8,000 total, due upon completion of training.
+
+3.4 Annual Fee Adjustment. The base service fee shall be subject to annual adjustment beginning April 1, 2027, not to exceed 5% per year based on the Consumer Price Index (CPI) for the San Francisco metropolitan area.
+
+3.5 Late Payment. Invoices not paid within 15 business days of receipt shall accrue interest at the rate of 1.5% per month (18% per annum), compounded monthly.
+
+ARTICLE 4: TERM AND TERMINATION
+
+4.1 Initial Term. This Agreement shall commence on April 1, 2026 and continue in full force and effect until March 31, 2028 (the "Initial Term"), unless earlier terminated as provided herein.
+
+4.2 Renewal Terms. Following the Initial Term, this Agreement shall automatically renew for successive one-year periods unless either party provides written notice of non-renewal at least 90 days prior to the expiration of the then-current term.
+
+4.3 Termination for Convenience. Either party may terminate this Agreement for any reason upon 90 days' prior written notice. Client shall pay Provider for all Services performed through the date of termination, plus a termination fee equal to two (2) months of base service fees.
+
+4.4 Termination for Cause. Either party may terminate this Agreement immediately upon written notice if the other party:
+
+(a) Materially breaches this Agreement and fails to cure such breach within 30 days after receiving written notice thereof;
+
+(b) Becomes insolvent, makes a general assignment for the benefit of creditors, or has a receiver appointed;
+
+(c) Commits a material violation of applicable law.
+
+4.5 Effect of Termination. Upon termination:
+
+(a) Provider shall deliver all Deliverables completed through the termination date within 10 business days.
+
+(b) Provider shall provide reasonable transition assistance for up to 60 days at the standard hourly rate of $350 per hour.
+
+(c) Each party shall return or destroy all Confidential Information of the other party within 30 days.
+
+ARTICLE 5: INTELLECTUAL PROPERTY
+
+5.1 Pre-Existing IP. Each party retains all right, title, and interest in and to its pre-existing Intellectual Property Rights.
+
+5.2 Work Product. All Deliverables created specifically for Client under this Agreement shall be considered work made for hire and shall be owned by Client upon full payment of all fees due hereunder.
+
+5.3 Provider's Tools. Provider retains all rights to its proprietary tools, methodologies, and general knowledge and experience gained in providing the Services, provided that no Confidential Information of Client is incorporated therein.
+
+ARTICLE 6: CONFIDENTIALITY
+
+6.1 Confidential Information. Each party agrees to:
+
+(a) Maintain the confidentiality of the other party's Confidential Information using the same degree of care it uses to protect its own confidential information, but in no event less than reasonable care;
+
+(b) Not disclose the other party's Confidential Information to any third party without prior written consent;
+
+(c) Use the other party's Confidential Information only for purposes of performing its obligations under this Agreement.
+
+6.2 Exceptions. Confidentiality obligations do not apply to information that:
+
+(a) Is or becomes publicly known through no wrongful act of the receiving party;
+
+(b) Was rightfully in the receiving party's possession prior to disclosure;
+
+(c) Is independently developed by the receiving party without use of Confidential Information;
+
+(d) Is required to be disclosed by law or court order.
+
+6.3 Data Security. Provider shall implement and maintain commercially reasonable security measures to protect Client's data, including:
+
+(a) Encryption of all data in transit using TLS 1.3 or higher;
+
+(b) Encryption of all data at rest using AES-256 encryption;
+
+(c) Role-based access controls with quarterly access reviews;
+
+(d) Annual penetration testing by a qualified third-party firm.
+
+ARTICLE 7: REPRESENTATIONS AND WARRANTIES
+
+7.1 Provider Representations. Provider represents and warrants that:
+
+(a) It has full power and authority to enter into this Agreement;
+
+(b) The Services will be performed in a professional and workmanlike manner consistent with industry standards;
+
+(c) Provider will comply with all applicable laws and regulations in performing the Services;
+
+(d) Provider does not have any outstanding agreements or obligations that would conflict with this Agreement.
+
+7.2 Client Representations. Client represents and warrants that:
+
+(a) It has full power and authority to enter into this Agreement;
+
+(b) Client owns or has the right to use all data and materials provided to Provider;
+
+(c) Client's use of the Services will comply with all applicable laws and regulations.
+
+ARTICLE 8: INDEMNIFICATION
+
+8.1 Provider Indemnification. Provider shall indemnify, defend, and hold harmless Client and its officers, directors, employees, agents, and successors from and against any and all claims, damages, losses, costs, and expenses (including reasonable attorney's fees) arising from:
+
+(a) Provider's breach of any representation, warranty, or obligation under this Agreement;
+
+(b) Provider's negligence or willful misconduct;
+
+(c) Any claim that the Services infringe any third-party intellectual property rights.
+
+8.2 Client Indemnification. Client shall indemnify, defend, and hold harmless Provider and its officers, directors, employees, agents, and successors from and against any and all claims, damages, losses, costs, and expenses (including reasonable attorney's fees) arising from:
+
+(a) Client's breach of any representation, warranty, or obligation under this Agreement;
+
+(b) Client's negligence or willful misconduct;
+
+(c) Any claim arising from Client's use of the Services in violation of applicable law.
+
+ARTICLE 9: LIMITATION OF LIABILITY
+
+9.1 Limitation. IN NO EVENT SHALL EITHER PARTY BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING FROM OR RELATED TO THIS AGREEMENT, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+9.2 Cap on Liability. EACH PARTY'S TOTAL CUMULATIVE LIABILITY ARISING FROM OR RELATED TO THIS AGREEMENT SHALL NOT EXCEED THE TOTAL FEES PAID BY CLIENT TO PROVIDER IN THE SIX (6) MONTHS IMMEDIATELY PRECEDING THE EVENT GIVING RISE TO LIABILITY.
+
+9.3 Exceptions. The limitations in Sections 9.1 and 9.2 shall not apply to:
+
+(a) A party's indemnification obligations under Article 8;
+
+(b) Damages arising from willful misconduct or fraud;
+
+(c) A party's obligation to maintain confidentiality.
+
+ARTICLE 10: GENERAL PROVISIONS
+
+10.1 Governing Law. This Agreement shall be governed by and construed in accordance with the laws of the State of California, without regard to its conflict of law provisions.
+
+10.2 Dispute Resolution. Any dispute arising from this Agreement shall first be subject to good-faith negotiation for 30 days. If unresolved, disputes shall be submitted to binding arbitration under JAMS rules in San Francisco, California.
+
+10.3 Entire Agreement. This Agreement, together with all Exhibits, constitutes the entire agreement of the parties with respect to the subject matter hereof and supersedes all prior and contemporaneous agreements, representations, warranties, and understandings of the parties.
+
+10.4 Amendment. This Agreement may be amended only by a written instrument signed by authorized representatives of both parties.
+
+10.5 Notices. All notices under this Agreement shall be in writing and delivered to:
+
+Client: NovaPulse Technologies Inc., Attn: General Counsel, 100 AI Drive, San Francisco, CA 94105
+
+Provider: CloudScale Solutions LLC, Attn: Contracts Department, 500 Tech Boulevard, Austin, TX 78701
+
+10.6 Counterparts. This Agreement may be executed in counterparts, each of which shall be deemed an original.
+
+---
+
+EXHIBIT A: SERVICE DESCRIPTION
+
+The Services include management and optimization of the following systems:
+
+1. DocStream Document Processing Pipeline
+   - Current throughput: 847,000 documents/month
+   - AI classification using Anthropic Claude claude-sonnet-4-20250514
+   - 5-category classification system with 94.3% accuracy target
+   - Multi-agent pipeline: Extractor -> Classifier -> Summarizer -> Router
+
+2. Infrastructure
+   - 47 microservices on AWS ECS (Fargate)
+   - Amazon Aurora PostgreSQL cluster: 4.7 TB storage, r6g.2xlarge instance class
+   - S3 storage: 127 TB document archive
+   - CloudFront CDN: 3 edge locations (US-East, US-West, EU-West)
+
+3. Monitoring and Observability
+   - Datadog APM with custom DocStream dashboard
+   - PagerDuty on-call rotation (Provider provides 3 on-call engineers)
+   - Monthly SLA reports delivered by the 5th business day of the following month
+
+---
+
+IN WITNESS WHEREOF, the parties have executed this Agreement as of the date first written above.
+
+NOVAPULSE TECHNOLOGIES INC.
+
+By: ____________________________
+Name: Alexandra Chen
+Title: Chief Executive Officer
+Date: March 1, 2026
+
+CLOUDSCALE SOLUTIONS LLC
+
+By: ____________________________
+Name: Marcus Rivera
+Title: Chief Executive Officer
+Date: March 1, 2026
