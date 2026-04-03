@@ -18,4 +18,9 @@ function validateDateRange(startDate, endDate) {
   return { valid: true, start, end };
 }
 
-module.exports = { validateEmail, validateTaskTitle, validatePriority, validateDateRange };
+function validateStatus(status) {
+  if (['open', 'in-progress', 'in-review', 'done'].includes(status)) return { valid: true };
+  return { valid: false, error: 'Invalid status: must be one of open, in-progress, in-review, done' };
+}
+
+module.exports = { validateEmail, validateTaskTitle, validatePriority, validateDateRange, validateStatus };
