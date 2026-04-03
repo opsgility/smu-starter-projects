@@ -1,4 +1,4 @@
-namespace BookLibrary.DTOs;
+namespace Project.DTOs;
 
 public class BookResponse
 {

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace BookLibrary.DTOs;
+namespace Project.DTOs;
 
 public class CreateBookRequest
 {

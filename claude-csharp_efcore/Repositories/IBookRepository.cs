@@ -1,6 +1,6 @@
-using BookLibrary.Models;
+using Project.Models;
 
-namespace BookLibrary.Repositories;
+namespace Project.Repositories;
 
 public interface IBookRepository
 {
