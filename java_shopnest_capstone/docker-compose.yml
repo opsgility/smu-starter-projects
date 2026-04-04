@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  product-service:
+    build: ./product-service
+    ports: ["8081:8081"]
+    environment: [SPRING_DATASOURCE_URL=jdbc:h2:mem:productdb]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+  order-service:
+    build: ./order-service
+    ports: ["8082:8082"]
+    depends_on:
+      product-service:
+        condition: service_healthy
+    environment: [PRODUCT_SERVICE_URL=http://product-service:8081/api/products]
+  notification-service:
+    build: ./notification-service
+    ports: ["8083:8083"]
+    depends_on:
+      order-service:
+        condition: service_started
+    # TODO Capstone Exercise 1: Complete the notification service polling logic.
+    # It should GET http://order-service:8082/api/orders every 10 seconds
+    # and log any PENDING orders it hasn't seen before.

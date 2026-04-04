@@ -1,0 +1,28 @@
+# application-azure.yml — Full cloud-native: Key Vault + PostgreSQL + Service Bus + App Insights
+spring:
+  cloud:
+    azure:
+      keyvault:
+        secret:
+          enabled: true
+          endpoint: https://${KEYVAULT_NAME}.vault.azure.net/
+  datasource:
+    url: jdbc:postgresql://${DB_FQDN}:5432/customers?sslmode=require
+    username: meridianadmin
+    password: ${spring-datasource-password}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+azure:
+  servicebus:
+    connection-string: ${azure-servicebus-connection-string}
+  application-insights:
+    connection-string: ${azure-appinsights-connection-string}
+    enabled: true

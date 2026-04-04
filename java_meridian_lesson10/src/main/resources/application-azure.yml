@@ -1,0 +1,25 @@
+# application-azure.yml — PostgreSQL + Key Vault
+spring:
+  cloud:
+    azure:
+      keyvault:
+        secret:
+          enabled: true
+          endpoint: https://${KEYVAULT_NAME}.vault.azure.net/
+  datasource:
+    # TODO Lesson 8 Exercise 4: Replace FQDN with your PostgreSQL server FQDN
+    url: jdbc:postgresql://YOUR_DB.postgres.database.azure.com:5432/customers?sslmode=require
+    username: meridianadmin
+    password: ${spring-datasource-password}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+# TODO Lesson 10: Uncomment after Service Bus setup
+# azure.servicebus.connection-string: ${azure-servicebus-connection-string}

@@ -1,0 +1,24 @@
+# application-azure.yml — loaded when SPRING_PROFILES_ACTIVE=azure
+# Activated in Azure App Service / Container Apps
+
+spring:
+  cloud:
+    azure:
+      keyvault:
+        secret:
+          enabled: true
+          # TODO Exercise 4: Set endpoint to your Key Vault URL
+          # Run: az keyvault show --name <kv-name> --query properties.vaultUri -o tsv
+          endpoint: https://YOUR_KEYVAULT_NAME.vault.azure.net/
+  datasource:
+    # TODO Lesson 8 Exercise 4: Replace with PostgreSQL FQDN after provisioning
+    url: jdbc:h2:mem:meridiandb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+# TODO Lesson 10: Add azure.servicebus.connection-string (from Key Vault)
+# TODO Lesson 12: Add azure.application-insights.connection-string (from Key Vault)
