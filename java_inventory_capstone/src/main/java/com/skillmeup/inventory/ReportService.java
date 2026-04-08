@@ -24,7 +24,20 @@ public class ReportService {
         System.out.println("(not yet implemented)");
     }
 
-    // These work already — student adds the ones above:
+    // These are pre-implemented helpers for InventoryManager in Exercise 3:
+    public double getTotalInventoryValue(List<Product> products) {
+        return products.stream()
+                       .mapToDouble(p -> p.getQuantity() * p.getUnitPrice())
+                       .sum();
+    }
+
+    public double getAveragePrice(List<Product> products) {
+        return products.stream()
+                       .mapToDouble(Product::getUnitPrice)
+                       .average()
+                       .orElse(0.0);
+    }
+
     public Map<String, List<Product>> groupByCategory(List<Product> products) {
         return products.stream().collect(Collectors.groupingBy(Product::getCategory));
     }

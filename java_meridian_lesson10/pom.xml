@@ -53,7 +53,7 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-database-postgresql</artifactId>
         </dependency>
-        <!-- TODO Exercise 4: Add azure-messaging-servicebus -->
+        <!-- TODO Exercise 3: Uncomment when Service Bus is configured -->
         <!--
         <dependency>
             <groupId>com.azure</groupId>

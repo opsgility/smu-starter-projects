@@ -21,4 +21,5 @@ public class Task {
     public String getOwnerUsername() { return ownerUsername; }
     public void setTitle(String t) { this.title=t; }
     public void setStatus(String s) { this.status=s; }
+    public void setOwnerUsername(String u) { this.ownerUsername=u; }
 }

@@ -1,8 +1,21 @@
 const express = require('express');
-const db = require('./database');
 const app = express();
 app.use(express.json());
-app.get('/api/tasks', (req, res) => { const tasks = db.prepare('SELECT * FROM tasks').all(); res.json(tasks); });
-app.get('/api/tasks/:id', (req, res) => { const task = db.prepare('SELECT * FROM tasks WHERE id = ?').get(req.params.id); task ? res.json(task) : res.status(404).json({ error: "Not found" }); });
-app.post('/api/tasks', (req, res) => { const { title, description, status, priority } = req.body; const result = db.prepare('INSERT INTO tasks (title, description, status, priority) VALUES (?, ?, ?, ?)').run(title, description, status || 'todo', priority || 'medium'); res.status(201).json({ id: result.lastInsertRowid, ...req.body }); });
+const tasks = require('./tasks');
+
+app.get('/api/health', (req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
+
+// GET all tasks (supports ?status= and ?priority= filters)
+app.get('/api/tasks', (req, res) => {
+  let result = tasks.getAll();
+  if (req.query.status) result = result.filter(t => t.status === req.query.status);
+  if (req.query.priority) result = result.filter(t => t.priority === req.query.priority);
+  res.json(result);
+});
+
+app.post('/api/tasks', (req, res) => {
+  const { title, status, priority } = req.body;
+  res.status(201).json(tasks.create(title, status, priority));
+});
+
 app.listen(3000, () => console.log('ForgeBoard on port 3000'));

@@ -1,25 +1,35 @@
 package com.skillmeup.taskapi;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
-// TODO Capstone Exercise 1: Add @Entity and @Table(name="categories").
-// Add fields: Long id, String name, String description.
-// Add @Id, @GeneratedValue, @Column(unique=true, nullable=false) on name.
-// Add getters/setters and a toResponse() returning CategoryResponse.
-@Entity
-@Table(name = "categories")
+// TODO Exercise 1: Add the following JPA annotations:
+//   - @Entity on the class
+//   - @Table(name = "categories") on the class
+//   - @Id @GeneratedValue(strategy = GenerationType.IDENTITY) on the id field
+//   - @Column(nullable = false, unique = true) on the name field
+//   - @OneToMany(mappedBy = "category", fetch = FetchType.LAZY) on the tasks field
+// TODO Exercise 1: Add no-arg constructor, two-arg constructor(name, description),
+//   and getters/setters for all fields.
 public class Category {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
     private String name;
     private String description;
 
+    private List<Task> tasks = new ArrayList<>();
+
     public Category() {}
-    public Long   getId()          { return id; }
-    public String getName()        { return name; }
-    public String getDescription() { return description; }
+
+    public Category(String name, String description) {
+        this.name = name; this.description = description;
+    }
+
+    public Long       getId()          { return id; }
+    public String     getName()        { return name; }
+    public String     getDescription() { return description; }
+    public List<Task> getTasks()       { return tasks; }
     public void setName(String n)        { this.name = n; }
     public void setDescription(String d) { this.description = d; }
 }

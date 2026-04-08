@@ -1,37 +1,61 @@
 package com.skillmeup.rideshare;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        System.out.println("========================================");
+        System.out.println("  FleetFlow RideShare System — Capstone");
+        System.out.println("========================================\n");
+
         AppContainer container = new AppContainer();
-        TripDispatcher dispatcher = container.getDispatcher();
-        MapService map = container.getMapService();
 
-        // Pre-loaded drivers and riders
-        List<Driver> drivers = new ArrayList<>();
-        drivers.add(new Driver("D001", "Alice", VehicleFactory.createVehicle("car",  "C001", "ABC-123"), 4.9));
-        drivers.add(new Driver("D002", "Bob",   VehicleFactory.createVehicle("van",  "V001", "DEF-456"), 4.7));
-        drivers.add(new Driver("D003", "Carol", VehicleFactory.createVehicle("motorcycle", "M001", "GHI-789"), 4.8));
+        // ---- Create fleet ----
+        Vehicle car1 = VehicleFactory.createVehicle("CAR", "V-001", "Toyota",  "Camry");
+        Vehicle car2 = VehicleFactory.createVehicle("CAR", "V-002", "Honda",   "Civic");
+        Vehicle van1 = VehicleFactory.createVehicle("VAN", "V-003", "Ford",    "Transit");
 
-        List<Rider> riders = new ArrayList<>();
-        riders.add(new Rider("R001", "Dave",    "Main St",    "Airport"));
-        riders.add(new Rider("R002", "Eve",     "Park Ave",   "Downtown"));
-        riders.add(new Rider("R003", "Frank",   "University", "Mall"));
+        Driver alice  = new Driver("D-001", "Alice",  car1);
+        Driver brooke = new Driver("D-002", "Brooke", car2);
+        Driver carlos = new Driver("D-003", "Carlos", van1);
 
-        // TODO Capstone Exercise 1: Implement dispatch logic.
-        // For each rider, find an available driver (simplified: assign in order).
-        // Use map.getDistanceMiles() to calculate route distance.
-        // Use dispatcher.dispatchTrip() to create the trip.
-        // Print each trip.
-        System.out.println("=== Dispatch Simulation ===");
-        System.out.println("(TODO: implement dispatch loop)");
+        // ---- Trip 1: Regular standard fare ----
+        System.out.println("--- Trip 1: Standard fare ---");
+        Rider r1 = new Rider("R-001", "Dana", "Airport", "Hotel District");
 
-        // TODO Capstone Exercise 2: Wire surge pricing when fewer than 2 drivers are available.
-        // Call container.setPricing(new SurgePricing(1.5)) to switch strategies at runtime.
+        // TODO Exercise 3: Build Trip t1 using TripBuilder, dispatch it via container.getRegularDispatcher(),
+        //   wire observers, and call t1.complete()
+        // Hint: new TripBuilder().id("T-001").driver(alice).rider(r1).vehicle(car1).build()
+        // Hint: container.getRegularDispatcher().dispatchTrip(t1, 6, 4)
+        // Hint: container.getObservers().forEach(t1::addObserver)
+        System.out.println("(TODO: build and complete Trip 1)");
 
-        // TODO Capstone Exercise 3: After each trip completes, notify all observers.
-        // Call trip.setStatus(Trip.Status.COMPLETED) then iterate container.getObservers().
+        // ---- Trip 2: Surge fare with decorator ----
+        System.out.println("\n--- Trip 2: Surge fare + Cancellation Insurance ---");
+        Rider r2 = new Rider("R-002", "Evan", "Stadium", "Downtown");
+
+        // TODO Exercise 3: Build Trip t2, dispatch via container.getSurgeDispatcher(),
+        //   apply CancellationInsuranceDecorator, wire observers, complete
+        System.out.println("(TODO: build and complete Trip 2 with decorator)");
+
+        // ---- Trip 3: RidePool ----
+        System.out.println("\n--- Trip 3: RidePool ---");
+        Rider poolR1 = new Rider("R-P1", "Fiona",  "East Side",  "University");
+        Rider poolR2 = new Rider("R-P2", "George", "North Park", "University");
+        Rider poolR3 = new Rider("R-P3", "Helen",  "West End",   "University");
+
+        // TODO Exercise 1: Build a RidePool using RidePool.Builder
+        // Hint: new RidePool.Builder().id("RP-001").driver(carlos).vehicle(van1)
+        //         .addRider(poolR1).addRider(poolR2).addRider(poolR3).build()
+
+        // TODO Exercise 2: Wire observers to pool and call pool.complete(15.0)
+        System.out.println("(TODO: build RidePool and call complete)");
+
+        // ---- Summary ----
+        System.out.println("\n========================================");
+        System.out.println("  Session Summary");
+        System.out.println("========================================");
+        System.out.printf("Total events tracked: %d%n",  container.getAnalytics().getTotalTrips());
+        System.out.printf("Total revenue:        $%.2f%n", container.getAnalytics().getTotalRevenue());
     }
 }

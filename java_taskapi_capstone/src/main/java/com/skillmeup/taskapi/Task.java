@@ -35,6 +35,7 @@ public class Task {
     public void setCategory(Category c)   { this.category = c; }
 
     public TaskResponse toResponse() {
-        return new TaskResponse(id, title, description, status, dueDate);
+        String categoryName = (category != null) ? category.getName() : null;
+        return new TaskResponse(id, title, description, status, dueDate, categoryName);
     }
 }

@@ -11,8 +11,8 @@ app.get('/api/tasks', (req, res) => res.json(tasks.getAll()));
 
 // POST create task
 app.post('/api/tasks', (req, res) => {
-  const { title, status, priority } = req.body;
-  const task = tasks.create(title, status, priority);
+  const { title, description, status, priority } = req.body;
+  const task = tasks.create({ title, description, status, priority });
   res.status(201).json(task);
 });
 

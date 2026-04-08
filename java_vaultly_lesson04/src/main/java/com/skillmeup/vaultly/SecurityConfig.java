@@ -22,13 +22,25 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // TODO Exercise 1: Add form login — replace .httpBasic() with .formLogin(withDefaults()).
-    // Test by visiting http://localhost:8080/login in a browser.
+    // TODO Exercise 1: Create AppUser.java entity (@Entity, @Table(name="app_users"), id/username/password/role fields)
+    // TODO Exercise 1: Create AppUserRepository.java (extends JpaRepository<AppUser, Long>, findByUsername method)
 
-    // TODO Exercise 2: Replace InMemoryUserDetailsManager with a database-backed UserDetailsService.
-    // Create a User entity with username, password (BCrypt hashed), enabled fields.
-    // Create a UserRepository extending JpaRepository<User, Long>.
-    // Create a CustomUserDetailsService that implements UserDetailsService and loads users from the repo.
+    // TODO Exercise 2: Create CustomUserDetailsService.java implementing UserDetailsService
+    //   - @Service annotation
+    //   - loadUserByUsername() looks up AppUser from AppUserRepository, returns Spring Security User
+    //   - Throw UsernameNotFoundException if user is not found
+
+    // TODO Exercise 3: Remove InMemoryUserDetailsManager bean below.
+    //   - Add CustomUserDetailsService field (constructor inject)
+    //   - Add .userDetailsService(customUserDetailsService) to filterChain
+    //   - Add PasswordEncoder @Bean returning new BCryptPasswordEncoder()
+    //   - Add AuthenticationManager @Bean via AuthenticationConfiguration
+    //   - Add .requestMatchers("/auth/**").permitAll() to filterChain
+
+    // TODO Exercise 4: Create RegisterRequest.java record (username, password fields)
+    // TODO Exercise 4: Create AuthController.java with POST /auth/register
+    //   - Check for duplicate usernames (return 409 Conflict)
+    //   - Encode password with passwordEncoder.encode() before saving
 
     @Bean
     public UserDetailsService users() {

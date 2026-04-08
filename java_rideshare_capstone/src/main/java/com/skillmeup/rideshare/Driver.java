@@ -8,6 +8,10 @@ public class Driver {
     public Driver(String driverId, String name, Vehicle vehicle, double rating) {
         this.driverId = driverId; this.name = name; this.vehicle = vehicle; this.rating = rating;
     }
+
+    public Driver(String driverId, String name, Vehicle vehicle) {
+        this(driverId, name, vehicle, 5.0);
+    }
     public String  getDriverId() { return driverId; }
     public String  getName()     { return name; }
     public Vehicle getVehicle()  { return vehicle; }

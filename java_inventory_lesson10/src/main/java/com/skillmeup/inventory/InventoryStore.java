@@ -13,16 +13,27 @@ public class InventoryStore {
     public boolean removeProduct(String id) { return repo.delete(id); }
     public List<Product> listAll()          { return repo.findAll(); }
 
-    // TODO Exercise 2: Implement sortByName()
-    // Get a mutable copy of repo.findAll(), call Collections.sort(list) (uses Comparable),
-    // and return the sorted list.
+    // Sorts by natural order (Product.compareTo() — alphabetical by name)
+    // NOTE: Product.compareTo() currently returns 0 (stub) — complete Exercise 1 first!
     public List<Product> sortByName() {
-        return new ArrayList<>(repo.findAll()); // TODO: sort this before returning
+        List<Product> list = new ArrayList<>(repo.findAll());
+        Collections.sort(list); // uses Comparable (Product.compareTo())
+        return list;
     }
 
-    // TODO Exercise 3: Implement sortByPrice() using a Comparator lambda:
-    // Comparator.comparingDouble(Product::getUnitPrice)
-    // and sortByQuantity() using Comparator.comparingInt(Product::getQuantity)
-    public List<Product> sortByPrice()    { return new ArrayList<>(repo.findAll()); }
-    public List<Product> sortByQuantity() { return new ArrayList<>(repo.findAll()); }
+    // TODO Exercise 2: Implement sortByPrice() using Comparator.comparingDouble(Product::getUnitPrice)
+    public List<Product> sortByPrice() {
+        return new ArrayList<>(repo.findAll()); // TODO: sort before returning
+    }
+
+    // TODO Exercise 2: Implement sortByQuantity() using Comparator.comparingInt(Product::getQuantity)
+    public List<Product> sortByQuantity() {
+        return new ArrayList<>(repo.findAll()); // TODO: sort before returning
+    }
+
+    // TODO Exercise 3: Implement sortByCategoryThenPrice() using
+    // Comparator.comparing(Product::getCategory).thenComparingDouble(Product::getUnitPrice)
+    public List<Product> sortByCategoryThenPrice() {
+        return new ArrayList<>(repo.findAll()); // TODO: sort before returning
+    }
 }

@@ -7,7 +7,7 @@ spring:
       keyvault:
         secret:
           enabled: true
-          # TODO Exercise 4: Set endpoint to your Key Vault URL
+          # TODO Exercise 3: Set endpoint to your Key Vault URL
           # Run: az keyvault show --name <kv-name> --query properties.vaultUri -o tsv
           endpoint: https://YOUR_KEYVAULT_NAME.vault.azure.net/
   datasource:

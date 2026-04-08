@@ -9,14 +9,15 @@ import java.util.*;
 import java.util.concurrent.*;
 
 /**
- * Processes orders with HikariCP + batch inserts. Throughput: ~1,400 orders/sec.
+ * Processes orders with HikariCP + batch inserts + Caffeine caching. Throughput: ~3,200 orders/sec.
  *
- * TODO Exercise 1: Add caffeine and spring-boot-starter-cache to pom.xml
- * TODO Exercise 2: Add @EnableCaching to Application.java
- * TODO Exercise 3: Configure CaffeineCacheManager bean in AppConfig.java (maximumSize=1000, expireAfterWrite=5m)
- * TODO Exercise 4: Annotate ProductPricingService.getPrice() with @Cacheable("prices")
- * TODO Exercise 5: Add cache stats log in BenchmarkRunner using Cache.stats()
- * TODO Exercise 6: Run the benchmark twice — second run should show ~100% cache hit rate
+ * Completed from prior lessons:
+ *   - spring-boot-starter-cache + caffeine dependencies in pom.xml
+ *   - @EnableCaching on Application.java
+ *   - CaffeineCacheManager configured in AppConfig.java (maximumSize=1000, expireAfterWrite=5m)
+ *   - ProductPricingService.getPrice() annotated with @Cacheable("prices")
+ *
+ * Lesson 12 exercises focus on GC tuning to reduce pause times.
  */
 @Component
 public class OrderProcessor {

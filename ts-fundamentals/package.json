@@ -1,11 +1,10 @@
 {
   "name": "ts-fundamentals",
   "version": "1.0.0",
-  "type": "module",
   "scripts": {
     "start": "ts-node main.ts",
     "build": "tsc",
-    "dev": "ts-node --esm main.ts"
+    "dev": "tsc --watch"
   },
   "devDependencies": {
     "typescript": "^5.0.0",

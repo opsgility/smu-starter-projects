@@ -43,7 +43,7 @@ public class CustomerService {
         }
         Customer saved = customerRepository.save(customer);
 
-        // TODO Exercise 6: Send a CustomerCreatedEvent to Service Bus
+        // TODO Exercise 5: Uncomment to send a CustomerCreatedEvent to Service Bus
         // try {
         //     String json = objectMapper.writeValueAsString(
         //         new CustomerCreatedEvent(saved.getId(), saved.getEmail()));

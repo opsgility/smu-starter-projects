@@ -16,10 +16,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(Map.of("errors", errors));
     }
 
+    // TODO Exercise 5: Add @ExceptionHandler(CategoryNotFoundException.class) that returns 404
+    // TODO Exercise 5: Add @ExceptionHandler(IllegalArgumentException.class) that returns 409 Conflict
+    //   for "already exists" messages
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, String>> handleRuntime(RuntimeException ex) {
         if (ex.getMessage() != null && ex.getMessage().toLowerCase().contains("not found"))
             return ResponseEntity.status(404).body(Map.of("error", ex.getMessage()));
+        if (ex.getMessage() != null && ex.getMessage().toLowerCase().contains("already exists"))
+            return ResponseEntity.status(409).body(Map.of("error", ex.getMessage()));
         return ResponseEntity.status(500).body(Map.of("error", "Internal server error"));
     }
 }

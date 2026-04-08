@@ -1,42 +1,70 @@
 // ForgeBoard Legacy Task Module - Uses callbacks (needs modernization to async/await)
-const fs = require('fs');
+// This module simulates asynchronous operations using setTimeout to mimic real I/O latency.
+// The callback convention used here is the Node.js standard: callback(error, result)
+// where error is null on success and result is null on failure.
 
-function loadTasks(filename, callback) {
-  fs.readFile(filename, 'utf8', function(err, data) {
-    if (err) { callback(err, null); return; }
-    try {
-      var tasks = JSON.parse(data);
-      callback(null, tasks);
-    } catch(e) {
-      callback(e, null);
-    }
-  });
-}
+var tasks = [
+  { id: 1, title: 'Set up CI/CD',    status: 'done',        priority: 'high',     createdAt: '2026-01-15' },
+  { id: 2, title: 'Database schema', status: 'in-progress', priority: 'high',     createdAt: '2026-01-20' },
+  { id: 3, title: 'User auth',       status: 'todo',        priority: 'critical', createdAt: '2026-02-01' },
+];
+var nextId = 4;
 
-function saveTasks(filename, tasks, callback) {
-  var data = JSON.stringify(tasks, null, 2);
-  fs.writeFile(filename, data, 'utf8', function(err) {
-    if (err) { callback(err); return; }
-    callback(null);
-  });
-}
-
-function filterTasks(tasks, status, callback) {
+function getTask(id, callback) {
   setTimeout(function() {
-    var filtered = tasks.filter(function(t) { return t.status === status; });
-    callback(null, filtered);
-  }, 100);
-}
-
-function sortTasks(tasks, field, callback) {
-  setTimeout(function() {
-    var sorted = tasks.slice().sort(function(a, b) {
-      if (a[field] < b[field]) return -1;
-      if (a[field] > b[field]) return 1;
-      return 0;
-    });
-    callback(null, sorted);
+    var task = tasks.find(function(t) { return t.id === id; }) || null;
+    callback(null, task);
   }, 50);
 }
 
-module.exports = { loadTasks, saveTasks, filterTasks, sortTasks };
+function getAllTasks(callback) {
+  setTimeout(function() {
+    callback(null, tasks.slice());
+  }, 50);
+}
+
+function createTask(data, callback) {
+  setTimeout(function() {
+    if (!data || !data.title) {
+      callback(new Error('Title is required'), null);
+      return;
+    }
+    var task = {
+      id: nextId++,
+      title: data.title,
+      status: data.status || 'todo',
+      priority: data.priority || 'medium',
+      createdAt: new Date().toISOString().split('T')[0]
+    };
+    tasks.push(task);
+    callback(null, task);
+  }, 50);
+}
+
+function updateTask(id, updates, callback) {
+  setTimeout(function() {
+    var task = tasks.find(function(t) { return t.id === id; });
+    if (!task) {
+      callback(new Error('Task not found: ' + id), null);
+      return;
+    }
+    if (updates.title !== undefined) task.title = updates.title;
+    if (updates.status !== undefined) task.status = updates.status;
+    if (updates.priority !== undefined) task.priority = updates.priority;
+    callback(null, task);
+  }, 50);
+}
+
+function deleteTask(id, callback) {
+  setTimeout(function() {
+    var index = tasks.findIndex(function(t) { return t.id === id; });
+    if (index === -1) {
+      callback(new Error('Task not found: ' + id), null);
+      return;
+    }
+    tasks.splice(index, 1);
+    callback(null, true);
+  }, 50);
+}
+
+module.exports = { getTask, getAllTasks, createTask, updateTask, deleteTask };

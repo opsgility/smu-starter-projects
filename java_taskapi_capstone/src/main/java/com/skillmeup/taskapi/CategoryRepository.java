@@ -1,8 +1,9 @@
 package com.skillmeup.taskapi;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
-// TODO Capstone Exercise 2: Create a CategoryRepository extending JpaRepository<Category, Long>.
-// Add: Page<Task> findByCategoryId(Long categoryId, Pageable pageable) in TaskRepository instead.
 public interface CategoryRepository extends JpaRepository<Category, Long> {
+    // TODO Exercise 1: Add findByName(String name) returning Optional<Category>
+    // This is used in CategoryServiceImpl to check for duplicate names before saving.
 }

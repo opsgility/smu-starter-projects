@@ -28,4 +28,11 @@ public class InventoryStore {
         list.sort(Comparator.comparingInt(Product::getQuantity));
         return list;
     }
+
+    public List<Product> sortByCategoryThenPrice() {
+        List<Product> list = new ArrayList<>(repo.findAll());
+        list.sort(Comparator.comparing(Product::getCategory)
+                            .thenComparingDouble(Product::getUnitPrice));
+        return list;
+    }
 }

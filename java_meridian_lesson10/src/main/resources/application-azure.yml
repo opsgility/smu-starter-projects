@@ -7,7 +7,8 @@ spring:
           enabled: true
           endpoint: https://${KEYVAULT_NAME}.vault.azure.net/
   datasource:
-    # TODO Lesson 8 Exercise 4: Replace FQDN with your PostgreSQL server FQDN
+    # Replace YOUR_DB with your PostgreSQL server FQDN
+    # Run: az postgres flexible-server show --name $DB_NAME --resource-group meridian-rg --query fullyQualifiedDomainName -o tsv
     url: jdbc:postgresql://YOUR_DB.postgres.database.azure.com:5432/customers?sslmode=require
     username: meridianadmin
     password: ${spring-datasource-password}

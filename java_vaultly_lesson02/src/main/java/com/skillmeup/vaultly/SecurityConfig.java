@@ -1,18 +1,20 @@
 package com.skillmeup.vaultly;
 
-// TODO Exercise 1: Add spring-boot-starter-security to pom.xml (the dependency is already listed — just uncomment it).
-// After adding the dependency, ALL endpoints will require HTTP Basic auth automatically.
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
 
-// TODO Exercise 2: Create a SecurityConfig class with @Configuration and @EnableWebSecurity.
-// Inject a SecurityFilterChain bean that:
+// TODO Exercise 2: Add @Configuration and @EnableWebSecurity annotations to this class.
+// TODO Exercise 2: Define a SecurityFilterChain bean that:
 //   - Permits GET /api/tasks without authentication (permitAll)
-//   - Requires authentication for POST, DELETE
+//   - Requires authentication for all other requests
 //   - Enables HTTP Basic
-
-// TODO Exercise 3: Add an InMemoryUserDetailsManager bean with two users:
-//   user: username="user1" password="{noop}password" roles="USER"
-//   admin: username="admin" password="{noop}adminpass" roles="ADMIN"
-// {noop} means no password encoding — only for development/learning!
-
-// Placeholder so project compiles (remove when you add spring-boot-starter-security):
-public class SecurityConfig { }
+// TODO Exercise 3: Add a PasswordEncoder bean returning new BCryptPasswordEncoder()
+// TODO Exercise 3: Add an InMemoryUserDetailsManager bean with two BCrypt-encoded users:
+//   - username="user"  password=encoder.encode("password")  roles="USER"
+//   - username="admin" password=encoder.encode("admin")      roles="ADMIN"
+public class SecurityConfig {
+    // TODO: implement
+}

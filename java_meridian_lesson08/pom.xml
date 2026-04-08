@@ -48,7 +48,7 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
-        <!-- TODO Exercise 5: Add postgresql and flyway-core -->
+        <!-- TODO Exercise 5: Uncomment when switching to PostgreSQL -->
         <!--
         <dependency>
             <groupId>org.postgresql</groupId>
