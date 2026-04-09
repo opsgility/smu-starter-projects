@@ -1,14 +1,23 @@
 {
-  "name": "CloudNest Dev Environment",
-  "image": "mcr.microsoft.com/devcontainers/dotnet:9.0",
-  "features": {},
-  "customizations": {
-    "vscode": {
-      "extensions": [],
-      "settings": {}
-    }
-  },
-  "postCreateCommand": "",
-  "forwardPorts": [],
-  "remoteUser": "vscode"
+    "name": "Node.js Dev Container",
+    "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
+    "features": {
+        "ghcr.io/devcontainers/features/github-cli:1": {}
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode",
+                "GitHub.copilot",
+                "GitHub.vscode-pull-request-github"
+            ],
+            "settings": {
+                "editor.formatOnSave": true,
+                "editor.defaultFormatter": "esbenp.prettier-vscode"
+            }
+        }
+    },
+    "postCreateCommand": "echo 'Welcome to your Node.js Codespace!' && node --version",
+    "remoteUser": "node"
 }

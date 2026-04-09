@@ -1,12 +1,27 @@
-# GitHub Flow
+# Calculator App — GitHub Flow Starter
 
-Practice the GitHub Flow workflow by pushing this project to GitHub.
+A simple JavaScript calculator for practicing the complete GitHub Flow workflow.
 
-## Steps
+## Files
 
-1. Create a repository on GitHub
-2. Push this project to the remote
-3. Create a feature branch
-4. Make changes and push the branch
-5. Open a pull request
-6. Review and merge
+- `calculator.js` — Calculator with `add` and `subtract` functions (starter state)
+- `test.js` — Tests for the existing functions
+
+## What You Will Do
+
+In the exercises you will practice the full GitHub Flow cycle:
+1. Push this project to a new GitHub repository
+2. Create a feature branch (`feature/multiply-divide`)
+3. Add `multiply` and `divide` functions to `calculator.js`
+4. Update `test.js` with new tests
+5. Push the branch and open a pull request with `gh pr create`
+6. Merge the PR and clean up with `gh pr merge --delete-branch`
+7. Repeat the cycle for a `feature/power-function` branch
+
+The starter has `add` and `subtract` — you will add more operations through GitHub Flow.
+
+## Running Tests
+
+```bash
+node test.js
+```

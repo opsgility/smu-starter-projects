@@ -1,11 +1,28 @@
-# GitHub Actions & CI/CD
+# Actions Demo — GitHub Actions Starter
 
-Create GitHub Actions workflows to build and test this project.
+A simple Node.js app with tests, ready for a CI/CD pipeline.
 
-## Tasks
+## Files
 
-1. Create a `.github/workflows/` directory
-2. Write a workflow that builds the project on push
-3. Add a step to run the xUnit tests in the Tests/ folder
-4. Configure workflow triggers (push, pull_request)
-5. Add a status badge to this README
+- `app.js` — Simple app with `add` and `multiply` functions
+- `test.js` — Test runner using Node's built-in `process.exit` for CI feedback
+
+## Running Tests Locally
+
+```bash
+node test.js
+```
+
+## What You Will Do
+
+In the exercises you will:
+1. Push this project to GitHub
+2. Create a `.github/workflows/ci.yml` workflow that runs on push and pull requests
+3. Use `actions/checkout@v4` and `actions/setup-node@v4` marketplace actions
+4. Run `node test.js` as a workflow step and watch it pass
+5. Watch the workflow run live with `gh run watch`
+6. Create a feature branch that adds a `subtract` function — watch CI run on the PR
+7. Intentionally add a buggy `divide` function and watch CI catch the bug
+8. Fix the bug and see the workflow go green
+
+The CI pipeline runs `node test.js` — a non-zero exit code means failure.

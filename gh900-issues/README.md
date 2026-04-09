@@ -1,11 +1,22 @@
-# Issues, Discussions & Notifications
+# Task Tracker — Issues Starter
 
-Practice creating and managing GitHub Issues from TODO comments in code.
+A skeleton JavaScript task tracking app. Each TODO comment becomes a GitHub Issue.
 
-## Tasks
+## Files
 
-1. Review the TODO comments in Program.cs
-2. Create a GitHub Issue for each TODO
-3. Apply labels, milestones, and assignees
-4. Use issue templates and task lists
-5. Link issues to branches and pull requests
+- `app.js` — Task tracker skeleton with TODO comments for planned features
+
+## What You Will Do
+
+In the exercises you will:
+1. Push this project to a new GitHub repository with `gh repo create`
+2. Create GitHub Issues from the TODO comments in `app.js`
+3. Add labels (bug, enhancement, custom labels like "priority: high")
+4. Assign issues to yourself with `gh issue edit --add-assignee @me`
+5. Create milestones (e.g., "v1.0 - MVP Release") and assign issues to them
+6. Comment on and close issues with `gh issue comment` and `gh issue close`
+7. Link related issues using `#` references
+8. Create YAML-based issue templates in `.github/ISSUE_TEMPLATE/`
+9. Create GitHub Gists to share code snippets
+
+The TODO comments in `app.js` map directly to the issues you will create.
