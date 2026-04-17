@@ -1,0 +1,4 @@
+azure-ai-textanalytics>=5.3.0
+azure-ai-inference>=1.0.0b9
+azure-identity>=1.17.0
+python-dotenv>=1.0.1

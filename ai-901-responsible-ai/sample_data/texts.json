@@ -1,0 +1,8 @@
+[
+  {"principle": "fairness", "text": "Our loan-approval model rejects more applications from one zip code than others even when credit histories match."},
+  {"principle": "reliability_safety", "text": "The medical triage chatbot returned inconsistent advice when the same symptom description was submitted twice."},
+  {"principle": "privacy_security", "text": "Contact john.doe@example.com for customer account 4555-1212-3333 updates and SSN 123-45-6789."},
+  {"principle": "inclusiveness", "text": "The speech model transcribes men's voices accurately but misses up to 20 percent of words in women's voices."},
+  {"principle": "transparency", "text": "The chatbot claims it made a decision but refuses to explain which factors it considered."},
+  {"principle": "accountability", "text": "The recommendation engine produced harmful output but no engineer is assigned ownership of monitoring it."}
+]

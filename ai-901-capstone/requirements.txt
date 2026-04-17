@@ -1,0 +1,13 @@
+azure-ai-agents>=1.0.0
+azure-ai-inference>=1.0.0b9
+azure-ai-projects>=1.0.0
+azure-ai-textanalytics>=5.3.0
+azure-ai-vision-imageanalysis>=1.0.0
+azure-cognitiveservices-speech>=1.40.0
+azure-identity>=1.17.0
+fastapi>=0.115.0
+pillow>=10.4.0
+python-dotenv>=1.0.1
+python-multipart>=0.0.9
+requests>=2.32.0
+uvicorn>=0.30.0

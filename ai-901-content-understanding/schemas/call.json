@@ -1,0 +1,13 @@
+{
+  "description": "Summarize a support call and extract intent + action items",
+  "scenario": "audio",
+  "fields": {
+    "transcript_summary": { "type": "string" },
+    "caller_intent":      { "type": "string" },
+    "sentiment":          { "type": "string", "enum": ["Positive", "Neutral", "Negative"] },
+    "action_items": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

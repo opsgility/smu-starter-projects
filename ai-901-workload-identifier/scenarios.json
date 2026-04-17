@@ -1,0 +1,12 @@
+[
+  {"scenario": "Our support team wants to auto-summarize inbound tickets.", "expected": "Generative AI"},
+  {"scenario": "We need to classify product reviews as positive or negative.", "expected": "Text Analysis"},
+  {"scenario": "Transcribe customer call recordings for QA.", "expected": "Speech"},
+  {"scenario": "Detect defective parts on a production line from a camera feed.", "expected": "Computer Vision"},
+  {"scenario": "Extract line items from uploaded supplier invoices.", "expected": "Information Extraction"},
+  {"scenario": "Draft first-pass marketing copy for a new product launch.", "expected": "Generative AI"},
+  {"scenario": "Identify people named in incident reports and anonymize them.", "expected": "Text Analysis"},
+  {"scenario": "Generate a voice response for our kiosk that mimics a human operator.", "expected": "Speech"},
+  {"scenario": "Given a recorded meeting, produce action items with owners.", "expected": "Information Extraction"},
+  {"scenario": "Build a conversational assistant that can book appointments.", "expected": "Generative AI"}
+]
