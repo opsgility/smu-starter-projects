@@ -1,0 +1,3 @@
+{"query":"What is Microsoft Foundry?","context":"Microsoft Foundry is an Azure AI platform for building agents and generative applications.","response":"Microsoft Foundry is Azure's AI platform for building agents and generative apps."}
+{"query":"Where is Foundry available?","context":"Foundry is available in multiple Azure regions including East US, East US 2, and West Europe.","response":"Foundry runs in East US, East US 2, and West Europe among other regions."}
+{"query":"Can I run custom models in Foundry?","context":"Foundry supports deploying custom fine-tuned models as well as catalog models.","response":"Yes — Foundry supports both catalog models and custom fine-tuned deployments."}
