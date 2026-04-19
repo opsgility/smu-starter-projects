@@ -12,11 +12,10 @@ This workspace contains starter files for learning Git fundamentals.
 
 In the exercises you will:
 - Configure your Git identity with `git config`
-- Initialize new repositories with `git init`
-- Stage and commit files with `git add` and `git commit`
+- Initialize a new Git repository directly in `~/workspace` with `git init`
+- Stage and commit the existing files with `git add` and `git commit`
 - View history with `git log` and check status with `git status`
 - Exclude files using a `.gitignore`
 - Navigate commit history with `git diff`, `git show`, and `git restore`
 
-The exercises have you create a new directory (`~/my-first-repo`) in the terminal.
-These files are here as a reference for the types of files you will be working with.
+The starter files (`app.js`, `style.css`, `index.html`, `README.md`) are already in `~/workspace` — you will track them with Git in the exercises.

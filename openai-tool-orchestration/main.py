@@ -1,334 +1,256 @@
 """
-Capstone Project: Production Tool Orchestration Runtime
+Capstone Project: Tool Orchestration Runtime
 Course 201 - Lesson 10: Capstone Project
 
 Build a production-grade tool orchestration runtime with:
-1. Tool registry with role-based access control (RBAC)
+1. Tool registry with role-based access control
 2. Parallel tool execution with timeout handling
 3. Retry logic with exponential backoff on tool failure
-4. All tool inputs/outputs validated against JSON Schema
-5. Structured execution log (tool, args, result, latency, success/failure)
+4. JSON Schema validation of all tool inputs/outputs
+5. Structured execution log (tool name, args, result, latency, success)
 
 IMPORTANT: OPENAI_API_KEY and OPENAI_BASE_URL are pre-configured in your
-environment automatically.
+environment automatically. Do NOT set them manually.
 """
 from openai import OpenAI
-from typing import Literal, Optional
+from pydantic import BaseModel
 import json
 import time
-import concurrent.futures
-import jsonschema
-from datetime import datetime, timezone
-from dataclasses import dataclass, asdict
 
 client = OpenAI()
 
-Role = Literal["admin", "editor", "viewer"]
 
-# -----------------------------------------------------------------------
-# Execution log entry
-# -----------------------------------------------------------------------
-
-@dataclass
-class ExecutionLogEntry:
-    timestamp: str
+class ToolExecution(BaseModel):
     tool_name: str
-    role: str
     arguments: dict
-    result: Optional[dict]
+    result: str
     latency_ms: float
     success: bool
-    error: Optional[str] = None
-
-    def to_json(self) -> str:
-        return json.dumps(asdict(self))
-
-
-EXECUTION_LOG: list[ExecutionLogEntry] = []
-
-
-# -----------------------------------------------------------------------
-# Tool registry - each tool has: schema, handler, allowed_roles, output_schema
-# -----------------------------------------------------------------------
-
-def _handle_search(query: str, max_results: int = 5) -> dict:
-    results = [
-        {"title": f"Result {i} for '{query}'", "url": f"https://example.com/{i}", "snippet": f"...content about {query}..."}
-        for i in range(1, min(max_results, 5) + 1)
-    ]
-    return {"query": query, "count": len(results), "results": results}
-
-def _handle_send_email(to: str, subject: str, body: str) -> dict:
-    return {"sent": True, "to": to, "subject": subject, "message_id": f"msg-{int(time.time())}"}
-
-def _handle_update_record(record_id: str, updates: dict) -> dict:
-    return {"updated": True, "record_id": record_id, "fields_updated": list(updates.keys())}
-
-def _handle_delete_record(record_id: str, confirm: bool) -> dict:
-    if not confirm:
-        return {"deleted": False, "reason": "confirm must be true"}
-    return {"deleted": True, "record_id": record_id}
-
-def _handle_generate_report(report_type: str, date_range: str) -> dict:
-    return {"report_type": report_type, "date_range": date_range, "records": 42, "generated_at": datetime.now(timezone.utc).isoformat()}
+    attempts: int
+    role: str
 
 
 TOOL_REGISTRY = {
-    "search": {
-        "handler": _handle_search,
-        "allowed_roles": ["admin", "editor", "viewer"],
+    "get_weather": {
         "schema": {
             "type": "function",
-            "name": "search",
-            "description": "Search for information",
+            "name": "get_weather",
+            "description": "Get current weather for a location.",
             "parameters": {
                 "type": "object",
-                "properties": {
-                    "query": {"type": "string"},
-                    "max_results": {"type": "integer", "default": 5}
-                },
-                "required": ["query"],
-                "additionalProperties": False
+                "properties": {"location": {"type": "string"}},
+                "required": ["location"],
+                "additionalProperties": False,
             },
-            "strict": True
+            "strict": True,
         },
+        "roles": ["viewer", "editor", "admin"],
         "output_schema": {
             "type": "object",
-            "required": ["query", "count", "results"],
+            "required": ["location", "temperature", "condition"],
             "properties": {
-                "query": {"type": "string"},
-                "count": {"type": "integer"},
-                "results": {"type": "array"}
-            }
-        }
+                "location": {"type": "string"},
+                "temperature": {"type": "string"},
+                "condition": {"type": "string"},
+            },
+        },
     },
-    "send_email": {
-        "handler": _handle_send_email,
-        "allowed_roles": ["admin", "editor"],
+    "write_report": {
         "schema": {
             "type": "function",
-            "name": "send_email",
-            "description": "Send an email",
+            "name": "write_report",
+            "description": "Write a report to the data store.",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "to": {"type": "string"},
-                    "subject": {"type": "string"},
-                    "body": {"type": "string"}
+                    "title": {"type": "string"},
+                    "content": {"type": "string"},
                 },
-                "required": ["to", "subject", "body"],
-                "additionalProperties": False
+                "required": ["title", "content"],
+                "additionalProperties": False,
             },
-            "strict": True
+            "strict": True,
         },
+        "roles": ["editor", "admin"],
         "output_schema": {
             "type": "object",
-            "required": ["sent", "to"],
-            "properties": {"sent": {"type": "boolean"}, "to": {"type": "string"}}
-        }
-    },
-    "update_record": {
-        "handler": _handle_update_record,
-        "allowed_roles": ["admin", "editor"],
-        "schema": {
-            "type": "function",
-            "name": "update_record",
-            "description": "Update a database record",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "record_id": {"type": "string"},
-                    "updates": {"type": "object"}
-                },
-                "required": ["record_id", "updates"],
-                "additionalProperties": False
-            },
-            "strict": True
-        },
-        "output_schema": {
-            "type": "object",
-            "required": ["updated", "record_id"],
-            "properties": {"updated": {"type": "boolean"}, "record_id": {"type": "string"}}
-        }
-    },
-    "delete_record": {
-        "handler": _handle_delete_record,
-        "allowed_roles": ["admin"],
-        "schema": {
-            "type": "function",
-            "name": "delete_record",
-            "description": "Delete a database record",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "record_id": {"type": "string"},
-                    "confirm": {"type": "boolean"}
-                },
-                "required": ["record_id", "confirm"],
-                "additionalProperties": False
-            },
-            "strict": True
-        },
-        "output_schema": {
-            "type": "object",
-            "required": ["deleted"],
-            "properties": {"deleted": {"type": "boolean"}}
-        }
-    },
-    "generate_report": {
-        "handler": _handle_generate_report,
-        "allowed_roles": ["admin"],
-        "schema": {
-            "type": "function",
-            "name": "generate_report",
-            "description": "Generate a business intelligence report",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "report_type": {"type": "string", "enum": ["sales", "usage", "billing", "performance"]},
-                    "date_range": {"type": "string", "description": "e.g. 'Q1 2026' or 'March 2026'"}
-                },
-                "required": ["report_type", "date_range"],
-                "additionalProperties": False
-            },
-            "strict": True
-        },
-        "output_schema": {
-            "type": "object",
-            "required": ["report_type", "date_range", "records"],
+            "required": ["status", "report_id"],
             "properties": {
-                "report_type": {"type": "string"},
-                "date_range": {"type": "string"},
-                "records": {"type": "integer"}
-            }
-        }
-    }
+                "status": {"type": "string"},
+                "report_id": {"type": "string"},
+            },
+        },
+    },
+    "delete_report": {
+        "schema": {
+            "type": "function",
+            "name": "delete_report",
+            "description": "Delete a report by ID.",
+            "parameters": {
+                "type": "object",
+                "properties": {"report_id": {"type": "string"}},
+                "required": ["report_id"],
+                "additionalProperties": False,
+            },
+            "strict": True,
+        },
+        "roles": ["admin"],
+        "output_schema": {
+            "type": "object",
+            "required": ["status"],
+            "properties": {"status": {"type": "string"}},
+        },
+    },
+}
+
+_fail_counter = {}
+
+
+def get_weather(location: str) -> dict:
+    """Simulates transient failures to test retry logic."""
+    _fail_counter["get_weather"] = _fail_counter.get("get_weather", 0) + 1
+    if _fail_counter["get_weather"] % 3 == 1:  # Fail every 1st call, succeed on retry
+        raise RuntimeError("Weather API timeout")
+    return {"location": location, "temperature": "72F", "condition": "Sunny"}
+
+
+def write_report(title: str, content: str) -> dict:
+    report_id = f"RPT-{int(time.time() * 1000) % 100000}"
+    return {"status": "written", "report_id": report_id}
+
+
+def delete_report(report_id: str) -> dict:
+    return {"status": "deleted"}
+
+
+TOOL_IMPLEMENTATIONS = {
+    "get_weather": get_weather,
+    "write_report": write_report,
+    "delete_report": delete_report,
 }
 
 
-def get_tools_for_role(role: Role) -> list[dict]:
-    """Exercise 1: Return tool schemas for tools allowed for the given role."""
-    # TODO: Filter TOOL_REGISTRY to tools where role is in tool["allowed_roles"]
-    # TODO: Return list of tool["schema"] for each allowed tool
-    return []
-
-
 def validate_output(tool_name: str, output: dict) -> bool:
-    """Exercise 4: Validate tool output against its JSON Schema using jsonschema."""
-    tool = TOOL_REGISTRY.get(tool_name)
-    if not tool:
-        return False
-    # TODO: Use jsonschema.validate(output, tool["output_schema"])
-    # TODO: Return True if valid, False if jsonschema.ValidationError is raised
-    return True
-
-
-def execute_with_retry(tool_name: str, args: dict, role: Role,
-                       max_retries: int = 3, timeout_sec: float = 10.0) -> ExecutionLogEntry:
     """
-    Exercise 2 & 3: Execute a tool with timeout and exponential backoff.
+    Exercise 1: Validate tool output against its registered output schema.
 
-    1. Check role permission
-    2. Execute the tool handler in a ThreadPoolExecutor with timeout
-    3. On failure: wait 2^attempt seconds and retry (up to max_retries)
-    4. Validate output schema
-    5. Log the result as ExecutionLogEntry
+    Check all required fields are present in output.
+    For each required field, check isinstance(output[field], expected_type)
+    where "string" -> str, "integer" -> int, "number" -> float.
+    Return True if all checks pass, False otherwise.
+    """
+    registry_entry = TOOL_REGISTRY.get(tool_name)
+    if not registry_entry:
+        return False
+    schema = registry_entry["output_schema"]
 
-    Returns an ExecutionLogEntry whether success or failure.
+    # TODO: Get the list of required field names from schema["required"]
+    # TODO: For each required field, check it exists in output
+    # TODO: Check type: schema["properties"][field]["type"] -> map to Python type
+    # TODO: Return True only if all fields present and correctly typed
+    pass
+
+
+def execute_tool_with_retry(tool_name: str, arguments: dict, role: str,
+                              max_retries: int = 3) -> ToolExecution:
+    """
+    Exercise 2: Execute a tool with permission check, retry, and logging.
+
+    Steps:
+    1. Check role is in TOOL_REGISTRY[tool_name]["roles"] - return failure if not
+    2. Try calling TOOL_IMPLEMENTATIONS[tool_name](**arguments)
+    3. On exception: sleep(2**attempt) and retry up to max_retries
+    4. On success: validate output, return ToolExecution(success=True)
+    5. After all retries fail: return ToolExecution(success=False)
     """
     start = time.time()
+    allowed_roles = TOOL_REGISTRY.get(tool_name, {}).get("roles", [])
 
-    # Permission check
-    tool_info = TOOL_REGISTRY.get(tool_name)
-    if not tool_info or role not in tool_info["allowed_roles"]:
-        entry = ExecutionLogEntry(
-            timestamp=datetime.now(timezone.utc).isoformat(),
-            tool_name=tool_name, role=role, arguments=args, result=None,
-            latency_ms=0, success=False, error=f"Permission denied for role '{role}'"
+    if role not in allowed_roles:
+        return ToolExecution(
+            tool_name=tool_name, arguments=arguments,
+            result=json.dumps({"error": f"Role '{role}' cannot call '{tool_name}'"}),
+            latency_ms=0.0, success=False, attempts=0, role=role,
         )
-        EXECUTION_LOG.append(entry)
-        return entry
 
-    result = None
-    error = None
+    impl = TOOL_IMPLEMENTATIONS.get(tool_name)
+    if not impl:
+        return ToolExecution(
+            tool_name=tool_name, arguments=arguments,
+            result=json.dumps({"error": "Tool not implemented"}),
+            latency_ms=0.0, success=False, attempts=0, role=role,
+        )
 
-    for attempt in range(max_retries):
-        try:
-            # TODO: Use concurrent.futures.ThreadPoolExecutor to run
-            #       tool_info["handler"](**args) with a timeout of timeout_sec seconds
-            # TODO: On concurrent.futures.TimeoutError: set error, retry with backoff
-            # TODO: On success: break out of retry loop
-            pass
-        except Exception as e:
-            error = str(e)
-            if attempt < max_retries - 1:
-                wait = 2 ** attempt
-                print(f"  Tool '{tool_name}' failed (attempt {attempt+1}): {e}. Retrying in {wait}s...")
-                time.sleep(wait)
-
-    latency_ms = (time.time() - start) * 1000
-    success = result is not None
-
-    # Validate output schema if successful
-    if success and not validate_output(tool_name, result):
-        success = False
-        error = "Output schema validation failed"
-
-    entry = ExecutionLogEntry(
-        timestamp=datetime.now(timezone.utc).isoformat(),
-        tool_name=tool_name, role=role, arguments=args,
-        result=result, latency_ms=round(latency_ms, 2),
-        success=success, error=error
-    )
-    EXECUTION_LOG.append(entry)
-    return entry
+    # TODO: for attempt in range(max_retries):
+    # TODO:     try:
+    # TODO:         result = impl(**arguments)
+    # TODO:         valid = validate_output(tool_name, result)
+    # TODO:         latency = (time.time() - start) * 1000
+    # TODO:         return ToolExecution(success=True, attempts=attempt+1,
+    #                                    result=json.dumps(result), latency_ms=latency, ...)
+    # TODO:     except Exception:
+    # TODO:         if attempt < max_retries - 1:
+    # TODO:             time.sleep(2 ** attempt)
+    # TODO: return ToolExecution(success=False, attempts=max_retries, ...)
+    pass
 
 
-def run_orchestration(role: Role, user_request: str) -> str:
+def run_orchestration(user_query: str, role: str) -> tuple:
     """
-    Exercise 5: Full orchestration pipeline.
+    Exercise 3: Full orchestration loop with execution logging.
 
-    1. Get tools for role
-    2. Call model with available tools
-    3. For each tool call: execute_with_retry()
-    4. Feed results back to model
-    5. Return final response
+    Steps:
+    1. Build tool list from TOOL_REGISTRY filtered by role
+    2. Call client.responses.create(model="gpt-4.1-mini", input=[...], tools=tools)
+    3. For each function_call in response.output:
+       - Parse arguments as JSON
+       - Call execute_tool_with_retry(name, args, role)
+       - Append ToolExecution to execution_log
+    4. Build tool_result messages and make follow-up call
+    5. Return (response.output_text, execution_log)
     """
-    print(f"\n[{role.upper()}] {user_request}")
-    allowed_tools = get_tools_for_role(role)
-    print(f"  Available tools: {[t['name'] for t in allowed_tools]}")
+    print(f"\n[{role.upper()}] {user_query}")
+    execution_log: list[ToolExecution] = []
 
-    # TODO: Call client.responses.create() with allowed tools
-    # TODO: Process tool calls with execute_with_retry()
-    # TODO: Feed results back and get final answer
-    # TODO: Return final response.output_text
-    return "Not implemented yet"
+    tools = [
+        entry["schema"]
+        for name, entry in TOOL_REGISTRY.items()
+        if role in entry["roles"]
+    ]
+    print(f"  Available tools: {[t['name'] for t in tools]}")
+
+    # TODO: Call client.responses.create() with user_query and tools
+    # TODO: Collect all function_call items from response.output
+    # TODO: Execute each using execute_tool_with_retry, append to execution_log
+    # TODO: Feed tool results back and return (output_text, execution_log)
+    pass
 
 
-def print_execution_log() -> None:
-    """Print the execution log for all tool invocations."""
-    print("\n" + "=" * 60)
-    print("EXECUTION LOG")
-    print("=" * 60)
-    for entry in EXECUTION_LOG:
-        status = "✓" if entry.success else "✗"
-        print(f"  {status} {entry.tool_name} | {entry.role} | {entry.latency_ms:.0f}ms | {entry.error or 'OK'}")
+def print_execution_log(log: list) -> None:
+    if not log:
+        return
+    print("\n  EXECUTION LOG:")
+    for entry in log:
+        status = "OK" if entry.success else "FAIL"
+        print(f"    [{status}] {entry.tool_name} | {entry.latency_ms:.0f}ms | {entry.attempts} attempt(s)")
+        if not entry.success:
+            data = json.loads(entry.result)
+            print(f"          {data.get('error', 'Unknown error')}")
 
 
 if __name__ == "__main__":
-    print("Production Tool Orchestration Runtime")
-    print("=" * 60)
+    print("Tool Orchestration Runtime — Course 201 Capstone")
+    print("=" * 55)
 
     scenarios = [
-        ("admin",  "Search for AI trends, then generate a performance report for Q1 2026"),
-        ("editor", "Search for 'customer churn' and send an email to team@company.com with a summary"),
-        ("viewer", "Search for information about our pricing plans"),
-        ("viewer", "Delete record CUST-001"),  # Should be denied
-        ("editor", "Generate a sales report for March 2026"),  # Should be denied
+        ("Get the weather in Seattle, then write a brief weather report.", "editor"),
+        ("What is the weather in Tokyo?", "viewer"),
+        ("Delete report RPT-12345.", "viewer"),
+        ("Get weather in Paris and write a summary report.", "admin"),
     ]
 
-    for role, request in scenarios:
-        result = run_orchestration(role, request)
-        print(f"  Response: {result[:100] if result else 'N/A'}")
-
-    print_execution_log()
+    for query, role in scenarios:
+        result, log = run_orchestration(query, role)
+        if result:
+            print(f"  Response: {result}")
+        print_execution_log(log)

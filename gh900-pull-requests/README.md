@@ -4,7 +4,7 @@ A simple URL shortener service built with Node.js.
 
 ## Files
 
-- `urlShortener.js` — Basic URL shortener with `shortenUrl` and `resolveUrl` functions
+- `urlShortener.js` — Basic URL shortener with `shorten` and `resolve` functions (no URL validation yet)
 
 ## Features
 
@@ -26,5 +26,5 @@ In the exercises you will practice creating and reviewing pull requests:
 ## Running the App
 
 ```bash
-node -e "const {shortenUrl, resolveUrl} = require('./urlShortener'); const id = shortenUrl('https://github.com'); console.log('Short ID:', id); console.log('Resolved:', resolveUrl(id));"
+node -e "const {shorten, resolve} = require('./urlShortener'); const result = shorten('https://github.com'); console.log('Short ID:', result.id); console.log('Resolved:', resolve(result.id));"
 ```

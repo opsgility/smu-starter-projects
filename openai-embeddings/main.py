@@ -1,222 +1,133 @@
 """
 Semantic Similarity Search Engine
-Course 202 - Lesson 2: Semantic Similarity Search Engine
+Course 202 - Lesson 2: Text Embeddings & Semantic Similarity
 
-Exercises:
-1. Generate text embeddings using text-embedding-3-small
-2. Compute cosine similarity between embeddings
-3. Build a semantic search engine over a product catalog
-4. Return top-5 results for any natural language query
+Build a semantic search engine over a product catalog.
+Returns top-5 most similar results for any natural language query.
 
 IMPORTANT: OPENAI_API_KEY and OPENAI_BASE_URL are pre-configured in your
-environment automatically.
+environment automatically. Do NOT set them manually.
 """
 from openai import OpenAI
 import numpy as np
 import json
-import math
 
 client = OpenAI()
 
-# -----------------------------------------------------------------------
-# Sample product catalog (50 products)
-# -----------------------------------------------------------------------
-PRODUCT_CATALOG = [
-    {"id": 1,  "name": "Wireless Noise-Canceling Headphones",       "description": "Over-ear headphones with 30-hour battery and active noise cancellation"},
-    {"id": 2,  "name": "Mechanical Gaming Keyboard",                 "description": "RGB backlit keyboard with Cherry MX switches and N-key rollover"},
-    {"id": 3,  "name": "4K Webcam",                                  "description": "Ultra HD webcam with built-in microphone for streaming and video calls"},
-    {"id": 4,  "name": "Ergonomic Office Chair",                     "description": "Lumbar support chair with adjustable height and armrests"},
-    {"id": 5,  "name": "Standing Desk Converter",                    "description": "Adjustable height desk riser for sitting and standing work positions"},
-    {"id": 6,  "name": "Dual Monitor Stand",                         "description": "Adjustable arm mount for two monitors up to 27 inches"},
-    {"id": 7,  "name": "USB-C Docking Station",                      "description": "12-in-1 hub with HDMI, USB-A, Ethernet, SD card, and power delivery"},
-    {"id": 8,  "name": "Portable SSD 2TB",                           "description": "NVMe external drive with 2000MB/s read speed in compact form factor"},
-    {"id": 9,  "name": "Wireless Charging Pad",                      "description": "15W fast charging pad compatible with Qi devices"},
-    {"id": 10, "name": "Mechanical Pencil Set",                      "description": "Professional drafting pencils with 0.5mm and 0.7mm tips"},
-    {"id": 11, "name": "Blue Light Blocking Glasses",                "description": "Non-prescription glasses that filter harmful blue light from screens"},
-    {"id": 12, "name": "Desk Cable Management Kit",                  "description": "Cable clips, velcro ties, and cable box for organizing workspace cables"},
-    {"id": 13, "name": "Smart LED Desk Lamp",                        "description": "Color temperature adjustable lamp with USB charging port and timer"},
-    {"id": 14, "name": "Laptop Cooling Stand",                       "description": "Aluminum stand with dual fans for laptops up to 17 inches"},
-    {"id": 15, "name": "Portable Bluetooth Speaker",                 "description": "Waterproof speaker with 360-degree sound and 24-hour battery"},
-    {"id": 16, "name": "Privacy Screen Filter",                      "description": "Anti-peeping film for 15.6-inch laptops that blocks side-angle viewing"},
-    {"id": 17, "name": "Wrist Rest Pad",                             "description": "Memory foam wrist support for keyboard and mouse"},
-    {"id": 18, "name": "Noise-Canceling Earbuds",                    "description": "True wireless earbuds with ANC, transparency mode, and 32h total battery"},
-    {"id": 19, "name": "4K Portable Monitor",                        "description": "15.6-inch USB-C portable display with HDR and 144Hz refresh rate"},
-    {"id": 20, "name": "Thunderbolt 4 Hub",                          "description": "4-port Thunderbolt 4 hub with 100W pass-through charging"},
-    {"id": 21, "name": "Mesh WiFi System",                           "description": "Tri-band mesh router covering up to 6000 sq ft with 10Gbps backhaul"},
-    {"id": 22, "name": "Smart Plug with Energy Monitor",             "description": "Wi-Fi outlet with power usage tracking and schedule control"},
-    {"id": 23, "name": "Programmable Macro Keypad",                  "description": "15-key OLED display pad for shortcuts, macros, and stream control"},
-    {"id": 24, "name": "Vertical Mouse",                             "description": "Ergonomic vertical mouse design reduces arm pronation and wrist strain"},
-    {"id": 25, "name": "Fingerprint USB Security Key",               "description": "FIDO2 hardware key with biometric fingerprint sensor for passwordless login"},
-    {"id": 26, "name": "3D Printer Filament Bundle",                 "description": "10-pack of PLA filament in assorted colors, 1.75mm diameter"},
-    {"id": 27, "name": "Smart Home Hub",                             "description": "Zigbee and Z-Wave controller compatible with Alexa, Google, and Apple HomeKit"},
-    {"id": 28, "name": "Digital Drawing Tablet",                     "description": "10-inch pressure-sensitive tablet for illustration and photo editing"},
-    {"id": 29, "name": "Laptop Stand Adjustable",                    "description": "Portable aluminum stand with 6 height levels for MacBook and laptops"},
-    {"id": 30, "name": "USB Microphone",                             "description": "Cardioid condenser microphone for podcasting, streaming, and recording"},
-    {"id": 31, "name": "Keyboard Tray Under Desk",                   "description": "Sliding drawer mount for keyboard and mouse with negative tilt"},
-    {"id": 32, "name": "Anti-Fatigue Floor Mat",                     "description": "Cushioned mat for standing desks, reduces leg and back fatigue"},
-    {"id": 33, "name": "NAS Storage Device 4-Bay",                   "description": "Network-attached storage with RAID support for home and small office"},
-    {"id": 34, "name": "Webcam Privacy Cover",                       "description": "Universal sliding shutter cover for laptop and desktop cameras"},
-    {"id": 35, "name": "Wireless Trackball Mouse",                   "description": "Ergonomic trackball with customizable scroll wheel and Bluetooth/USB connectivity"},
-    {"id": 36, "name": "Monitor Calibration Tool",                   "description": "Colorimeter for accurate color profiles on photo and video work monitors"},
-    {"id": 37, "name": "Power Bank 30000mAh",                        "description": "High-capacity portable charger with 65W USB-C PD and dual USB-A ports"},
-    {"id": 38, "name": "Smart LED Strip Lights",                     "description": "WiFi-enabled RGB LED strips with music sync and app control"},
-    {"id": 39, "name": "Document Scanner",                           "description": "Portable sheet-fed scanner for receipts, business cards, and A4 documents"},
-    {"id": 40, "name": "Surge Protector Power Strip",                "description": "8-outlet strip with 4 USB ports, 4000J surge protection, and flat plug"},
-    {"id": 41, "name": "Bamboo Desk Organizer",                      "description": "Desktop storage with compartments for pens, phones, and office supplies"},
-    {"id": 42, "name": "USB-C to HDMI Cable",                        "description": "8K capable cable for connecting laptops to monitors and TVs"},
-    {"id": 43, "name": "Wireless Presenter Remote",                  "description": "Laser pointer with slide control, compatible with PowerPoint and Keynote"},
-    {"id": 44, "name": "Acoustic Foam Panels",                       "description": "Sound-absorbing panels for home studio and recording space treatment"},
-    {"id": 45, "name": "Mini PC Desktop",                            "description": "Compact desktop with Intel Core i7, 16GB RAM, 512GB SSD, 4K output"},
-    {"id": 46, "name": "Wireless Number Pad",                        "description": "Slim Bluetooth numeric keypad for laptop users without a numpad"},
-    {"id": 47, "name": "Laptop Privacy Webcam with LED Ring",        "description": "1080p webcam with built-in ring light and privacy shutter"},
-    {"id": 48, "name": "Cable Management Box",                       "description": "Wood-finish box to hide surge protectors and cable clutter"},
-    {"id": 49, "name": "Wireless Keyboard and Mouse Combo",          "description": "Full-size quiet keyboard and precision mouse with USB nano receiver"},
-    {"id": 50, "name": "Monitor Light Bar",                          "description": "USB-powered screen bar lamp with no screen glare, adjustable color temperature"},
-]
-
-# Test queries for the search engine
-TEST_QUERIES = [
-    "headphones for blocking out office noise",
-    "keyboard for gaming with RGB lights",
-    "reduce eye strain from screen",
-    "organize cables on my desk",
-    "security for logging into my computer without a password",
-    "record audio for a podcast",
-    "ergonomic equipment for wrist pain",
-    "external storage with fast speeds",
-    "video calls and meetings",
-    "charge multiple devices at once",
+# Sample product catalog (100 products for quick demo)
+PRODUCTS = [
+    {"id": 1, "name": "Wireless Noise-Cancelling Headphones", "description": "Over-ear headphones with active noise cancellation, 30-hour battery, and premium sound quality for music and calls."},
+    {"id": 2, "name": "Mechanical Gaming Keyboard", "description": "Tenkeyless mechanical keyboard with Cherry MX switches, RGB backlighting, and programmable macros for gaming."},
+    {"id": 3, "name": "Ergonomic Office Chair", "description": "Adjustable lumbar support, breathable mesh back, and 4D armrests for all-day comfort during long work sessions."},
+    {"id": 4, "name": "Portable Bluetooth Speaker", "description": "Waterproof IPX7 speaker with 360-degree sound, 24-hour playback, and rugged design for outdoor adventures."},
+    {"id": 5, "name": "Standing Desk Converter", "description": "Adjustable height desk riser that converts any desk to a standing workstation, with a spacious keyboard tray."},
+    {"id": 6, "name": "USB-C Hub 10-in-1", "description": "Multiport adapter with HDMI 4K, 3 USB-A, SD card reader, Ethernet, and 100W PD charging for laptops."},
+    {"id": 7, "name": "Webcam 4K Ultra HD", "description": "4K 30fps webcam with autofocus, noise-cancelling dual microphones, and privacy shutter for video conferencing."},
+    {"id": 8, "name": "Smart LED Desk Lamp", "description": "Color-adjustable LED lamp with USB charging port, eye-care mode, and touch-sensitive dimmer control."},
+    {"id": 9, "name": "Laptop Stand Adjustable", "description": "Portable aluminum laptop stand with 6 height settings for improved posture and ergonomics at any workspace."},
+    {"id": 10, "name": "Wireless Charging Pad", "description": "Qi-compatible 15W fast wireless charger for smartphones, AirPods, and other Qi-enabled devices."},
+    {"id": 11, "name": "Monitor Privacy Screen", "description": "Anti-glare privacy filter that blocks side views for 27-inch monitors, reducing eye strain in open offices."},
+    {"id": 12, "name": "Cable Management Kit", "description": "Desk cable organizer with 100 cable ties, 10 cable clips, and a cable sleeve for a clean, tidy workspace."},
+    {"id": 13, "name": "Noise-Cancelling Earbuds", "description": "True wireless earbuds with ANC, 8-hour battery (32 with case), and IPX5 water resistance for workouts."},
+    {"id": 14, "name": "Smart Notebook", "description": "Reusable smart notebook that digitizes your handwritten notes via companion app and microwave-erases pages."},
+    {"id": 15, "name": "Mechanical Pencil Set", "description": "Professional drafting pencils in 0.3, 0.5, and 0.7mm with non-slip grip and smooth retractable tips."},
+    {"id": 16, "name": "Monitor Light Bar", "description": "Screen-mounted LED light bar with automatic dimming, no-glare illumination, and USB power for late-night work."},
+    {"id": 17, "name": "Portable SSD 2TB", "description": "2TB external SSD with USB-C, 1050 MB/s read speeds, and shock-resistant housing for fast file transfers."},
+    {"id": 18, "name": "Wireless Mouse Ergonomic", "description": "Vertical ergonomic mouse that reduces wrist strain with customizable DPI, 6 buttons, and silent clicks."},
+    {"id": 19, "name": "Blue Light Blocking Glasses", "description": "Computer glasses that filter 40% of blue light to reduce eye strain and improve sleep quality after screen time."},
+    {"id": 20, "name": "Desk Whiteboard Pad", "description": "Large reusable whiteboard desk mat for brainstorming, note-taking, and drawing without paper waste."},
 ]
 
 
 def get_embedding(text: str, model: str = "text-embedding-3-small") -> list[float]:
     """
-    Exercise 1: Generate an embedding vector for the given text.
+    Exercise 1: Get an embedding vector for a text string.
 
-    Use client.embeddings.create() with the specified model.
-    Return response.data[0].embedding as a list of floats.
-
-    Args:
-        text: The text to embed
-        model: The embedding model to use
+    Use client.embeddings.create() with:
+    - model=model
+    - input=text
 
     Returns:
-        Embedding vector as a list of floats
+        List of floats (the embedding vector)
     """
     # TODO: Call client.embeddings.create(model=model, input=text)
     # TODO: Return response.data[0].embedding
-    return []
+    pass
 
 
-def cosine_similarity(vec_a: list[float], vec_b: list[float]) -> float:
+def cosine_similarity(vec1: list[float], vec2: list[float]) -> float:
     """
     Exercise 2: Compute cosine similarity between two embedding vectors.
 
-    Formula: dot(a, b) / (norm(a) * norm(b))
-    Values range from -1 (opposite) to 1 (identical).
-    A score >= 0.75 indicates strong semantic similarity.
+    Cosine similarity = dot(a, b) / (||a|| * ||b||)
+    Returns a value between -1 and 1 (higher = more similar).
 
-    Args:
-        vec_a: First embedding vector
-        vec_b: Second embedding vector
+    Use numpy for the computation.
+    """
+    # TODO: Convert to numpy arrays
+    # TODO: Compute dot product divided by product of norms
+    # TODO: Return the scalar similarity score
+    pass
+
+
+def build_product_index(products: list[dict]) -> list[dict]:
+    """
+    Exercise 3: Embed all products and build a searchable index.
+
+    For each product, combine name + description into a single string,
+    get its embedding, and store it alongside the product data.
 
     Returns:
-        Cosine similarity score between -1 and 1
+        List of dicts: [{...product fields..., "embedding": [...]}]
     """
-    # Option A: Manual implementation using math module
-    # dot_product = sum(a * b for a, b in zip(vec_a, vec_b))
-    # norm_a = math.sqrt(sum(x**2 for x in vec_a))
-    # norm_b = math.sqrt(sum(x**2 for x in vec_b))
-    # return dot_product / (norm_a * norm_b)
-
-    # Option B: NumPy implementation
-    # TODO: Use np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
-    return 0.0
-
-
-def build_search_index(products: list[dict]) -> list[dict]:
-    """
-    Exercise 3a: Build a semantic search index from the product catalog.
-
-    For each product, concatenate name + description and generate an embedding.
-    Add the embedding to the product dict as a new "embedding" key.
-    Print progress every 10 products.
-
-    Args:
-        products: List of product dicts with "name" and "description"
-
-    Returns:
-        Products list with "embedding" added to each product
-    """
+    print(f"Building index for {len(products)} products...")
     indexed = []
-    print(f"Building embeddings for {len(products)} products...")
     for i, product in enumerate(products):
         text = f"{product['name']}: {product['description']}"
         # TODO: Call get_embedding(text)
-        # TODO: Add embedding to a copy of the product dict
-        # TODO: Append to indexed list
-        # TODO: Print progress every 10 items: f"  Embedded {i+1}/{len(products)}"
-        indexed.append(product)  # Replace with your implementation
+        # TODO: Append {**product, "embedding": embedding} to indexed
+        if (i + 1) % 5 == 0:
+            print(f"  Embedded {i + 1}/{len(products)}")
     return indexed
 
 
 def semantic_search(query: str, index: list[dict], top_k: int = 5) -> list[dict]:
     """
-    Exercise 3b: Find the top-k most semantically similar products.
+    Exercise 4: Search the index for the most semantically similar products.
 
-    1. Generate embedding for the query
+    Steps:
+    1. Embed the query
     2. Compute cosine similarity between query embedding and each product embedding
     3. Sort by similarity descending
-    4. Return the top_k results
-
-    Each result should include: id, name, description, and similarity_score.
-
-    Args:
-        query: Natural language search query
-        index: Indexed products with embeddings
-        top_k: Number of results to return
+    4. Return top_k results with their similarity scores
 
     Returns:
-        List of top-k product dicts with similarity_score added
+        List of dicts: [{...product fields..., "score": float}]
     """
-    # TODO: Get query_embedding = get_embedding(query)
-    # TODO: For each product in index: compute similarity between query_embedding and product["embedding"]
-    # TODO: Sort products by similarity descending
-    # TODO: Return top_k results with similarity_score added
-    return []
+    # TODO: Get query embedding
+    # TODO: For each item in index, compute cosine_similarity(query_emb, item["embedding"])
+    # TODO: Sort by similarity descending, return top_k
+    pass
 
 
 if __name__ == "__main__":
-    print("=" * 60)
-    print("Exercise 1 & 2: Embedding and Cosine Similarity Demo")
-    print("=" * 60)
+    print("Semantic Similarity Search Engine — Course 202 Lesson 2")
+    print("=" * 55)
 
-    # Test similarity between related and unrelated phrases
-    text_a = "noise-canceling headphones for music"
-    text_b = "wireless earbuds with active noise cancellation"
-    text_c = "standing desk ergonomic chair"
-
-    emb_a = get_embedding(text_a)
-    emb_b = get_embedding(text_b)
-    emb_c = get_embedding(text_c)
-
-    if emb_a and emb_b and emb_c:
-        print(f"Embedding dimension: {len(emb_a)}")
-        print(f"Similarity(A,B) [related]: {cosine_similarity(emb_a, emb_b):.4f}")
-        print(f"Similarity(A,C) [unrelated]: {cosine_similarity(emb_a, emb_c):.4f}")
-
-    print("\n" + "=" * 60)
-    print("Exercise 3: Semantic Search Engine")
-    print("=" * 60)
-
-    # Build the search index
-    search_index = build_search_index(PRODUCT_CATALOG)
-    print(f"Index ready with {len(search_index)} products\n")
+    # Build the product index
+    index = build_product_index(PRODUCTS)
 
     # Run test queries
-    for query in TEST_QUERIES[:3]:  # Run 3 for demo (more API calls)
+    queries = [
+        "comfortable chair for long work sessions",
+        "wireless audio for music",
+        "reduce eye strain at computer",
+        "fast storage for large files",
+    ]
+
+    for query in queries:
         print(f"\nQuery: '{query}'")
-        results = semantic_search(query, search_index, top_k=5)
-        for rank, result in enumerate(results, 1):
-            score = result.get("similarity_score", 0)
-            print(f"  {rank}. [{score:.4f}] {result['name']}")
+        results = semantic_search(query, index, top_k=3)
+        if results:
+            for i, r in enumerate(results, 1):
+                print(f"  {i}. [{r['score']:.3f}] {r['name']}")

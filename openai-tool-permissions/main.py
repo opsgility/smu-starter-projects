@@ -1,235 +1,204 @@
 """
-Role-Based Tool Permission Sandbox
-Course 201 - Lesson 8: Tool Permission Sandbox
+Tool Permission Sandbox
+Course 201 - Lesson 8: Tool Permission Boundaries & Output Verification
 
-Exercise: Build a role-based tool permission system where:
-- admin:  can access all tools (read, write, delete, export)
-- editor: can access read and write tools only
-- viewer: can access read tools only
-
-The model receives ONLY the tools allowed for the current role.
-Tool invocations are blocked if the tool is not in the allowed set.
+Role-based tool permission system where admin, editor, and viewer roles
+each have different tool access. The model can only invoke tools allowed
+for the current role.
 
 IMPORTANT: OPENAI_API_KEY and OPENAI_BASE_URL are pre-configured in your
-environment automatically.
+environment automatically. Do NOT set them manually.
 """
 from openai import OpenAI
-from typing import Literal
 import json
 
 client = OpenAI()
 
-# -----------------------------------------------------------------------
-# Role definitions and permission mappings
-# -----------------------------------------------------------------------
-
-Role = Literal["admin", "editor", "viewer"]
-
-ROLE_PERMISSIONS: dict[str, list[str]] = {
-    "admin":  ["read_record", "write_record", "delete_record", "export_data"],
-    "editor": ["read_record", "write_record"],
-    "viewer": ["read_record"],
-}
-
-# -----------------------------------------------------------------------
-# All available tools (full catalog)
-# -----------------------------------------------------------------------
+# ---- All available tools ----
 
 ALL_TOOLS = [
     {
         "type": "function",
-        "name": "read_record",
-        "description": "Read a customer record from the database by ID",
+        "name": "read_document",
+        "description": "Read the contents of a document by name.",
         "parameters": {
             "type": "object",
             "properties": {
-                "record_id": {"type": "string", "description": "The customer record ID"}
+                "document_name": {"type": "string", "description": "Name of the document to read"},
             },
-            "required": ["record_id"],
-            "additionalProperties": False
+            "required": ["document_name"],
+            "additionalProperties": False,
         },
-        "strict": True
+        "strict": True,
     },
     {
         "type": "function",
-        "name": "write_record",
-        "description": "Create or update a customer record in the database",
+        "name": "write_document",
+        "description": "Write or update content in a document.",
         "parameters": {
             "type": "object",
             "properties": {
-                "record_id": {"type": "string"},
-                "data": {"type": "object", "description": "The record data to write"}
+                "document_name": {"type": "string"},
+                "content": {"type": "string", "description": "New content to write"},
             },
-            "required": ["record_id", "data"],
-            "additionalProperties": False
+            "required": ["document_name", "content"],
+            "additionalProperties": False,
         },
-        "strict": True
+        "strict": True,
     },
     {
         "type": "function",
-        "name": "delete_record",
-        "description": "Permanently delete a customer record from the database",
+        "name": "delete_document",
+        "description": "Permanently delete a document.",
         "parameters": {
             "type": "object",
             "properties": {
-                "record_id": {"type": "string"},
-                "confirm": {"type": "boolean", "description": "Must be true to confirm deletion"}
+                "document_name": {"type": "string"},
             },
-            "required": ["record_id", "confirm"],
-            "additionalProperties": False
+            "required": ["document_name"],
+            "additionalProperties": False,
         },
-        "strict": True
+        "strict": True,
     },
     {
         "type": "function",
-        "name": "export_data",
-        "description": "Export all customer records to a CSV file",
+        "name": "list_users",
+        "description": "List all users in the system (admin only).",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+            "additionalProperties": False,
+        },
+        "strict": True,
+    },
+    {
+        "type": "function",
+        "name": "promote_user",
+        "description": "Promote a user to a higher role (admin only).",
         "parameters": {
             "type": "object",
             "properties": {
-                "format": {"type": "string", "enum": ["csv", "json", "xlsx"]},
-                "include_pii": {"type": "boolean", "description": "Include personally identifiable information"}
+                "username": {"type": "string"},
+                "new_role": {"type": "string", "enum": ["viewer", "editor", "admin"]},
             },
-            "required": ["format"],
-            "additionalProperties": False
+            "required": ["username", "new_role"],
+            "additionalProperties": False,
         },
-        "strict": True
-    }
+        "strict": True,
+    },
 ]
 
-# Tool name -> tool dict lookup
-TOOL_REGISTRY = {tool["name"]: tool for tool in ALL_TOOLS}
+# ---- Role → allowed tool names ----
+# viewer:  read only
+# editor:  read + write
+# admin:   all tools
 
-# -----------------------------------------------------------------------
-# Mock tool execution
-# -----------------------------------------------------------------------
-
-MOCK_DB = {
-    "CUST-001": {"name": "Sarah Johnson", "email": "sarah@acme.com", "plan": "Enterprise"},
-    "CUST-002": {"name": "Michael Chen", "email": "m.chen@medcore.io", "plan": "Pro"},
+ROLE_PERMISSIONS = {
+    "viewer": {"read_document"},
+    "editor": {"read_document", "write_document"},
+    "admin":  {"read_document", "write_document", "delete_document", "list_users", "promote_user"},
 }
 
 
-def execute_tool(tool_name: str, tool_args: dict) -> dict:
-    """Execute a permitted tool and return mock result."""
-    if tool_name == "read_record":
-        record = MOCK_DB.get(tool_args["record_id"])
-        return record if record else {"error": "Record not found"}
-    elif tool_name == "write_record":
-        MOCK_DB[tool_args["record_id"]] = tool_args["data"]
-        return {"success": True, "record_id": tool_args["record_id"]}
-    elif tool_name == "delete_record":
-        if not tool_args.get("confirm"):
-            return {"error": "Deletion requires confirm=true"}
-        deleted = MOCK_DB.pop(tool_args["record_id"], None)
-        return {"success": bool(deleted), "deleted": tool_args["record_id"]}
-    elif tool_name == "export_data":
-        return {"success": True, "records": len(MOCK_DB), "format": tool_args["format"]}
-    return {"error": f"Unknown tool: {tool_name}"}
-
-
-# -----------------------------------------------------------------------
-# Exercises
-# -----------------------------------------------------------------------
-
-def get_allowed_tools(role: Role) -> list[dict]:
+def get_tools_for_role(role: str) -> list:
     """
     Exercise 1: Return only the tool schemas allowed for the given role.
 
-    Use ROLE_PERMISSIONS to get the list of allowed tool names for the role.
-    Filter ALL_TOOLS to only include tools whose name is in the allowed list.
-    Return the filtered list of tool schemas.
-
-    This filtered list is what gets sent to the model - the model can ONLY
-    call tools it can see in its tool list.
-
-    Args:
-        role: "admin", "editor", or "viewer"
+    Filter ALL_TOOLS to those whose "name" is in ROLE_PERMISSIONS[role].
+    If the role is unknown, return an empty list.
 
     Returns:
-        List of tool schema dicts allowed for this role
+        list of tool schema dicts
     """
-    allowed_names = ROLE_PERMISSIONS.get(role, [])
-    # TODO: Filter ALL_TOOLS to only include tools whose "name" is in allowed_names
+    # TODO: Look up allowed tool names from ROLE_PERMISSIONS
+    # TODO: Filter ALL_TOOLS to only those whose name is in the allowed set
     # TODO: Return the filtered list
-    return []
+    pass
 
 
-def permission_check(role: Role, tool_name: str) -> bool:
+# ---- Simulated tool implementations ----
+
+DOCUMENT_STORE = {
+    "report_q1.txt":   "Q1 2026 Revenue: $3.2M. Net ARR: $1.8M.",
+    "team_roster.txt": "Alice (admin), Bob (editor), Carol (viewer).",
+    "roadmap.txt":     "Q2: Launch v2. Q3: Enterprise tier. Q4: IPO prep.",
+}
+
+USER_DB = {
+    "alice": "admin",
+    "bob":   "editor",
+    "carol": "viewer",
+}
+
+
+def execute_tool(name: str, arguments: dict, role: str) -> str:
     """
-    Exercise 2: Verify a role is allowed to call a specific tool.
-
-    This is a server-side guard that runs BEFORE executing any tool.
-    Even if the model somehow calls a tool not in its allowed set,
-    this check prevents execution.
-
-    Returns True if allowed, False if denied.
-
-    Args:
-        role: The current user's role
-        tool_name: The tool the model is trying to call
+    Execute a tool — but first verify the calling role has permission.
+    Returns JSON result string or permission denied message.
     """
-    # TODO: Check if tool_name is in ROLE_PERMISSIONS[role]
-    # TODO: Return True if allowed, False if denied
-    return False
+    allowed = ROLE_PERMISSIONS.get(role, set())
+    if name not in allowed:
+        return json.dumps({"error": f"Permission denied: role '{role}' cannot call '{name}'"})
+
+    if name == "read_document":
+        content = DOCUMENT_STORE.get(arguments["document_name"], "Document not found.")
+        return json.dumps({"document": arguments["document_name"], "content": content})
+
+    elif name == "write_document":
+        DOCUMENT_STORE[arguments["document_name"]] = arguments["content"]
+        return json.dumps({"status": "written", "document": arguments["document_name"]})
+
+    elif name == "delete_document":
+        deleted = DOCUMENT_STORE.pop(arguments["document_name"], None)
+        return json.dumps({"status": "deleted" if deleted else "not_found"})
+
+    elif name == "list_users":
+        return json.dumps({"users": USER_DB})
+
+    elif name == "promote_user":
+        USER_DB[arguments["username"]] = arguments["new_role"]
+        return json.dumps({"status": "promoted", "user": arguments["username"], "role": arguments["new_role"]})
+
+    return json.dumps({"error": "Unknown tool"})
 
 
-def process_request(role: Role, user_request: str) -> str:
+def run_with_role(user_query: str, role: str) -> str:
     """
-    Exercise 3: Full permission-enforced tool execution.
+    Exercise 2: Run the assistant with role-based tool access.
 
-    1. Get allowed tools for this role using get_allowed_tools()
-    2. Send the request with ONLY the allowed tools
-    3. If model calls a tool: run permission_check() before executing
-       - If check passes: execute and continue
-       - If check fails: log "PERMISSION DENIED" and stop
-    4. Return the final assistant response
+    Steps:
+    1. Call get_tools_for_role(role) to get the allowed tool subset
+    2. Send the query to the model with only the allowed tools
+    3. Handle any tool calls (use execute_tool with the role for permission check)
+    4. Return the final response
 
-    This demonstrates defense-in-depth: the model only sees allowed tools
-    (prevention), AND we verify server-side before execution (detection).
-
-    Args:
-        role: The current user's role
-        user_request: The user's natural language request
+    Use client.responses.create() with model="gpt-4.1-mini".
     """
-    allowed_tools = get_allowed_tools(role)
-    print(f"\n[Role: {role.upper()}] Allowed tools: {[t['name'] for t in allowed_tools]}")
-    print(f"Request: {user_request}")
+    print(f"\n[{role.upper()}] Query: {user_query}")
+    tools = get_tools_for_role(role)
+    print(f"  Tools available: {[t['name'] for t in tools]}")
 
-    if not allowed_tools:
-        return "No tools available for your role."
-
-    # TODO: Call client.responses.create() with:
-    #   model = "gpt-4.1-mini"
-    #   input = user_request
-    #   tools = allowed_tools
-    #   tool_choice = "auto"
-
-    # TODO: Check for tool calls in response.output
-    # TODO: For each tool call:
-    #   - Run permission_check(role, tool_call.name)
-    #   - If denied: print "PERMISSION DENIED: {role} cannot call {tool_name}" and return
-    #   - If allowed: execute_tool(tool_call.name, json.loads(tool_call.arguments))
-    #   - Feed result back to model
-
-    # TODO: Return final response.output_text
-    return "Not implemented yet"
+    # TODO: Call client.responses.create() with the filtered tools
+    # TODO: Handle any function calls using execute_tool(name, args, role)
+    # TODO: Make follow-up call with tool results
+    # TODO: Return final response text
+    pass
 
 
 if __name__ == "__main__":
-    test_cases = [
-        ("admin",  "Read customer record CUST-001, then delete it"),
-        ("editor", "Create a new record CUST-003 with name='Jamie Torres', email='j@test.com', plan='Pro'"),
-        ("viewer", "Read record CUST-002 and show me the details"),
-        ("viewer", "Delete record CUST-001"),      # Should be denied
-        ("editor", "Export all data to CSV"),       # Should be denied
+    print("Tool Permission Sandbox — Course 201 Lesson 8")
+    print("=" * 50)
+
+    # Test all three roles with the same queries
+    queries = [
+        ("Read report_q1.txt and summarize it.", "viewer"),
+        ("Read report_q1.txt and then update roadmap.txt with 'Q2: Ship v2'.", "editor"),
+        ("List all users and then promote carol to editor.", "admin"),
+        ("Delete report_q1.txt.", "viewer"),   # Should be denied
     ]
 
-    print("Role-Based Tool Permission Demo")
-    print("=" * 60)
-
-    for role, request in test_cases:
-        print()
-        result = process_request(role, request)
-        print(f"Result: {result}")
-        print("-" * 40)
+    for query, role in queries:
+        result = run_with_role(query, role)
+        if result:
+            print(f"  Response: {result}\n")
