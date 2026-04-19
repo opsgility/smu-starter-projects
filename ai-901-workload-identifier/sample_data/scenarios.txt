@@ -1,0 +1,10 @@
+A retailer wants a chat assistant that answers customer questions from a product catalog.
+A call center wants to transcribe every inbound call and flag angry customers in real time.
+A warehouse wants to scan shelves with cameras and alert when stock is low.
+An insurance company wants to pull policy number, claimant, and date from scanned claim PDFs.
+A marketing team wants to auto-generate 10 on-brand banner images for a weekly promo.
+A law firm wants to summarize 100-page depositions into 1-page executive briefs.
+A hospital wants spoken patient notes turned into structured records in the EHR.
+A logistics company wants to extract shipment data from mixed-format invoice PDFs and JPGs.
+A product team wants an agent that can book meetings and file JIRA tickets on behalf of the user.
+A social app wants to detect hate speech and self-harm content in user posts before they go live.
