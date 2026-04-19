@@ -1,0 +1,9 @@
+{
+  "skus": [
+    { "sku": "NM-TR45",  "photo": "gs://PROJECT-nimbus-skus/NM-TR45/photo.jpg",  "spec":  "gs://PROJECT-nimbus-skus/NM-TR45/spec.pdf"  },
+    { "sku": "NM-SRS3",  "photo": "gs://PROJECT-nimbus-skus/NM-SRS3/photo.jpg",  "spec":  "gs://PROJECT-nimbus-skus/NM-SRS3/spec.pdf"  },
+    { "sku": "NM-AUR1",  "photo": "gs://PROJECT-nimbus-skus/NM-AUR1/photo.jpg",  "spec":  "gs://PROJECT-nimbus-skus/NM-AUR1/spec.pdf"  },
+    { "sku": "NM-HZN2",  "photo": "gs://PROJECT-nimbus-skus/NM-HZN2/photo.jpg",  "spec":  "gs://PROJECT-nimbus-skus/NM-HZN2/spec.pdf"  },
+    { "sku": "NM-STR1",  "photo": "gs://PROJECT-nimbus-skus/NM-STR1/photo.jpg",  "spec":  "gs://PROJECT-nimbus-skus/NM-STR1/spec.pdf"  }
+  ]
+}
