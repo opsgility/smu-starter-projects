@@ -1,0 +1,38 @@
+# Environment
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+.Python
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Lab-generated artifacts
+storefront.png
+storefront_edited.png
+summitline_front.png
+pack.png
+mask.png
+benign.png
+injection.png
+subtle_injection.png
+make_mask.py
+make_test_images.py

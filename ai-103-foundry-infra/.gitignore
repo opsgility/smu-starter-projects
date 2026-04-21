@@ -1,0 +1,17 @@
+# Local environment
+.env
+
+# Bicep build artifacts
+infra/main.json
+**/*.bicepparam.json
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Python (not used by this lab, but harmless)
+__pycache__/
+.venv/
+*.pyc

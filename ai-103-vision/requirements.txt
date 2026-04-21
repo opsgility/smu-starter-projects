@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+azure-identity
+azure-ai-projects
+openai
+httpx
+requests
+Pillow

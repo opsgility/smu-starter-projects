@@ -1,0 +1,62 @@
+"""Summitline Outfitters concierge — LEGACY key-based prototype.
+
+This is the prototype you inherited from the Summitline Outfitters team. It
+authenticates to Azure OpenAI using a static API key (`AZURE_OPENAI_API_KEY`)
+read from the environment — a compliance and security liability.
+
+Exercise 1 of Lab 2258 has you rewrite this file end-to-end:
+
+    - Drop `from openai import AzureOpenAI`.
+    - Replace the key-based client with:
+        - `AIProjectClient` from `azure.ai.projects`
+        - `DefaultAzureCredential` from `azure.identity`
+        - `project.get_openai_client()` for the OpenAI surface
+    - Switch from `chat.completions.create(messages=...)` to
+      `responses.create(input=...)` and return `response.output_text`.
+    - Read `AZURE_AI_PROJECT_ENDPOINT` and `AZURE_OPENAI_DEPLOYMENT` from
+      `.env` — remove all reads of `AZURE_OPENAI_API_KEY` and
+      `AZURE_OPENAI_ENDPOINT`.
+"""
+import os
+
+from dotenv import load_dotenv
+from fastapi import FastAPI, Form
+from openai import AzureOpenAI
+
+load_dotenv()
+
+app = FastAPI(title="Summitline Outfitters Concierge (LEGACY key-auth)")
+
+# TODO (Exercise 1 Step 7): Remove all of the key-based wiring below.
+# Replace with AIProjectClient(endpoint=..., credential=DefaultAzureCredential())
+# and store the deployment name from AZURE_OPENAI_DEPLOYMENT.
+_deployment = os.environ.get("AZURE_OPENAI_DEPLOYMENT", "gpt-4.1")
+_openai = AzureOpenAI(
+    api_key=os.environ["AZURE_OPENAI_API_KEY"],
+    azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],
+    api_version="2024-10-21",
+)
+
+
+@app.get("/health")
+def health() -> dict:
+    return {"status": "ok"}
+
+
+@app.post("/chat")
+def chat(message: str = Form(...)) -> dict:
+    # TODO (Exercise 1 Step 7): Replace chat.completions.create(...) with
+    # _openai.responses.create(model=_deployment, input=message) and return
+    # response.output_text instead of choices[0].message.content.
+    response = _openai.chat.completions.create(
+        model=_deployment,
+        messages=[{"role": "user", "content": message}],
+    )
+    return {"reply": response.choices[0].message.content}
+
+
+@app.on_event("shutdown")
+def _close() -> None:
+    # TODO (Exercise 1 Step 7): Close both the OpenAI client and the
+    # AIProjectClient instance here after the migration.
+    _openai.close()
