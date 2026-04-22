@@ -14,7 +14,7 @@ import json
 
 client = OpenAI()
 
-# Sample product catalog (100 products for quick demo)
+# Sample product catalog (20 products for quick demo)
 PRODUCTS = [
     {"id": 1, "name": "Wireless Noise-Cancelling Headphones", "description": "Over-ear headphones with active noise cancellation, 30-hour battery, and premium sound quality for music and calls."},
     {"id": 2, "name": "Mechanical Gaming Keyboard", "description": "Tenkeyless mechanical keyboard with Cherry MX switches, RGB backlighting, and programmable macros for gaming."},
@@ -84,8 +84,8 @@ def build_product_index(products: list[dict]) -> list[dict]:
     indexed = []
     for i, product in enumerate(products):
         text = f"{product['name']}: {product['description']}"
-        # TODO: Call get_embedding(text)
-        # TODO: Append {**product, "embedding": embedding} to indexed
+        embedding = get_embedding(text)
+        indexed.append({**product, "embedding": embedding})
         if (i + 1) % 5 == 0:
             print(f"  Embedded {i + 1}/{len(products)}")
     return indexed

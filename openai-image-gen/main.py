@@ -66,7 +66,7 @@ def generate_image(prompt: str, output_path: str = "generated.png") -> str:
 # Exercise 2: Quality and size options
 # -----------------------------------------------------------------------
 
-def generate_with_quality(prompt: str, quality: str = "standard",
+def generate_with_quality(prompt: str, quality: str = "auto",
                            size: str = "1024x1024") -> tuple[str, dict]:
     """
     Exercise 2: Generate image with explicit quality and size settings.

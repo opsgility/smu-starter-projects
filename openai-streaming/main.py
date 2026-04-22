@@ -3,103 +3,53 @@ Streaming Completions with the OpenAI Responses API
 Course 101 - Lesson 6: Streaming Terminal Assistant
 
 Exercises:
-1. Stream a response token-by-token and render it live in the terminal
-2. Show a progress indicator (elapsed time) while streaming
-3. Verify that streaming output matches non-streaming output
+1. Stream a response token-by-token and capture usage stats
+2. Measure time-to-first-token (TTFT) across models
+3. Compare streaming vs non-streaming latency
 
 IMPORTANT: OPENAI_API_KEY and OPENAI_BASE_URL are pre-configured in your
 environment automatically.
 """
-from openai import OpenAI
 import time
-import sys
+from openai import OpenAI
 
 client = OpenAI()
 
 
-def stream_response(prompt: str) -> str:
+def stream_response(prompt: str, model: str = "gpt-4.1-mini") -> str:
     """
-    Exercise 1: Stream a response token-by-token.
-
-    Use client.responses.stream() as a context manager.
-    Iterate over stream.text_stream to get text deltas.
-    Print each delta immediately using print(delta, end="", flush=True).
-    After the stream completes, print a newline.
-    Return the complete assembled text.
-
-    Args:
-        prompt: The user's input prompt
-
-    Returns:
-        The complete response text assembled from all deltas
+    TODO (Exercise 1): Use client.responses.stream(model=model, input=prompt) as a
+    context manager. Iterate stream.text_stream, print each delta with end='' and
+    flush=True, and return the full concatenated text.
     """
-    print(f"Prompt: {prompt}")
-    print("-" * 40)
-    full_text = ""
-
-    # TODO: Use 'with client.responses.stream(...) as stream:' context manager
-    #   model = "gpt-4.1-mini"
-    #   input = prompt
-    # TODO: Iterate over stream.text_stream
-    # TODO: For each text_delta: print it (end="", flush=True) and append to full_text
-    # TODO: After the loop, print("\n") to end the line
-    # TODO: Return full_text
-
-    return full_text
-
-
-def stream_with_timer(prompt: str) -> None:
-    """
-    Exercise 2: Stream a response while displaying elapsed time.
-
-    Show a live timer in the terminal while tokens arrive.
-    Update the timer display on the same line using carriage return (\r).
-    After the stream completes, show "Done in X.Xs" and print the full response.
-
-    Args:
-        prompt: The user's input prompt
-    """
-    print(f"Streaming response for: '{prompt}'")
-
-    start_time = time.time()
-    full_text = ""
-
-    # TODO: Use client.responses.stream() as a context manager
-    # TODO: For each event in the stream:
-    #   - Update elapsed = time.time() - start_time
-    #   - Print to stderr: f"\r⏱  {elapsed:.1f}s" (sys.stderr, end="", flush=True)
-    #   - If the event has text content, append it to full_text
-    # TODO: After streaming, print the elapsed time and the full response
     pass
 
 
-def compare_streaming_vs_nonstreaming(prompt: str) -> None:
+def stream_with_stats(prompt: str) -> tuple[str, dict]:
     """
-    Exercise 3: Verify streaming and non-streaming produce equivalent output.
-
-    Make the same prompt to:
-    1. The streaming API (using client.responses.stream())
-    2. The non-streaming API (using client.responses.create())
-
-    Compare the assembled streaming text against response.output_text.
-    Print whether they match (normalized by stripping whitespace).
-
-    Args:
-        prompt: The prompt to test with both methods
+    TODO (Exercise 1, Step 4): Like stream_response, but after the stream ends call
+    stream.get_final_response() to capture usage. Return (full_text, stats_dict)
+    where stats_dict has keys: input_tokens, output_tokens, total_tokens.
     """
-    print(f"Testing prompt: '{prompt}'")
+    pass
 
-    # TODO: Stream the response and assemble the full text
-    streamed_text = ""
-    # ... your streaming code here ...
 
-    # TODO: Make a non-streaming call and get response.output_text
-    nonstreamed_text = ""
-    # ... your non-streaming code here ...
+def timed_stream(prompt: str, model: str = "gpt-4.1-mini") -> dict:
+    """
+    TODO (Exercise 2): Stream a response and measure time-to-first-token (TTFT).
+    Record start time, capture first_token_time on the first delta, capture end time
+    after the stream completes. Return a dict:
+    {model, ttft_seconds, total_seconds, delta_events}.
+    """
+    pass
 
-    # TODO: Compare the two (strip whitespace before comparing)
-    # TODO: Print "MATCH" if they are equal, "MISMATCH" if not
-    # TODO: Print both texts so the user can inspect them
+
+def compare_streaming(prompt: str) -> None:
+    """
+    TODO (Exercise 3): Time a non-streaming call (client.responses.create) end-to-end,
+    then time a streaming call capturing first_token_time. Print both latencies and
+    a line like 'Streaming advantage: first token {X:.1f}x sooner'.
+    """
     pass
 
 
@@ -107,15 +57,24 @@ if __name__ == "__main__":
     print("=" * 50)
     print("Exercise 1: Token-by-Token Streaming")
     print("=" * 50)
-    result = stream_response("Explain what a REST API is in 3 sentences.")
-    print(f"\nAssembled text length: {len(result)} characters")
+    stream_response("Explain Python decorators in 3 sentences.")
 
     print("\n" + "=" * 50)
-    print("Exercise 2: Stream with Progress Timer")
+    print("Exercise 1 Step 4: Stream with Usage Stats")
     print("=" * 50)
-    stream_with_timer("List 5 benefits of using a streaming API for chatbots.")
+    text, stats = stream_with_stats("Explain Python decorators in 3 sentences.")
+    print(stats)
 
     print("\n" + "=" * 50)
-    print("Exercise 3: Compare Streaming vs Non-Streaming")
+    print("Exercise 2: Time-to-First-Token Across Models")
     print("=" * 50)
-    compare_streaming_vs_nonstreaming("What is the OpenAI Responses API in one sentence?")
+    for model in ["gpt-4.1-nano", "gpt-4.1-mini", "gpt-4.1"]:
+        result = timed_stream("Explain Python decorators in 3 sentences.", model=model)
+        print(result)
+
+    print("\n" + "=" * 50)
+    print("Exercise 3: Streaming vs Non-Streaming")
+    print("=" * 50)
+    compare_streaming(
+        "Explain how TCP/IP handshakes work in detail, including SYN, SYN-ACK, ACK phases, with a diagram in ASCII."
+    )

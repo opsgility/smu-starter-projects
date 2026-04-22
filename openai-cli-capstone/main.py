@@ -15,28 +15,29 @@ Build a multi-model CLI assistant that:
 IMPORTANT: OPENAI_API_KEY and OPENAI_BASE_URL are pre-configured in your
 environment automatically.
 """
-from openai import OpenAI
-import tiktoken
-import time
 import json
+import time
 import os
-from datetime import datetime, timezone
-from typing import Literal
+from datetime import datetime
+from typing import Literal, Optional
 from pydantic import BaseModel
+import openai
+from openai import OpenAI
 
 client = OpenAI()
 
-# Log file for structured interaction logging
-LOG_FILE = "interaction_log.jsonl"
+LOG_FILE = "interactions.jsonl"
 
-# Model routing tiers
-ModelTier = Literal["gpt-4.1-nano", "gpt-4.1-mini", "gpt-4.1"]
-
-# Pricing per 1M tokens
 PRICING = {
-    "gpt-4.1":      {"input": 2.00,  "output": 8.00},
-    "gpt-4.1-mini": {"input": 0.40,  "output": 1.60},
-    "gpt-4.1-nano": {"input": 0.10,  "output": 0.40},
+    "gpt-4.1":      {"input": 2.00, "output": 8.00},
+    "gpt-4.1-mini": {"input": 0.40, "output": 1.60},
+    "gpt-4.1-nano": {"input": 0.10, "output": 0.40},
+}
+
+MODEL_MAP = {
+    "simple":  "gpt-4.1-nano",
+    "general": "gpt-4.1-mini",
+    "complex": "gpt-4.1",
 }
 
 
@@ -45,154 +46,54 @@ class ClassificationResult(BaseModel):
     reasoning: str
 
 
-def classify_prompt(prompt: str) -> ModelTier:
+def classify_prompt(prompt: str) -> ClassificationResult:
     """
-    Exercise 1: Classify prompt complexity and select the appropriate model.
-
-    Use GPT-4.1-nano with client.responses.parse() to classify the prompt as:
-    - "simple":  single-fact lookups, yes/no questions, short classification
-    - "general": summaries, explanations, conversational questions
-    - "complex": code generation, analysis, multi-step reasoning, technical depth
-
-    Map classification to model tier:
-    - simple  -> gpt-4.1-nano
-    - general -> gpt-4.1-mini
-    - complex -> gpt-4.1
-
-    Returns the model name string.
+    TODO (Exercise 1): Use client.responses.parse with a classifier system prompt
+    and text_format=ClassificationResult. Return response.output_parsed. If parsing
+    fails, return ClassificationResult(complexity='general', reasoning='fallback').
     """
-    classification_prompt = f"""Classify the following user prompt by complexity:
-- simple: single-fact lookup, yes/no, short answer
-- general: explanation, summary, conversational
-- complex: code generation, deep analysis, multi-step reasoning
-
-Prompt: "{prompt}"
-"""
-    # TODO: Call client.responses.parse() with model="gpt-4.1-nano",
-    #       input=classification_prompt, text_format=ClassificationResult
-    # TODO: Map result.output_parsed.complexity to the correct model tier
-    # TODO: Return the model name string
-    return "gpt-4.1-mini"  # Default - replace with your implementation
-
-
-def call_with_backoff(model: str, prompt: str, max_retries: int = 3) -> object:
-    """
-    Exercise 2: Make an API call with exponential backoff on rate limit errors.
-
-    Attempt client.responses.create() up to max_retries times.
-    On openai.RateLimitError, wait 2^attempt seconds before retrying.
-    Print a message when retrying: "Rate limited. Retrying in Xs..."
-    Raise the error if all retries are exhausted.
-
-    Returns the response object.
-    """
-    import openai
-
-    for attempt in range(max_retries):
-        # TODO: Try client.responses.create(model=model, input=prompt, stream=False)
-        # TODO: On openai.RateLimitError: calculate wait = 2 ** attempt
-        #       print(f"Rate limited. Retrying in {wait}s..."), time.sleep(wait)
-        # TODO: On final attempt, re-raise the exception
-        pass
-
-
-def stream_response(model: str, prompt: str) -> tuple[str, int, int]:
-    """
-    Exercise 3: Stream the response and return (text, input_tokens, output_tokens).
-
-    Use client.responses.stream() to stream the response.
-    Print each text delta as it arrives (end="", flush=True).
-    After streaming completes, get usage from stream.get_final_response().usage.
-    Return the assembled text and token counts.
-    """
-    full_text = ""
-    input_tokens = 0
-    output_tokens = 0
-
-    # TODO: Use 'with client.responses.stream(model=model, input=prompt) as stream:'
-    # TODO: Iterate over stream.text_stream, print each delta, append to full_text
-    # TODO: After the with block: final = stream.get_final_response()
-    # TODO: input_tokens = final.usage.input_tokens
-    # TODO: output_tokens = final.usage.output_tokens
-    # TODO: Return (full_text, input_tokens, output_tokens)
-
-    return full_text, input_tokens, output_tokens
-
-
-def log_interaction(prompt: str, model: str, output: str,
-                    input_tokens: int, output_tokens: int,
-                    latency_ms: float) -> None:
-    """
-    Exercise 4: Log each interaction as a JSON record in interaction_log.jsonl.
-
-    Each log entry must include:
-      - timestamp (ISO 8601 UTC)
-      - model
-      - input_tokens
-      - output_tokens
-      - cost_usd (calculate from PRICING)
-      - latency_ms
-      - prompt (first 200 chars)
-      - output (first 200 chars)
-
-    Append the JSON record (one per line) to LOG_FILE.
-    """
-    # TODO: Calculate cost_usd using PRICING dict
-    # TODO: Build log_entry dict with all required fields
-    # TODO: Append json.dumps(log_entry) + "\n" to LOG_FILE
     pass
 
 
-def run_assistant() -> None:
+def stream_with_backoff(model: str, messages: list, max_retries: int = 3) -> tuple[str, dict]:
     """
-    Exercise 5: The main interactive loop.
-
-    Loop until the user types 'quit' or 'exit'.
-    For each prompt:
-    1. Classify -> select model
-    2. Print which model was selected and why
-    3. Stream the response (with backoff)
-    4. Log the interaction
-    5. Print token usage and cost for this interaction
+    TODO (Exercise 2): Stream a response with openai.responses.stream(model=model,
+    input=messages). Catch openai.RateLimitError and retry with exponential backoff
+    (sleep 2 ** attempt seconds) up to max_retries times. Return (full_text,
+    usage_dict) where usage_dict has keys input_tokens, output_tokens, total_tokens.
     """
-    print("Multi-Model CLI Assistant")
-    print("Type 'quit' to exit | 'log' to view last 3 interactions\n")
+    pass
 
-    while True:
-        try:
-            prompt = input("You: ").strip()
-        except (KeyboardInterrupt, EOFError):
-            print("\nGoodbye!")
-            break
 
-        if not prompt:
-            continue
-        if prompt.lower() in ("quit", "exit"):
-            print("Goodbye!")
-            break
-        if prompt.lower() == "log":
-            # TODO: Read and print last 3 lines from LOG_FILE
-            # Each line is a JSON object - print it formatted
-            continue
+def calculate_cost(input_tokens: int, output_tokens: int, model: str) -> float:
+    """Compute USD cost from PRICING. See Exercise 3 in Lab 2174 for the pattern."""
+    pricing = PRICING[model]
+    return (input_tokens / 1_000_000) * pricing["input"] + (output_tokens / 1_000_000) * pricing["output"]
 
-        # TODO: Record start time
-        start = time.time()
 
-        # TODO: Step 1 - Classify the prompt
-        model = classify_prompt(prompt)
-        print(f"\n[Routing to {model}]\n")
+def log_interaction(entry: dict, log_file: str = LOG_FILE) -> None:
+    """
+    TODO (Exercise 3): Append one JSON line to log_file. The entry dict should
+    already contain: timestamp, prompt_preview, complexity, model_used,
+    input_tokens, output_tokens, cost_usd, latency_seconds.
+    """
+    pass
 
-        # TODO: Step 2 - Stream the response with backoff
-        print("Assistant: ", end="", flush=True)
-        # ... call stream_response or call_with_backoff + stream ...
 
-        # TODO: Step 3 - Log the interaction
-
-        # TODO: Step 4 - Print usage summary
-        # latency_ms = (time.time() - start) * 1000
-        # print(f"\n[{model} | {input_tokens} in / {output_tokens} out | ${cost:.6f} | {latency_ms:.0f}ms]")
-        print()
+def run_cli() -> None:
+    """
+    TODO (Exercise 3): Main CLI loop. Read user prompts with input(); exit on
+    empty/quit/exit. For each prompt:
+      1. classification = classify_prompt(prompt)
+      2. model = MODEL_MAP[classification.complexity]
+      3. Time stream_with_backoff(model, [{'role':'user','content':prompt}])
+      4. Print response as it streams (already printed inside stream_with_backoff)
+      5. Build entry dict with all 8 fields above and call log_interaction(entry)
+      6. Print a one-line footer:
+         f"[{usage['total_tokens']} tokens | ${cost:.6f} | {latency:.2f}s]"
+    """
+    pass
 
 
 if __name__ == "__main__":
-    run_assistant()
+    run_cli()

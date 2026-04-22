@@ -14,6 +14,7 @@ environment automatically. Do NOT set them manually.
 """
 from openai import OpenAI
 import psycopg2
+from pgvector.psycopg2 import register_vector
 import json
 
 client = OpenAI()
@@ -46,7 +47,9 @@ CHUNK_SIZE = 200  # characters per chunk
 
 def get_connection():
     """Create a database connection."""
-    return psycopg2.connect(**DB_CONFIG)
+    conn = psycopg2.connect(**DB_CONFIG)
+    register_vector(conn)
+    return conn
 
 
 def setup_database():
@@ -61,7 +64,7 @@ def setup_database():
            chunk_text TEXT,
            embedding vector(1536)
        )
-    3. CREATE INDEX IF NOT EXISTS embeddings_idx
+    3. CREATE INDEX IF NOT EXISTS embeddings_hnsw_idx
        ON embeddings USING hnsw (embedding vector_cosine_ops)
     """
     # TODO: Connect to the database with get_connection()
