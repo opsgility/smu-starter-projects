@@ -38,7 +38,7 @@ def get_client() -> genai.Client:
 def run(
     input_path: Path = typer.Option(Path("reviews.csv"), "--input"),
     output_path: Path = typer.Option(Path("summaries.jsonl"), "--output"),
-    model: str = typer.Option("gemini-2.5-flash", "--model"),
+    model: str = typer.Option("gemini-3-flash", "--model"),
     stream: bool = typer.Option(False, "--stream/--no-stream"),
     limit: int = typer.Option(20, "--limit"),
 ) -> None:

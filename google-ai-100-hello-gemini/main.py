@@ -24,7 +24,7 @@ def main() -> None:
     # Hint: genai.Client(vertexai=True, project=PROJECT, location=LOCATION)
     client = None
 
-    # TODO (Part 2): call client.models.generate_content with model="gemini-2.5-flash"
+    # TODO (Part 2): call client.models.generate_content with model="gemini-3-flash"
     # Ask: "In one sentence, explain what Vertex AI is to a new developer."
     response = None
 

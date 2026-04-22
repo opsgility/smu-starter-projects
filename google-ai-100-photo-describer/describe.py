@@ -39,7 +39,7 @@ def get_client() -> genai.Client:
 def run(
     photos_path: Path = typer.Option(Path("photos.json"), "--photos"),
     output_path: Path = typer.Option(Path("catalog.jsonl"), "--output"),
-    model: str = typer.Option("gemini-2.5-flash", "--model"),
+    model: str = typer.Option("gemini-3-flash", "--model"),
     structured: bool = typer.Option(False, "--structured/--no-structured"),
 ) -> None:
     """Describe each photo referenced by a gs:// URI in photos.json."""

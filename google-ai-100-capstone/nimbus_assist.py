@@ -28,6 +28,14 @@ console = Console()
 PROJECT = os.environ.get("GOOGLE_CLOUD_PROJECT", "")
 LOCATION = os.environ.get("GOOGLE_CLOUD_LOCATION", "us-central1")
 
+# Text models (structured output)
+MODEL_FLASH = "gemini-3-flash"
+MODEL_PRO   = "gemini-3-pro"
+
+# Image models (Nano Banana family — GA in 2026)
+MODEL_IMAGE         = "gemini-2.5-flash-image"   # Nano Banana
+MODEL_IMAGE_PREMIUM = "gemini-3-pro-image"        # Nano Banana Pro
+
 SYSTEM = (
     "You are a Nimbus Outfitters merchandising assistant. Use only details you can\n"
     "see in the product photo or read in the spec PDF. Never fabricate materials,\n"
@@ -39,7 +47,7 @@ SYSTEM = (
 def run(
     sku: str = typer.Option(..., "--sku"),
     config_path: Path = typer.Option(Path("sku_config.json"), "--config"),
-    model: str = typer.Option("gemini-2.5-flash", "--model"),
+    model: str = typer.Option(MODEL_FLASH, "--model"),
 ) -> None:
     if not PROJECT:
         raise SystemExit("GOOGLE_CLOUD_PROJECT is not set.")
@@ -62,6 +70,11 @@ def run(
     #       )
     # TODO: parse response.text into AssistBundle, print indented JSON.
     # TODO: print usage_metadata (input, output, thoughts) and wall time.
+    # TODO (Exercise 5, Nano Banana): add a --generate-hero flag that, after
+    #       producing the bundle, passes bundle.catalog.headline + description
+    #       into generate_content(model=MODEL_IMAGE, response_modalities=["IMAGE"])
+    #       and writes hero_images/<SKU>.png. Use MODEL_IMAGE_PREMIUM for the
+    #       hero SKU (NM-AUR1) when --premium-sku is set.
 
     start = time.time()
     console.print(f"[yellow]Not implemented yet — complete TODOs for sku={sku}.[/]")
