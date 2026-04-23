@@ -48,6 +48,12 @@ ai-103-ingest-extract/
 │   ├── __init__.py
 │   └── main.py           # FastAPI /search and /chat endpoints
 ├── sample_data/          # Summitline source documents (uploaded in Ex 2)
+│   ├── invoice-cascade-tent-co-INV-9001.md
+│   ├── invoice-contoso-textiles-INV-44127.md
+│   ├── contract-fabrikam-logistics-master-services.md
+│   ├── contract-northwind-gear-supply-agreement.md
+│   ├── statement-ironseam-packs-warranty.md
+│   └── trailguide-cascade-loop-3day.md
 ├── requirements.txt
 ├── .env.example
 ├── .gitignore
@@ -129,6 +135,7 @@ python -m pipeline.ingest
 # 4. Query (Exercise 4)
 python -m pipeline.query "What is the total of invoice INV-9001?"
 python -m pipeline.query --cite "Which vendor had the highest invoice total?"
+python -m pipeline.query --cite "What are the payment terms in the Fabrikam MSA?"
 ```
 
 ## Run the FastAPI app
@@ -140,10 +147,10 @@ uvicorn app.main:app --reload --port 8000
 Then:
 
 ```bash
-curl "http://localhost:8000/search?q=warranty%20coverage"
+curl "http://localhost:8000/search?q=warranty%20reserve%20drawdown"
 curl -X POST http://localhost:8000/chat \
      -H "Content-Type: application/json" \
-     -d '{"question": "What does the Alpine Supply Co. contract cover?"}'
+     -d '{"question": "What is the annual contract value of the Fabrikam MSA?"}'
 ```
 
 ## Vector dimension contract

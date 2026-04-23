@@ -36,8 +36,8 @@ ai-103-agent-knowledge/
     agent.py         # build_agent_with_tools() assembles all three tools
     cu_tool.py       # extract_invoice() — Content Understanding REST wrapper
   sample_data/
-    product-catalog.pdf   # (supplied by the lab - drop a real PDF here)
-    invoice.pdf           # (supplied by the lab - drop a real PDF here)
+    product-catalog.pdf   # shipped with this starter — Summitline catalog
+    invoice.pdf           # shipped with this starter — Cascadia Textile invoice
     summitline-returns.md      # seed doc for the summitline-kb index
     summitline-warranty.md     # seed doc for the summitline-kb index
     summitline-pickup.md       # seed doc for the summitline-kb index
@@ -47,18 +47,19 @@ ai-103-agent-knowledge/
   README.md
 ```
 
-> `sample_data/product-catalog.pdf` and `sample_data/invoice.pdf` must be
-> real PDFs for the Agents Service / Content Understanding calls to succeed.
-> See `sample_data/product-catalog.pdf.md` and `sample_data/invoice.pdf.md`
-> for what each file is expected to contain.
+> `sample_data/product-catalog.pdf` and `sample_data/invoice.pdf` ship with
+> this starter. The `.pdf.md` files next to them document the expected
+> content in case you ever need to regenerate them.
 
 ## Prerequisites
 
 - The lab environment has started. An ARM template auto-deploys a Foundry
   AIServices account, a child project, a `gpt-4.1-mini` deployment, and an
   Azure AI Search service into the pre-created resource group in `eastus2`.
-- You signed in to Azure in an earlier lesson and `az account show` returns
-  your identity.
+- Sign into Azure before running anything. Open the **Lab Environment** tab,
+  sign into the portal in an incognito / InPrivate browser with the
+  credentials shown there, then in the VS Code Server terminal run
+  `az login --use-device-code` and pick the same subscription.
 - Python 3.11+ available in the lab container.
 
 ## Setup
