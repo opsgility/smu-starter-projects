@@ -61,17 +61,20 @@ if __name__ == "__main__":
     print("=" * 50)
     # verify_environment()  # Uncomment after implementing Exercise 1
 
-    print("\n" + "=" * 50)
-    print("Exercise 2: List GPT Models")
-    print("=" * 50)
-    # list_models()  # Uncomment after implementing Exercise 2
+    # Uncomment when you reach Exercise 2:
+    # print("\n" + "=" * 50)
+    # print("Exercise 2: List GPT Models")
+    # print("=" * 50)
+    # list_models()
 
-    print("\n" + "=" * 50)
-    print("Exercise 3: First Responses API Call")
-    print("=" * 50)
-    # print(first_response("What are the three laws of robotics?"))  # Uncomment after implementing Exercise 3
+    # Uncomment when you reach Exercise 3:
+    # print("\n" + "=" * 50)
+    # print("Exercise 3: First Responses API Call")
+    # print("=" * 50)
+    # print(first_response("What are the three laws of robotics?"))
 
-    print("\n" + "=" * 50)
-    print("Exercise 4: Inspect Response Structure")
-    print("=" * 50)
-    # print(inspect_response("Explain recursion in one sentence."))  # Uncomment after implementing Exercise 4
+    # Uncomment when you reach Exercise 4:
+    # print("\n" + "=" * 50)
+    # print("Exercise 4: Inspect Response Structure")
+    # print("=" * 50)
+    # print(inspect_response("Explain recursion in one sentence."))

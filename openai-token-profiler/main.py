@@ -84,13 +84,15 @@ if __name__ == "__main__":
     # ]:
     #     print(f"{count_tokens(sample)} tokens: {sample}")
 
-    print("\n" + "=" * 60)
-    print("Exercise 2: Cost Calculation")
-    print("=" * 60)
-    # cost = calculate_cost(100, 200, "gpt-4.1-mini")  # Uncomment after implementing Exercise 2
+    # Uncomment when you reach Exercise 2:
+    # print("\n" + "=" * 60)
+    # print("Exercise 2: Cost Calculation")
+    # print("=" * 60)
+    # cost = calculate_cost(100, 200, "gpt-4.1-mini")
     # print(f"Cost for 100 input + 200 output tokens on gpt-4.1-mini: ${cost:.6f}")
 
-    print("\n" + "=" * 60)
-    print("Exercise 3: Model Benchmark Comparison")
-    print("=" * 60)
-    # run_benchmark()  # Uncomment after implementing Exercise 3
+    # Uncomment when you reach Exercise 3:
+    # print("\n" + "=" * 60)
+    # print("Exercise 3: Model Benchmark Comparison")
+    # print("=" * 60)
+    # run_benchmark()

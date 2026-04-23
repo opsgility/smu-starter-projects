@@ -111,17 +111,19 @@ if __name__ == "__main__":
     #     print(f"[{r.complexity} -> {MODEL_MAP[r.complexity]}]  {p[:60]}")
     #     print(f"  reasoning: {r.reasoning[:80]}")
 
-    print("\n" + "=" * 50)
-    print("Exercise 2: Test Streaming with Backoff")
-    print("=" * 50)
-    # messages = [  # Uncomment after implementing Exercise 2
+    # Uncomment when you reach Exercise 2:
+    # print("\n" + "=" * 50)
+    # print("Exercise 2: Test Streaming with Backoff")
+    # print("=" * 50)
+    # messages = [
     #     {"role": "system", "content": "You are a concise technical assistant."},
     #     {"role": "user", "content": "What are the benefits of async Python?"},
     # ]
     # text, usage = stream_with_backoff("gpt-4.1-mini", messages)
     # print(f"\nTokens: {usage}")
 
-    print("\n" + "=" * 50)
-    print("Exercise 3: Run the Full CLI Assistant")
-    print("=" * 50)
-    # run_cli()  # Uncomment after implementing Exercise 3
+    # Uncomment when you reach Exercise 3:
+    # print("\n" + "=" * 50)
+    # print("Exercise 3: Run the Full CLI Assistant")
+    # print("=" * 50)
+    # run_cli()

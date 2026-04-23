@@ -65,19 +65,21 @@ if __name__ == "__main__":
     # )
     # print(entities)  # Uncomment after implementing Exercise 1
 
-    print("\n" + "=" * 50)
-    print("Exercise 2: Pydantic Structured Output")
-    print("=" * 50)
-    # item = generate_faq_item("Python async/await")  # Uncomment after implementing Exercise 2
+    # Uncomment when you reach Exercise 2:
+    # print("\n" + "=" * 50)
+    # print("Exercise 2: Pydantic Structured Output")
+    # print("=" * 50)
+    # item = generate_faq_item("Python async/await")
     # if item:
     #     print(f"Q: {item.question}")
     #     print(f"A: {item.answer}")
     #     print(f"Category: {item.category} | Confidence: {item.confidence:.0%}")
 
-    print("\n" + "=" * 50)
-    print("Exercise 3: Refusal Handling")
-    print("=" * 50)
-    # item, err = safe_generate_faq("REST API authentication")  # Uncomment after implementing Exercise 3
+    # Uncomment when you reach Exercise 3:
+    # print("\n" + "=" * 50)
+    # print("Exercise 3: Refusal Handling")
+    # print("=" * 50)
+    # item, err = safe_generate_faq("REST API authentication")
     # if item:
     #     print(f"OK: {item.question[:60]}")
     # else:
