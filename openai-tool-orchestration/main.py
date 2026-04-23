@@ -222,7 +222,10 @@ def run_orchestration(user_query: str, role: str) -> tuple:
     # TODO: Call client.responses.create() with user_query and tools
     # TODO: Collect all function_call items from response.output
     # TODO: Execute each using execute_tool_with_retry, append to execution_log
-    # TODO: Feed tool results back and return (output_text, execution_log)
+    # TODO: Feed tool results back as function_call_output items:
+    #       {"type": "function_call_output", "call_id": call.call_id, "output": execution.result}
+    #       NOTE: use call.call_id (e.g. "call_..."), NOT call.id (e.g. "fc_...").
+    # TODO: Return (output_text, execution_log)
     pass
 
 

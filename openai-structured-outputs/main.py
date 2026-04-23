@@ -3,7 +3,7 @@ Structured Responses with the OpenAI Responses API
 Course 101 - Lesson 4: Structured Responses
 
 Exercises:
-1. Extract structured JSON entities using response_format json_object
+1. Extract structured JSON entities using text={"format": {"type": "json_object"}}
 2. Generate a typed FAQ item using Pydantic + client.responses.parse()
 3. Handle model refusals gracefully
 
@@ -43,12 +43,15 @@ def generate_faq_item(topic: str) -> FAQItem:
     pass
 
 
-def safe_generate_faq(topic: str) -> Optional[FAQItem]:
+def safe_generate_faq(topic: str) -> tuple[Optional[FAQItem], Optional[str]]:
     """
-    TODO (Exercise 3): Like generate_faq_item, but defensively check for refusals.
-    Iterate response.output items; if any has a .refusal attribute, print it and
-    return None. Also return None if response.output_parsed is None. Otherwise
-    return the parsed FAQItem.
+    TODO (Exercise 3): Like generate_faq_item, but defensively handle failures.
+    Return (item, None) on success; (None, "refused: ...") if the model refuses
+    (response.output_parsed is None AND an item in response.output has a
+    truthy .refusal attribute); (None, "empty response") if output_parsed is
+    None but no refusal was found; (None, "API error: ...") on exception.
+    NOTE: response.refusal does NOT exist on the Responses API — walk
+    response.output items and check each for a .refusal attribute.
     """
     pass
 
@@ -74,5 +77,8 @@ if __name__ == "__main__":
     print("\n" + "=" * 50)
     print("Exercise 3: Refusal Handling")
     print("=" * 50)
-    result = safe_generate_faq("REST API authentication")
-    print(result)
+    item, err = safe_generate_faq("REST API authentication")
+    if item:
+        print(f"OK: {item.question[:60]}")
+    else:
+        print(f"NO RESULT: {err}")

@@ -96,7 +96,11 @@ def run_weather_assistant(user_query: str) -> str:
     # TODO: If a tool call is found:
     #   - Parse item.arguments as JSON to get the function arguments
     #   - Call get_weather(**args) with those arguments
-    #   - Build a second call with the original messages + tool call + tool result
+    #   - Build a follow-up input list with: the original user message,
+    #     the function_call item, and a function_call_output item:
+    #       {"type": "function_call_output", "call_id": item.call_id, "output": json.dumps(result)}
+    #     NOTE: use item.call_id (e.g. "call_..."), NOT item.id (e.g. "fc_...").
+    #     They are different fields and the API rejects mismatches.
     #   - Return response2.output_text
     # TODO: If no tool call, return response.output_text directly
     pass

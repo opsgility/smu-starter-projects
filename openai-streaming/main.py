@@ -19,15 +19,16 @@ client = OpenAI()
 def stream_response(prompt: str, model: str = "gpt-4.1-mini") -> str:
     """
     TODO (Exercise 1): Use client.responses.stream(model=model, input=prompt) as a
-    context manager. Iterate stream.text_stream, print each delta with end='' and
-    flush=True, and return the full concatenated text.
+    context manager. Iterate events with `for event in stream`, filter on
+    event.type == "response.output_text.delta", and print event.delta with end=''
+    and flush=True. Return the full concatenated text.
     """
     pass
 
 
 def stream_with_stats(prompt: str) -> tuple[str, dict]:
     """
-    TODO (Exercise 1, Step 4): Like stream_response, but after the stream ends call
+    TODO (Exercise 1, Step 4): Like stream_response, but after the event loop call
     stream.get_final_response() to capture usage. Return (full_text, stats_dict)
     where stats_dict has keys: input_tokens, output_tokens, total_tokens.
     """
@@ -37,9 +38,9 @@ def stream_with_stats(prompt: str) -> tuple[str, dict]:
 def timed_stream(prompt: str, model: str = "gpt-4.1-mini") -> dict:
     """
     TODO (Exercise 2): Stream a response and measure time-to-first-token (TTFT).
-    Record start time, capture first_token_time on the first delta, capture end time
-    after the stream completes. Return a dict:
-    {model, ttft_seconds, total_seconds, delta_events}.
+    Record start time, capture first_token_time on the first
+    response.output_text.delta event, capture end time after the stream completes.
+    Return a dict: {model, ttft_seconds, total_seconds, delta_events}.
     """
     pass
 
@@ -47,8 +48,9 @@ def timed_stream(prompt: str, model: str = "gpt-4.1-mini") -> dict:
 def compare_streaming(prompt: str) -> None:
     """
     TODO (Exercise 3): Time a non-streaming call (client.responses.create) end-to-end,
-    then time a streaming call capturing first_token_time. Print both latencies and
-    a line like 'Streaming advantage: first token {X:.1f}x sooner'.
+    then time a streaming call capturing first_token_time on the first
+    response.output_text.delta event. Print both latencies and a line like
+    'Streaming advantage: first token {X:.1f}x sooner'.
     """
     pass
 

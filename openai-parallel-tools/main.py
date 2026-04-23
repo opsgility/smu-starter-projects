@@ -127,7 +127,10 @@ def run_briefing_assistant(user_query: str) -> str:
     4. Build the follow-up request including:
        - The original user message
        - The full response.output (contains the tool calls)
-       - One tool_result message per call (role="tool", tool_call_id, content)
+       - One function_call_output item per call:
+         {"type": "function_call_output", "call_id": call.call_id, "output": result_str}
+         NOTE: use call.call_id (e.g. "call_..."), NOT call.id (e.g. "fc_...").
+         They are different fields and the API rejects mismatches.
     5. Send follow-up, return final output_text
 
     Use client.responses.create() with model="gpt-4.1-mini".
@@ -138,7 +141,7 @@ def run_briefing_assistant(user_query: str) -> str:
     # TODO: Call client.responses.create() with user_query and TOOLS
     # TODO: Collect all function_call items from response.output
     # TODO: Execute each tool call using execute_tool(name, args)
-    # TODO: Build tool result messages and make follow-up call
+    # TODO: Build function_call_output items (call_id=call.call_id) and make follow-up call
     # TODO: Print elapsed time and return final response text
     pass
 

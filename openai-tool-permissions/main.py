@@ -181,7 +181,9 @@ def run_with_role(user_query: str, role: str) -> str:
 
     # TODO: Call client.responses.create() with the filtered tools
     # TODO: Handle any function calls using execute_tool(name, args, role)
-    # TODO: Make follow-up call with tool results
+    # TODO: Make follow-up call with function_call_output items:
+    #       {"type": "function_call_output", "call_id": call.call_id, "output": result_str}
+    #       NOTE: use call.call_id (e.g. "call_..."), NOT call.id (e.g. "fc_...").
     # TODO: Return final response text
     pass
 

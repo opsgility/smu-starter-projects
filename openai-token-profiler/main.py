@@ -52,11 +52,12 @@ def benchmark_model(model: str, prompt: str) -> dict:
     measure latency in seconds, and return:
     {
       'model': model,
-      'latency_s': round(latency, 3),
+      'latency_seconds': round(latency, 3),
       'input_tokens': response.usage.input_tokens,
       'output_tokens': response.usage.output_tokens,
+      'total_tokens': response.usage.total_tokens,
       'cost_usd': calculate_cost(...),
-      'answer_preview': response.output_text[:50],
+      'answer_preview': response.output_text[:60],
     }
     """
     pass

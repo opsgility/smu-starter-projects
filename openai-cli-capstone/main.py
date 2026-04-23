@@ -57,10 +57,12 @@ def classify_prompt(prompt: str) -> ClassificationResult:
 
 def stream_with_backoff(model: str, messages: list, max_retries: int = 3) -> tuple[str, dict]:
     """
-    TODO (Exercise 2): Stream a response with openai.responses.stream(model=model,
-    input=messages). Catch openai.RateLimitError and retry with exponential backoff
-    (sleep 2 ** attempt seconds) up to max_retries times. Return (full_text,
-    usage_dict) where usage_dict has keys input_tokens, output_tokens, total_tokens.
+    TODO (Exercise 2): Stream a response with client.responses.stream(model=model,
+    input=messages). Iterate events with `for event in stream` and print
+    event.delta when event.type == "response.output_text.delta". Catch
+    openai.RateLimitError and retry with exponential backoff (sleep 2 ** attempt
+    seconds) up to max_retries times. Return (full_text, usage_dict) where
+    usage_dict has keys input_tokens, output_tokens, total_tokens.
     """
     pass
 
