@@ -18,22 +18,6 @@ from openai import OpenAI
 client = OpenAI()
 
 
-def verify_environment() -> bool:
-    """Check that OPENAI_API_KEY and OPENAI_BASE_URL are set and print them."""
-
-
-def list_models() -> None:
-    """Print all GPT models available to this API key, sorted by id."""
-
-
-def first_response(prompt: str) -> str:
-    """Call the Responses API with the given prompt and return the output text."""
-
-
-def inspect_response(prompt: str) -> dict:
-    """Call the Responses API and return a dict of response metadata including token counts."""
-
-
 if __name__ == "__main__":
     print("=" * 50)
     print("Exercise 1: Verify Environment")

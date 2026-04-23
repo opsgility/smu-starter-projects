@@ -28,22 +28,6 @@ PRICING = {
 }
 
 
-def count_tokens(text: str, model: str = "gpt-4.1") -> int:
-    """Count tokens in text using tiktoken for the given model."""
-
-
-def calculate_cost(input_tokens: int, output_tokens: int, model: str) -> float:
-    """Return the USD cost for the given token counts using the PRICING table."""
-
-
-def benchmark_model(model: str, prompt: str) -> dict:
-    """Call the model with prompt and return latency, token counts, cost, and answer preview."""
-
-
-def run_benchmark() -> None:
-    """Benchmark all three GPT-4.1 tiers on the same prompt and print a comparison table."""
-
-
 if __name__ == "__main__":
     print("=" * 60)
     print("Exercise 1: Token Counting with tiktoken")

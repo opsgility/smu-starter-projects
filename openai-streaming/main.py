@@ -16,22 +16,6 @@ from openai import OpenAI
 client = OpenAI()
 
 
-def stream_response(prompt: str, model: str = "gpt-4.1-mini") -> str:
-    """Stream a response token-by-token, print it as it arrives, and return the full text."""
-
-
-def stream_with_stats(prompt: str) -> tuple[str, dict]:
-    """Stream a response and return (full_text, stats_dict) with token counts."""
-
-
-def timed_stream(prompt: str, model: str = "gpt-4.1-mini") -> dict:
-    """Stream a response and return timing metrics including time-to-first-token."""
-
-
-def compare_streaming(prompt: str) -> dict:
-    """Time non-streaming vs streaming for the same prompt and return a comparison dict."""
-
-
 if __name__ == "__main__":
     print("=" * 50)
     print("Exercise 1: Token-by-Token Streaming")

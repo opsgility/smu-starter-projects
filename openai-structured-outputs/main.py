@@ -25,18 +25,6 @@ class FAQItem(BaseModel):
     confidence: float  # 0.0 to 1.0
 
 
-def extract_json(text: str) -> dict:
-    """Extract name, email, and company from free-form text using JSON object mode."""
-
-
-def generate_faq_item(topic: str) -> FAQItem:
-    """Generate a typed FAQItem about the given topic using Pydantic structured output."""
-
-
-def safe_generate_faq(topic: str) -> tuple[Optional[FAQItem], Optional[str]]:
-    """Return (item, None) on success or (None, error_string) on refusal or exception."""
-
-
 if __name__ == "__main__":
     print("=" * 50)
     print("Exercise 1: Extract JSON Entities")

@@ -46,26 +46,10 @@ class ClassificationResult(BaseModel):
     reasoning: str
 
 
-def classify_prompt(prompt: str) -> ClassificationResult:
-    """Classify a prompt as simple, general, or complex using gpt-4.1-nano."""
-
-
-def stream_with_backoff(model: str, messages: list, max_retries: int = 3) -> tuple[str, dict]:
-    """Stream a response with exponential-backoff retry on RateLimitError."""
-
-
 def calculate_cost(input_tokens: int, output_tokens: int, model: str) -> float:
-    """Compute USD cost from PRICING. See Exercise 3 in Lab 2174 for the pattern."""
+    """Compute USD cost from PRICING."""
     pricing = PRICING[model]
     return (input_tokens / 1_000_000) * pricing["input"] + (output_tokens / 1_000_000) * pricing["output"]
-
-
-def log_interaction(entry: dict, log_file: str = LOG_FILE) -> None:
-    """Append one JSON line to log_file."""
-
-
-def run_cli() -> None:
-    """Main CLI loop: classify each prompt, route to the right model tier, stream, and log."""
 
 
 if __name__ == "__main__":
