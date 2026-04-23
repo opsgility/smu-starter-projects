@@ -59,24 +59,24 @@ if __name__ == "__main__":
     print("=" * 50)
     print("Exercise 1: Token-by-Token Streaming")
     print("=" * 50)
-    stream_response("Explain Python decorators in 3 sentences.")
+    # stream_response("Explain Python decorators in 3 sentences.")  # Uncomment after implementing Exercise 1
 
     print("\n" + "=" * 50)
     print("Exercise 1 Step 4: Stream with Usage Stats")
     print("=" * 50)
-    text, stats = stream_with_stats("Explain Python decorators in 3 sentences.")
-    print(stats)
+    # text, stats = stream_with_stats("Explain Python decorators in 3 sentences.")  # Uncomment after implementing Exercise 1 Task 3
+    # print(stats)
 
     print("\n" + "=" * 50)
     print("Exercise 2: Time-to-First-Token Across Models")
     print("=" * 50)
-    for model in ["gpt-4.1-nano", "gpt-4.1-mini", "gpt-4.1"]:
-        result = timed_stream("Explain Python decorators in 3 sentences.", model=model)
-        print(result)
+    # for model in ["gpt-4.1-nano", "gpt-4.1-mini", "gpt-4.1"]:  # Uncomment after implementing Exercise 2
+    #     result = timed_stream("Explain Python decorators in 3 sentences.", model=model)
+    #     print(result)
 
     print("\n" + "=" * 50)
     print("Exercise 3: Streaming vs Non-Streaming")
     print("=" * 50)
-    compare_streaming(
-        "Explain how TCP/IP handshakes work in detail, including SYN, SYN-ACK, ACK phases, with a diagram in ASCII."
-    )
+    # compare_streaming(  # Uncomment after implementing Exercise 3
+    #     "Explain how TCP/IP handshakes work in detail, including SYN, SYN-ACK, ACK phases, with a diagram in ASCII."
+    # )

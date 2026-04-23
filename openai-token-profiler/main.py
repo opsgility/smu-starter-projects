@@ -77,20 +77,20 @@ if __name__ == "__main__":
     print("=" * 60)
     print("Exercise 1: Token Counting with tiktoken")
     print("=" * 60)
-    for sample in [
-        "Hello, world!",
-        "The quick brown fox jumps over the lazy dog.",
-        "Analyze the CAP theorem and its implications for distributed systems design.",
-    ]:
-        print(f"{count_tokens(sample)} tokens: {sample}")
+    # for sample in [  # Uncomment after implementing Exercise 1
+    #     "Hello, world!",
+    #     "The quick brown fox jumps over the lazy dog.",
+    #     "Analyze the CAP theorem and its implications for distributed systems design.",
+    # ]:
+    #     print(f"{count_tokens(sample)} tokens: {sample}")
 
     print("\n" + "=" * 60)
     print("Exercise 2: Cost Calculation")
     print("=" * 60)
-    cost = calculate_cost(100, 200, "gpt-4.1-mini")
-    print(f"Cost for 100 input + 200 output tokens on gpt-4.1-mini: ${cost:.6f}")
+    # cost = calculate_cost(100, 200, "gpt-4.1-mini")  # Uncomment after implementing Exercise 2
+    # print(f"Cost for 100 input + 200 output tokens on gpt-4.1-mini: ${cost:.6f}")
 
     print("\n" + "=" * 60)
     print("Exercise 3: Model Benchmark Comparison")
     print("=" * 60)
-    run_benchmark()
+    # run_benchmark()  # Uncomment after implementing Exercise 3

@@ -98,4 +98,30 @@ def run_cli() -> None:
 
 
 if __name__ == "__main__":
-    run_cli()
+    print("=" * 50)
+    print("Exercise 1: Test the Classifier")
+    print("=" * 50)
+    # test_prompts = [  # Uncomment after implementing Exercise 1
+    #     "What is 7 times 8?",
+    #     "Explain how Docker containers work",
+    #     "Review this Python function for bugs: def add(a,b): return a - b",
+    # ]
+    # for p in test_prompts:
+    #     r = classify_prompt(p)
+    #     print(f"[{r.complexity} -> {MODEL_MAP[r.complexity]}]  {p[:60]}")
+    #     print(f"  reasoning: {r.reasoning[:80]}")
+
+    print("\n" + "=" * 50)
+    print("Exercise 2: Test Streaming with Backoff")
+    print("=" * 50)
+    # messages = [  # Uncomment after implementing Exercise 2
+    #     {"role": "system", "content": "You are a concise technical assistant."},
+    #     {"role": "user", "content": "What are the benefits of async Python?"},
+    # ]
+    # text, usage = stream_with_backoff("gpt-4.1-mini", messages)
+    # print(f"\nTokens: {usage}")
+
+    print("\n" + "=" * 50)
+    print("Exercise 3: Run the Full CLI Assistant")
+    print("=" * 50)
+    # run_cli()  # Uncomment after implementing Exercise 3

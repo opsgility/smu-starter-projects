@@ -60,25 +60,25 @@ if __name__ == "__main__":
     print("=" * 50)
     print("Exercise 1: Extract JSON Entities")
     print("=" * 50)
-    entities = extract_json(
-        "Hi, I'm Alex Rivera from CloudBridge. You can reach me at alex.rivera@cloudbridge.io."
-    )
-    print(entities)
+    # entities = extract_json(
+    #     "Hi, I'm Alex Rivera from CloudBridge. You can reach me at alex.rivera@cloudbridge.io."
+    # )
+    # print(entities)  # Uncomment after implementing Exercise 1
 
     print("\n" + "=" * 50)
     print("Exercise 2: Pydantic Structured Output")
     print("=" * 50)
-    item = generate_faq_item("Python async/await")
-    if item:
-        print(f"Q: {item.question}")
-        print(f"A: {item.answer}")
-        print(f"Category: {item.category} | Confidence: {item.confidence:.0%}")
+    # item = generate_faq_item("Python async/await")  # Uncomment after implementing Exercise 2
+    # if item:
+    #     print(f"Q: {item.question}")
+    #     print(f"A: {item.answer}")
+    #     print(f"Category: {item.category} | Confidence: {item.confidence:.0%}")
 
     print("\n" + "=" * 50)
     print("Exercise 3: Refusal Handling")
     print("=" * 50)
-    item, err = safe_generate_faq("REST API authentication")
-    if item:
-        print(f"OK: {item.question[:60]}")
-    else:
-        print(f"NO RESULT: {err}")
+    # item, err = safe_generate_faq("REST API authentication")  # Uncomment after implementing Exercise 3
+    # if item:
+    #     print(f"OK: {item.question[:60]}")
+    # else:
+    #     print(f"NO RESULT: {err}")
