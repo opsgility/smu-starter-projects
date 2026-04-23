@@ -1,7 +1,7 @@
 """
-Google AI 100 — Lesson 1: Your First Vertex AI Call
+Google AI 100 — Lesson 1: Your First Gemini API Call
 
-Complete the TODOs to call Gemini on Vertex AI.
+Complete the TODOs to call Gemini on the Gemini Enterprise Agent Platform.
 """
 import os
 from google import genai
@@ -20,12 +20,12 @@ def main() -> None:
             "or run:  export GOOGLE_CLOUD_PROJECT=$(gcloud config get project)"
         )
 
-    # TODO (Part 2): instantiate the Vertex AI-backed Gen AI client
+    # TODO (Part 2): instantiate the Gemini Enterprise Agent Platform client
     # Hint: genai.Client(vertexai=True, project=PROJECT, location=LOCATION)
     client = None
 
-    # TODO (Part 2): call client.models.generate_content with model="gemini-3-flash"
-    # Ask: "In one sentence, explain what Vertex AI is to a new developer."
+    # TODO (Part 2): call client.models.generate_content with model="gemini-3.1-flash"
+    # Ask: "In one sentence, explain what the Gemini Enterprise Agent Platform is to a new developer."
     response = None
 
     # TODO (Part 2): print response.text

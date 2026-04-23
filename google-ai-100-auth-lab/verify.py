@@ -40,7 +40,7 @@ def main() -> int:
     try:
         client = genai.Client(vertexai=True, project=PROJECT, location=LOCATION)
         response = client.models.generate_content(
-            model="gemini-3-flash",
+            model="gemini-3.1-flash",
             contents="Respond with exactly: AUTH OK",
         )
         print(f"[gemini] response: {response.text.strip()}")

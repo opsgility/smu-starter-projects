@@ -1,8 +1,8 @@
 # google-ai-100-hello-gemini
 
-Starter for **Google AI 100 — Lesson 1: Your First Vertex AI Call**.
+Starter for **Google AI 100 — Lesson 1: Your First Gemini API Call**.
 
-You will complete `main.py` to call Gemini on Vertex AI using the unified `google-genai` SDK.
+You will complete `main.py` to call Gemini on the Gemini Enterprise Agent Platform using the unified `google-genai` SDK.
 
 ## What's in the box
 

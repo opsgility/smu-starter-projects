@@ -1,8 +1,9 @@
 """
 Google AI 100 — Lesson 3: Review-Summarizer CLI.
 
-Read reviews.csv, summarize each with Gemini on Vertex AI, and write
-summaries.jsonl. Supports streaming output and a --model flag.
+Read reviews.csv, summarize each with Gemini on the Gemini Enterprise Agent
+Platform, and write summaries.jsonl. Supports streaming output and a --model
+flag so you can compare Flash-Lite / Flash / Pro.
 """
 import csv
 import json
@@ -38,11 +39,11 @@ def get_client() -> genai.Client:
 def run(
     input_path: Path = typer.Option(Path("reviews.csv"), "--input"),
     output_path: Path = typer.Option(Path("summaries.jsonl"), "--output"),
-    model: str = typer.Option("gemini-3-flash", "--model"),
+    model: str = typer.Option("gemini-3.1-flash", "--model"),
     stream: bool = typer.Option(False, "--stream/--no-stream"),
     limit: int = typer.Option(20, "--limit"),
 ) -> None:
-    """Summarize reviews with Gemini on Vertex AI."""
+    """Summarize reviews with Gemini on the Gemini Enterprise Agent Platform."""
     client = get_client()
     config = GenerateContentConfig(system_instruction=SYSTEM, temperature=0.2)
 

@@ -2,7 +2,8 @@
 Google AI 100 — Capstone: nimbus-assist CLI.
 
 Given a SKU, load its photo and spec PDF from GCS, then call Gemini on
-Vertex AI to produce a CatalogEntry + one-sentence summary + 3 FAQ answers.
+the Gemini Enterprise Agent Platform to produce a CatalogEntry + one-sentence
+summary + 3 FAQ answers.
 
 Outputs validated JSON matching schemas.AssistBundle.
 """
@@ -29,12 +30,12 @@ PROJECT = os.environ.get("GOOGLE_CLOUD_PROJECT", "")
 LOCATION = os.environ.get("GOOGLE_CLOUD_LOCATION", "us-central1")
 
 # Text models (structured output)
-MODEL_FLASH = "gemini-3-flash"
-MODEL_PRO   = "gemini-3-pro"
+MODEL_FLASH = "gemini-3.1-flash"
+MODEL_PRO   = "gemini-3.1-pro"
 
-# Image models (Nano Banana family — GA in 2026)
-MODEL_IMAGE         = "gemini-2.5-flash-image"   # Nano Banana
-MODEL_IMAGE_PREMIUM = "gemini-3-pro-image"        # Nano Banana Pro
+# Image models (GA in 2026)
+MODEL_IMAGE         = "gemini-3.1-flash-image"   # Gemini 3.1 Flash Image
+MODEL_IMAGE_PREMIUM = "gemini-3.1-pro-image"      # Gemini 3.1 Pro Image
 
 SYSTEM = (
     "You are a Nimbus Outfitters merchandising assistant. Use only details you can\n"
@@ -70,7 +71,7 @@ def run(
     #       )
     # TODO: parse response.text into AssistBundle, print indented JSON.
     # TODO: print usage_metadata (input, output, thoughts) and wall time.
-    # TODO (Exercise 5, Nano Banana): add a --generate-hero flag that, after
+    # TODO (Exercise 5, Gemini 3.1 Flash Image): add a --generate-hero flag that, after
     #       producing the bundle, passes bundle.catalog.headline + description
     #       into generate_content(model=MODEL_IMAGE, response_modalities=["IMAGE"])
     #       and writes hero_images/<SKU>.png. Use MODEL_IMAGE_PREMIUM for the

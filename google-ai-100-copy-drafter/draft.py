@@ -42,7 +42,7 @@ def build_system(tone_path: Path, policy_path: Path) -> str:
 def run(
     product: str = typer.Argument(..., help="Product name to write copy for"),
     features: List[str] = typer.Option([], "--feature", "-f", help="Repeatable"),
-    model: str = typer.Option("gemini-3-flash", "--model"),
+    model: str = typer.Option("gemini-3.1-flash", "--model"),
     structured: bool = typer.Option(False, "--structured/--no-structured"),
     thinking_budget: int = typer.Option(0, "--thinking-budget", help="0 disables thinking"),
 ) -> None:
@@ -58,7 +58,7 @@ def run(
     #   response_schema=CatalogCopy. Print parsed JSON.
     # TODO (Part 3): flip one safety threshold to BLOCK_LOW_AND_ABOVE and prove a block.
     # TODO (Part 4): if --thinking-budget > 0 and model is a reasoning-capable 3.x model
-    #   (e.g. gemini-3-pro), enable thinking via thinking_config.
+    #   (e.g. gemini-3.1-pro), enable thinking via thinking_config.
 
     console.print("[yellow]Not implemented yet — complete the TODOs.[/]")
 
