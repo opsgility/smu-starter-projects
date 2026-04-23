@@ -29,48 +29,19 @@ PRICING = {
 
 
 def count_tokens(text: str, model: str = "gpt-4.1") -> int:
-    """
-    TODO (Exercise 1): Use tiktoken.encoding_for_model(model) to get the encoder,
-    then return len(encoding.encode(text)). Fall back to cl100k_base if the model
-    isn't directly recognized.
-    """
-    pass
+    """Count tokens in text using tiktoken for the given model."""
 
 
 def calculate_cost(input_tokens: int, output_tokens: int, model: str) -> float:
-    """
-    TODO (Exercise 2): Look up PRICING[model], compute
-    (input_tokens / 1_000_000) * pricing['input'] + (output_tokens / 1_000_000) * pricing['output'],
-    and return the total USD cost as a float.
-    """
-    pass
+    """Return the USD cost for the given token counts using the PRICING table."""
 
 
 def benchmark_model(model: str, prompt: str) -> dict:
-    """
-    TODO (Exercise 3): Call client.responses.create(model=model, input=prompt),
-    measure latency in seconds, and return:
-    {
-      'model': model,
-      'latency_seconds': round(latency, 3),
-      'input_tokens': response.usage.input_tokens,
-      'output_tokens': response.usage.output_tokens,
-      'total_tokens': response.usage.total_tokens,
-      'cost_usd': calculate_cost(...),
-      'answer_preview': response.output_text[:60],
-    }
-    """
-    pass
+    """Call the model with prompt and return latency, token counts, cost, and answer preview."""
 
 
 def run_benchmark() -> None:
-    """
-    TODO (Exercise 3): For each model in ['gpt-4.1-nano', 'gpt-4.1-mini', 'gpt-4.1']
-    and each prompt in a hardcoded list (3 prompts of varying complexity), call
-    benchmark_model and print a formatted table with columns: Model, Latency (s),
-    Input Tokens, Output Tokens, Cost, Preview.
-    """
-    pass
+    """Benchmark all three GPT-4.1 tiers on the same prompt and print a comparison table."""
 
 
 if __name__ == "__main__":

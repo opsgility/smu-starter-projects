@@ -26,34 +26,15 @@ class FAQItem(BaseModel):
 
 
 def extract_json(text: str) -> dict:
-    """
-    TODO (Exercise 1): Extract structured entities (name, email, company) from the
-    provided text. Use the Responses API with text={"format": {"type": "json_object"}}.
-    Parse the returned JSON string with json.loads and return the dict.
-    """
-    pass
+    """Extract name, email, and company from free-form text using JSON object mode."""
 
 
 def generate_faq_item(topic: str) -> FAQItem:
-    """
-    TODO (Exercise 2): Use client.responses.parse(...) with text_format=FAQItem to
-    generate a typed FAQItem about the given topic. Use a two-message input
-    (system + user). Return response.output_parsed.
-    """
-    pass
+    """Generate a typed FAQItem about the given topic using Pydantic structured output."""
 
 
 def safe_generate_faq(topic: str) -> tuple[Optional[FAQItem], Optional[str]]:
-    """
-    TODO (Exercise 3): Like generate_faq_item, but defensively handle failures.
-    Return (item, None) on success; (None, "refused: ...") if the model refuses
-    (response.output_parsed is None AND an item in response.output has a
-    truthy .refusal attribute); (None, "empty response") if output_parsed is
-    None but no refusal was found; (None, "API error: ...") on exception.
-    NOTE: response.refusal does NOT exist on the Responses API — walk
-    response.output items and check each for a .refusal attribute.
-    """
-    pass
+    """Return (item, None) on success or (None, error_string) on refusal or exception."""
 
 
 if __name__ == "__main__":

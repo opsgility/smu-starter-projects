@@ -19,40 +19,19 @@ client = OpenAI()
 
 
 def verify_environment() -> bool:
-    """
-    TODO (Exercise 1): Read OPENAI_API_KEY and OPENAI_BASE_URL from environment,
-    print the first 12 chars of the key plus the base URL (or '(default)' if unset),
-    print 'Environment OK', and return True. Return False if the key is missing.
-    """
-    pass
+    """Check that OPENAI_API_KEY and OPENAI_BASE_URL are set and print them."""
 
 
 def list_models() -> None:
-    """
-    TODO (Exercise 2): Call client.models.list(), filter to models whose id starts
-    with 'gpt', sort by id, and print each one on its own line. Print a header
-    like 'Found {N} GPT models:' before the list.
-    """
-    pass
+    """Print all GPT models available to this API key, sorted by id."""
 
 
 def first_response(prompt: str) -> str:
-    """
-    TODO (Exercise 3): Call client.responses.create(model='gpt-4.1-mini', input=prompt)
-    and return response.output_text. Later in the exercise, students add a system
-    message by switching input to a list of role/content dicts.
-    """
-    pass
+    """Call the Responses API with the given prompt and return the output text."""
 
 
 def inspect_response(prompt: str) -> dict:
-    """
-    TODO (Exercise 4): Call the Responses API, then return a dict with these keys:
-    id, model, status, output_text, input_tokens, output_tokens, total_tokens.
-    Students later add a 'cost_usd' key using gpt-4.1-mini pricing
-    (input $0.40/M, output $1.60/M).
-    """
-    pass
+    """Call the Responses API and return a dict of response metadata including token counts."""
 
 
 if __name__ == "__main__":
