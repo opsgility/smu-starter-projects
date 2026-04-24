@@ -277,6 +277,9 @@ function applyUpdate(data) {
 }
 
 function applyRoomData(roomData) {
+  if (state.room && state.room.id !== roomData.id) {
+    state.dialogueWith = null;
+  }
   state.room = roomData;
   if (Array.isArray(roomData.visited)) state.visited = roomData.visited;
 
@@ -335,6 +338,7 @@ function makeEntityCard(entity, isEnemy) {
 
   card.addEventListener("click", () => {
     if (isEnemy) {
+      state.dialogueWith = null;
       $input.value = `fight ${entity.name}`;
     } else {
       $input.value = `talk to ${entity.name}`;
