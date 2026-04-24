@@ -7,6 +7,8 @@ let state = {
   player:       null,
   combat:       null,
   dialogueWith: null,   // character_id if in dialogue mode
+  mapLayout:    null,   // {room_id: {name, coords, exits}}
+  visited:      [],     // [room_id, ...]
 };
 
 // ── DOM refs ──────────────────────────────────────────────────────────────────
@@ -26,6 +28,10 @@ const $enemyHpBar = document.getElementById("enemy-hp-bar");
 const $enemyHpText = document.getElementById("enemy-hp-text");
 const $loading    = document.getElementById("loading-overlay");
 const $gameOver   = document.getElementById("game-over-overlay");
+const $minimap    = document.getElementById("minimap");
+const $minimapBar = document.getElementById("minimap-bar");
+const $minimapToggle = document.getElementById("minimap-toggle");
+const $minimapCount  = document.getElementById("minimap-count");
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", startGame);
@@ -43,6 +49,10 @@ $input.addEventListener("keydown", e => {
 
 document.querySelectorAll(".combat-btn").forEach(btn => {
   btn.addEventListener("click", () => combatAction(btn.dataset.action));
+});
+
+$minimapToggle.addEventListener("click", () => {
+  $minimapBar.classList.toggle("collapsed");
 });
 
 // ── Game start ────────────────────────────────────────────────────────────────
@@ -229,16 +239,19 @@ function parseCombatInput(raw) {
 
 // ── State application ─────────────────────────────────────────────────────────
 function applyUpdate(data) {
-  if (data.player)   updatePlayerStats(data.player);
-  if (data.room_data) applyRoomData(data.room_data);
+  if (data.map_layout) state.mapLayout = data.map_layout;
+  if (data.player)     updatePlayerStats(data.player);
+  if (data.room_data)  applyRoomData(data.room_data);
   if (data.combat !== undefined) {
     state.combat = data.combat;
     if (!data.combat) $combatHud.classList.add("hidden");
   }
+  renderMinimap();
 }
 
 function applyRoomData(roomData) {
   state.room = roomData;
+  if (Array.isArray(roomData.visited)) state.visited = roomData.visited;
 
   // Background image
   const newSrc = `static/assets/backgrounds/${roomData.background}`;
@@ -341,6 +354,74 @@ function findEnemy(query) {
   return state.room.enemies.find(e =>
     e.name.toLowerCase().includes(q) || e.id.toLowerCase().includes(q)
   )?.id ?? null;
+}
+
+// ── Minimap ───────────────────────────────────────────────────────────────────
+function renderMinimap() {
+  if (!state.mapLayout) return;
+
+  const layout  = state.mapLayout;
+  const visited = new Set(state.visited || []);
+  const current = state.room?.id;
+
+  // Rooms visible = visited + adjacent to any visited room
+  const visible = new Set(visited);
+  for (const rid of visited) {
+    const r = layout[rid];
+    if (!r) continue;
+    for (const dest of Object.values(r.exits || {})) {
+      if (layout[dest]) visible.add(dest);
+    }
+  }
+
+  const CELL = 22, PAD = 6, NODE = 14;
+  let maxX = 0, maxY = 0;
+  for (const r of Object.values(layout)) {
+    if (r.coords[0] > maxX) maxX = r.coords[0];
+    if (r.coords[1] > maxY) maxY = r.coords[1];
+  }
+  const W = (maxX + 1) * CELL + PAD * 2;
+  const H = (maxY + 1) * CELL + PAD * 2;
+
+  const cx = (x) => PAD + x * CELL + CELL / 2;
+  const cy = (y) => PAD + y * CELL + CELL / 2;
+
+  // Collect unique edges between visible rooms
+  const edges = new Map(); // key → {a, b, known}
+  for (const [rid, r] of Object.entries(layout)) {
+    if (!visible.has(rid)) continue;
+    for (const dest of Object.values(r.exits || {})) {
+      if (!visible.has(dest)) continue;
+      const key = [rid, dest].sort().join("|");
+      if (!edges.has(key)) {
+        const bothVisited = visited.has(rid) && visited.has(dest);
+        edges.set(key, { a: rid, b: dest, known: !bothVisited });
+      }
+    }
+  }
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" class="minimap-svg" xmlns="http://www.w3.org/2000/svg">`;
+  // Edges first (so nodes draw on top)
+  for (const { a, b, known } of edges.values()) {
+    const [ax, ay] = layout[a].coords;
+    const [bx, by] = layout[b].coords;
+    svg += `<line x1="${cx(ax)}" y1="${cy(ay)}" x2="${cx(bx)}" y2="${cy(by)}" class="mm-edge${known ? " known" : ""}"/>`;
+  }
+  // Nodes
+  for (const rid of visible) {
+    const r = layout[rid];
+    if (!r) continue;
+    const [x, y] = r.coords;
+    const cls = rid === current ? "current"
+              : visited.has(rid) ? "visited"
+              : "known";
+    svg += `<rect x="${cx(x) - NODE / 2}" y="${cy(y) - NODE / 2}" width="${NODE}" height="${NODE}" rx="2" class="mm-node ${cls}"><title>${r.name}${visited.has(rid) ? "" : " (unexplored)"}</title></rect>`;
+  }
+  svg += `</svg>`;
+
+  $minimap.innerHTML = svg;
+  const total = Object.keys(layout).length;
+  $minimapCount.textContent = `${visited.size} / ${total}`;
 }
 
 // ── Log helpers ───────────────────────────────────────────────────────────────

@@ -156,6 +156,93 @@ html, body {
 }
 .exit-badge:hover { border-color: var(--gold); color: var(--gold); }
 
+/* ── Minimap ───────────────────────────────────────────────────────────────── */
+#minimap-bar {
+  padding: 6px 14px 8px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+  flex-shrink: 0;
+}
+
+#minimap-toggle {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  cursor: pointer;
+  padding: 2px 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  letter-spacing: 1px;
+  width: 100%;
+}
+#minimap-toggle:hover { color: var(--gold); }
+
+.mm-arrow { display: inline-block; transition: transform 0.2s; font-size: 0.75rem; }
+#minimap-bar.collapsed .mm-arrow { transform: rotate(-90deg); }
+#minimap-bar.collapsed #minimap { display: none; }
+
+.mm-count {
+  margin-left: auto;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+}
+
+#minimap {
+  margin-top: 6px;
+  display: flex;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 6px;
+}
+
+#minimap:empty { display: none; }
+
+.minimap-svg {
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  display: block;
+}
+
+.mm-edge {
+  stroke: var(--border-glow);
+  stroke-width: 1.5;
+  opacity: 0.55;
+}
+.mm-edge.known {
+  stroke: var(--text-dim);
+  stroke-dasharray: 2 3;
+  opacity: 0.45;
+}
+
+.mm-node {
+  fill: var(--bg3);
+  stroke: var(--border);
+  stroke-width: 1;
+}
+.mm-node.visited {
+  fill: #3a2a58;
+  stroke: var(--border-glow);
+  stroke-width: 1.2;
+}
+.mm-node.current {
+  fill: var(--gold);
+  stroke: var(--gold-light);
+  stroke-width: 1.8;
+  filter: drop-shadow(0 0 3px rgba(232, 200, 107, 0.9));
+}
+.mm-node.known {
+  fill: transparent;
+  stroke: var(--text-dim);
+  stroke-width: 1;
+  stroke-dasharray: 2 2;
+}
+
 /* entity rows (NPCs and enemies) */
 .entity-row {
   display: flex;

@@ -8,7 +8,7 @@ Then open the URL shown in the VS Code Ports panel.
 """
 import copy, json
 from flask import Flask, render_template, request, jsonify, session
-from game_data import ROOMS, CHARACTERS, ENEMIES, PLAYER_START
+from game_data import ROOMS, CHARACTERS, ENEMIES, PLAYER_START, ROOM_COORDS
 
 # ─── Exercise 1 - Part 1: Set Up the OpenAI Client Start ──────────────────────
 
@@ -28,6 +28,7 @@ def reset_session():
     session["game_history"]       = []   # [{role, content}]  — game master thread
     session["character_histories"] = {}  # {char_id: [{role, content}]}
     session["combat"]             = None # {enemy_id, enemy_hp} or None
+    session["visited"]            = [PLAYER_START["room"]]
 
 
 # ─── Exercise 1 - Part 2: Build the System Prompt Start ───────────────────────
@@ -59,6 +60,7 @@ def start():
         ),
         "room":       session["player"]["room"],
         "room_data":  _room_state(),
+        "map_layout": _map_layout(),
         "player":     session["player"],
         "combat":     None,
     })
@@ -129,9 +131,16 @@ def combat_action():
 
 def _room_state():
     """Return a serialisable snapshot of the current room for the frontend."""
+    room_id = session["player"]["room"]
+    visited = session.get("visited") or []
+    if room_id not in visited:
+        visited.append(room_id)
+        session["visited"] = visited
+        session.modified = True
+
     room = current_room()
     return {
-        "id":          session["player"]["room"],
+        "id":          room_id,
         "name":        room["name"],
         "background":  room["background"],
         "exits":       room["exits"],
@@ -146,6 +155,19 @@ def _room_state():
              "hp": ENEMIES[eid]["max_hp"]}
             for eid in room["enemies"] if eid in ENEMIES
         ],
+        "visited":     list(visited),
+    }
+
+
+def _map_layout():
+    """Static topology — sent once on /api/start so the minimap can render."""
+    return {
+        rid: {
+            "name":   r["name"],
+            "coords": list(ROOM_COORDS.get(rid, (0, 0))),
+            "exits":  r["exits"],
+        }
+        for rid, r in ROOMS.items()
     }
 
 
