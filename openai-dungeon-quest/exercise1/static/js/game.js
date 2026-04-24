@@ -51,7 +51,7 @@ async function startGame() {
   setLoading(true);
   state.dialogueWith = null;
   try {
-    const data = await api("/api/start", {});
+    const data = await api("api/start", {});
     applyUpdate(data);
     appendLog(data.narrative, "narrator");
   } catch (e) {
@@ -147,7 +147,7 @@ async function handleInput() {
   // Everything else → game master
   setLoading(true);
   try {
-    const data = await api("/api/action", { input: raw });
+    const data = await api("api/action", { input: raw });
     applyUpdate(data);
     appendLog(data.narrative, "narrator");
   } catch (e) {
@@ -160,7 +160,7 @@ async function handleInput() {
 async function doTalk(characterId, message) {
   setLoading(true);
   try {
-    const data = await api("/api/talk", { character_id: characterId, message });
+    const data = await api("api/talk", { character_id: characterId, message });
     const char = state.room?.characters.find(c => c.id === characterId);
     const name = char?.name ?? characterId;
     appendDialogue(name, data.reply);
@@ -174,7 +174,7 @@ async function doTalk(characterId, message) {
 async function startCombat(enemyId) {
   setLoading(true);
   try {
-    const data = await api("/api/combat/start", { enemy_id: enemyId });
+    const data = await api("api/combat/start", { enemy_id: enemyId });
     state.combat = data.combat;
     updateCombatHud(data.enemy, data.combat.enemy_hp);
     $combatHud.classList.remove("hidden");
@@ -190,7 +190,7 @@ async function combatAction(action) {
   if (!state.combat) return;
   setLoading(true);
   try {
-    const data = await api("/api/combat/action", { action });
+    const data = await api("api/combat/action", { action });
     appendLog(data.narrative, "combat");
     updatePlayerStats(data.player);
 
