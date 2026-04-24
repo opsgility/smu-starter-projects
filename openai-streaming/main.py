@@ -22,10 +22,11 @@ if __name__ == "__main__":
     print("=" * 50)
     # stream_response("Explain Python decorators in 3 sentences.")  # Uncomment after implementing Exercise 1
 
-    print("\n" + "=" * 50)
-    print("Exercise 1 Step 4: Stream with Usage Stats")
-    print("=" * 50)
-    # text, stats = stream_with_stats("Explain Python decorators in 3 sentences.")  # Uncomment after implementing Exercise 1 Task 3
+    # Uncomment when you reach Exercise 1 Step 4:
+    # print("\n" + "=" * 50)
+    # print("Exercise 1 Step 4: Stream with Usage Stats")
+    # print("=" * 50)
+    # text, stats = stream_with_stats("Explain Python decorators in 3 sentences.")
     # print(stats)
 
     # Uncomment when you reach Exercise 2:
