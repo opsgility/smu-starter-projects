@@ -55,24 +55,8 @@ def start():
 def action():
     """
     Handle a free-text player command via the game master.
-    ── Exercise 1 ──────────────────────────────────────────────────────────────
-    Replace the placeholder below with a real OpenAI call.
-
-    You have access to:
-      session["player"]        — current player state dict
-      session["game_history"]  — list of {role, content} dicts (conversation so far)
-      current_room()           — the current room dict from ROOMS
-      ROOMS, CHARACTERS, ENEMIES — full world data
-
-    Your function should:
-      1. Build a system prompt describing the world, current room, player state,
-         and the game master's role.
-      2. Append the player's message to session["game_history"].
-      3. Call the OpenAI Chat Completions API with the full history.
-      4. Append the assistant reply to session["game_history"].
-      5. Parse any room changes the GM described and update session["player"]["room"].
-      6. Return the JSON response below.
-    ────────────────────────────────────────────────────────────────────────────
+    Implement this handler in the INSERT block below — do not edit anything
+    above or below the marked block.
     """
     data         = request.get_json()
     player_input = data.get("input", "").strip()
@@ -80,13 +64,48 @@ def action():
     if not player_input:
         return jsonify({"error": "No input provided"}), 400
 
-    # ── Placeholder (remove in Exercise 1) ────────────────────────────────────
-    narrative = (
-        f'You said: "{player_input}"\n\n'
-        "The dungeon waits silently. "
-        "(Complete Exercise 1 to bring the game master to life.)"
-    )
-    # ── End placeholder ───────────────────────────────────────────────────────
+    # ╔══════════════════════════════════════════════════════════════════════╗
+    # ║                                                                      ║
+    # ║           EXERCISE 1 — INSERT YOUR CODE BELOW THIS LINE              ║
+    # ║                                                                      ║
+    # ╚══════════════════════════════════════════════════════════════════════╝
+    #
+    # By the end of this block you MUST define:
+    #   narrative : str   — the game master's reply to show the player
+    #
+    # You MAY also update (all optional):
+    #   session["game_history"]     — append {"role": "user", "content": ...}
+    #                                  and {"role": "assistant", "content": ...}
+    #                                  so the next turn has context.
+    #   session["player"]["room"]   — if the GM moved the player to a new room.
+    #
+    # ⚠️  Flask's cookie session only auto-saves top-level key assignments.
+    #     After you mutate a nested value (list.append, dict[k] = v, etc.),
+    #     set `session.modified = True` before returning.
+    #
+    # Already in scope for you:
+    #   player_input              — the player's message (trimmed, non-empty)
+    #   session["player"]         — {"room","hp","max_hp","gold","attack",
+    #                                "defense","inventory","xp"}
+    #   session["game_history"]   — list of {"role","content"} dicts so far
+    #   current_room()            — dict for the room the player is in
+    #   ROOMS, CHARACTERS, ENEMIES — full world data from game_data.py
+    #
+    # Typical approach:
+    #   1. Build a system prompt from current_room() + session["player"].
+    #   2. Append the user message to session["game_history"].
+    #   3. Call the OpenAI Chat Completions API with
+    #      [{"role":"system",...}] + session["game_history"].
+    #   4. Append the assistant reply to session["game_history"].
+    #   5. Assign the assistant reply text to `narrative`.
+    #   6. (Optional) Parse any room change the GM announced and update
+    #      session["player"]["room"].
+    # ──────────────────────────────────────────────────────────────────────────
+
+
+    # ╔══════════════════════════════════════════════════════════════════════╗
+    # ║           END EXERCISE 1 — INSERT YOUR CODE ABOVE THIS LINE          ║
+    # ╚══════════════════════════════════════════════════════════════════════╝
 
     return jsonify({
         "narrative": narrative,
@@ -101,23 +120,8 @@ def action():
 def talk():
     """
     Send a message to an NPC and get their reply.
-    ── Exercise 2 ──────────────────────────────────────────────────────────────
-    Replace the placeholder below with a real OpenAI call.
-
-    You have access to:
-      character_id             — which NPC the player is talking to
-      CHARACTERS[character_id] — the NPC's name, sprite, and system_prompt
-      session["character_histories"][character_id]
-                               — this NPC's private conversation history
-                                 (separate from the game master thread)
-
-    Your function should:
-      1. Load or create the character's conversation history.
-      2. Use CHARACTERS[character_id]["system_prompt"] as the system message.
-      3. Append the player message and call the OpenAI Chat Completions API.
-      4. Append the assistant reply to the character's history.
-      5. Return the JSON response below.
-    ────────────────────────────────────────────────────────────────────────────
+    Implement this handler in the INSERT block below — do not edit anything
+    above or below the marked block.
     """
     data         = request.get_json()
     character_id = data.get("character_id", "")
@@ -127,12 +131,51 @@ def talk():
     if not character:
         return jsonify({"error": "Unknown character"}), 404
 
-    # ── Placeholder (remove in Exercise 2) ────────────────────────────────────
-    reply = (
-        f"{character['name']} looks at you thoughtfully. "
-        "(Complete Exercise 2 to give characters their voice.)"
-    )
-    # ── End placeholder ───────────────────────────────────────────────────────
+    # ╔══════════════════════════════════════════════════════════════════════╗
+    # ║                                                                      ║
+    # ║           EXERCISE 2 — INSERT YOUR CODE BELOW THIS LINE              ║
+    # ║                                                                      ║
+    # ╚══════════════════════════════════════════════════════════════════════╝
+    #
+    # By the end of this block you MUST define:
+    #   reply : str   — the NPC's response to show the player
+    #
+    # You SHOULD also update:
+    #   session["character_histories"][character_id]
+    #       — this NPC's PRIVATE conversation history (separate from the
+    #         game master thread). Append the player message and the NPC's
+    #         reply so the next turn has context.
+    #
+    # ⚠️  Flask's cookie session only auto-saves top-level key assignments.
+    #     After you mutate the nested history list/dict, set
+    #     `session.modified = True` before returning.
+    #
+    # Already in scope for you:
+    #   character_id                — the NPC the player is talking to
+    #   message                     — the player's message (trimmed, may be "")
+    #   character                   — CHARACTERS[character_id] (guaranteed exists);
+    #                                 has keys: name, title, sprite,
+    #                                 system_prompt, greeting
+    #   session["character_histories"]
+    #                               — dict keyed by character_id; may or may not
+    #                                 already have an entry for this NPC
+    #
+    # Typical approach:
+    #   1. Initialise session["character_histories"][character_id] = []
+    #      if this is the first turn with this NPC.
+    #   2. Append {"role":"user","content": message} to that history.
+    #   3. Build the messages list:
+    #         [{"role":"system","content": character["system_prompt"]}]
+    #         + session["character_histories"][character_id]
+    #   4. Call the OpenAI Chat Completions API.
+    #   5. Append {"role":"assistant","content": ...} to the history.
+    #   6. Assign the assistant reply text to `reply`.
+    # ──────────────────────────────────────────────────────────────────────────
+
+
+    # ╔══════════════════════════════════════════════════════════════════════╗
+    # ║           END EXERCISE 2 — INSERT YOUR CODE ABOVE THIS LINE          ║
+    # ╚══════════════════════════════════════════════════════════════════════╝
 
     return jsonify({
         "character_id": character_id,
@@ -166,24 +209,8 @@ def combat_start():
 def combat_action():
     """
     Process one round of combat.
-    ── Exercise 3 ──────────────────────────────────────────────────────────────
-    Replace the placeholder below with a real OpenAI call.
-
-    You have access to:
-      session["combat"]        — {enemy_id, enemy_hp}
-      session["player"]        — player stats (hp, attack, defense)
-      ENEMIES[enemy_id]        — enemy stats + system_prompt for taunts
-      action                   — "attack", "defend", or "flee"
-
-    Your function should:
-      1. Calculate damage using player/enemy attack & defense stats.
-      2. Call OpenAI to generate a narrator description of the round (1-2 sentences),
-         and separately call the enemy's system_prompt to generate a contextual taunt.
-      3. Update session["combat"]["enemy_hp"] and session["player"]["hp"].
-      4. If enemy_hp <= 0: award gold/xp, clear combat, remove enemy from room.
-      5. If player_hp <= 0: game over.
-      6. Return the JSON response below.
-    ────────────────────────────────────────────────────────────────────────────
+    Implement this handler in the INSERT block below — do not edit anything
+    above or below the marked block.
     """
     data    = request.get_json()
     action  = data.get("action", "attack")
@@ -194,21 +221,77 @@ def combat_action():
 
     enemy = ENEMIES[combat["enemy_id"]]
 
-    # ── Placeholder (remove in Exercise 3) ────────────────────────────────────
-    narrative = (
-        f"You swing at {enemy['name']}. "
-        "(Complete Exercise 3 to make combat dynamic.)"
-    )
-    enemy_defeated = False
-    game_over      = False
-    # ── End placeholder ───────────────────────────────────────────────────────
+    # ╔══════════════════════════════════════════════════════════════════════╗
+    # ║                                                                      ║
+    # ║           EXERCISE 3 — INSERT YOUR CODE BELOW THIS LINE              ║
+    # ║                                                                      ║
+    # ╚══════════════════════════════════════════════════════════════════════╝
+    #
+    # By the end of this block you MUST define:
+    #   narrative      : str   — the combat round description shown to the player
+    #   enemy_defeated : bool  — True if this round killed the enemy
+    #   game_over      : bool  — True if this round killed the player
+    #
+    # You SHOULD also update:
+    #   session["combat"]["enemy_hp"]   — subtract damage dealt to the enemy
+    #   session["player"]["hp"]         — subtract damage taken by the player
+    #   session["player"]["gold"]       — add enemy["gold_drop"] on defeat
+    #   session["player"]["xp"]         — add enemy["xp_drop"] on defeat
+    #   session["combat"]               — set to None when the fight ends
+    #                                      (enemy defeated, player fled, or died)
+    #
+    # ⚠️  Flask's cookie session only auto-saves top-level key assignments.
+    #     After you mutate nested values (session["combat"]["enemy_hp"] -= n,
+    #     session["player"]["hp"] -= n, etc.), set `session.modified = True`
+    #     before returning.
+    #
+    # ⚠️  Do NOT call current_room()["enemies"].remove(...) — ROOMS is a
+    #     module-level global and that edit leaks across all sessions.
+    #     If you want the defeated enemy to disappear from the room panel,
+    #     track it in session (e.g. session["defeated_enemies"]) and filter
+    #     _room_state() accordingly — or simply leave it; a defeated enemy
+    #     with 0 hp is an acceptable starter behaviour.
+    #
+    # Already in scope for you:
+    #   action            — "attack", "defend", or "flee"
+    #   combat            — session["combat"] (guaranteed non-None here)
+    #   enemy             — ENEMIES[combat["enemy_id"]] with keys:
+    #                         name, sprite, max_hp, attack, defense,
+    #                         gold_drop, xp_drop, system_prompt, taunt
+    #   session["player"] — player stats (hp, max_hp, attack, defense, gold, xp)
+    #
+    # Typical approach:
+    #   1. Compute damage:
+    #        attack → max(1, player.attack − enemy.defense) dealt to enemy,
+    #                 then max(1, enemy.attack − player.defense) back to player
+    #        defend → player takes half damage, deals none
+    #        flee   → 50% chance to escape (set combat to None, narrative
+    #                 describes the escape); on fail, take a hit
+    #   2. Apply damage to session["combat"]["enemy_hp"] and
+    #      session["player"]["hp"].
+    #   3. Call OpenAI twice:
+    #        a) a narrator prompt to describe the round in 1-2 sentences
+    #        b) the enemy's system_prompt to generate a contextual taunt
+    #      Concatenate them into `narrative`.
+    #   4. Set flags:
+    #        enemy_defeated = session["combat"]["enemy_hp"] <= 0
+    #        game_over      = session["player"]["hp"] <= 0
+    #   5. If enemy_defeated: award gold/xp, set session["combat"] = None.
+    #   6. If game_over: set session["combat"] = None.
+    # ──────────────────────────────────────────────────────────────────────────
+
+
+    # ╔══════════════════════════════════════════════════════════════════════╗
+    # ║           END EXERCISE 3 — INSERT YOUR CODE ABOVE THIS LINE          ║
+    # ╚══════════════════════════════════════════════════════════════════════╝
 
     return jsonify({
-        "narrative":     narrative,
-        "combat":        session.get("combat"),
-        "player":        session["player"],
+        "narrative":      narrative,
+        "combat":         session.get("combat"),
+        "player":         session["player"],
         "enemy_defeated": enemy_defeated,
-        "game_over":     game_over,
+        "game_over":      game_over,
+        "room_data":      _room_state(),
     })
 
 
