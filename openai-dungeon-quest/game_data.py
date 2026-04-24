@@ -778,38 +778,38 @@ ENEMIES = {
 # ─── Minimap layout (grid coords, x = col, y = row; origin top-left) ─────────
 
 ROOM_COORDS = {
-    # Village
-    "graveyard":         (6, 0),
-    "temple":            (4, 1),
-    "town_square":       (6, 1),
-    "market_square":     (8, 1),
-    "mystics_shop":      (10, 1),
-    "blacksmith":        (8, 2),
-    "tavern":            (6, 2),
-    # Forest
-    "forest_clearing":   (4, 3),
-    "river_crossing":    (2, 3),
-    "ancient_ruins":     (0, 3),
-    "wolf_den":          (2, 2),
+    # Village (tavern anchor; north = y decreases)
+    "tavern":            (6, 7),
+    "town_square":       (6, 6),
+    "graveyard":         (6, 5),
+    "temple":            (4, 6),
+    "market_square":     (8, 6),
+    "mystics_shop":      (8, 5),
+    "blacksmith":        (8, 7),
+    # Forest (west of tavern, going north & deeper west)
+    "forest_clearing":   (4, 7),
+    "river_crossing":    (2, 7),
+    "ancient_ruins":     (0, 7),
+    "wolf_den":          (2, 6),
     "deep_woods":        (4, 5),
-    "hidden_grove":      (6, 5),
-    "wizard_tower":      (4, 7),
-    # Upper dungeon
-    "dungeon_entrance":  (8, 3),
-    "dungeon_corridor":  (8, 4),
-    "treasure_room":     (7, 4),
-    "guard_room":        (9, 4),
-    "mushroom_cavern":   (10, 4),
-    "spider_queen_lair": (10, 5),
-    "torture_chamber":   (8, 5),
-    # Deep dungeon
-    "underground_river": (8, 6),
-    "prison_cells":      (7, 6),
-    "crypt":             (9, 6),
-    "alchemist_lab":     (9, 7),
-    "ritual_chamber":    (9, 8),
-    "demon_gate":        (9, 9),
-    "boss_chamber":      (9, 10),
+    "hidden_grove":      (6, 4),
+    "wizard_tower":      (4, 3),
+    # Upper dungeon (east of tavern, going north)
+    "dungeon_entrance":  (10, 7),
+    "dungeon_corridor":  (10, 6),
+    "treasure_room":     (9, 6),
+    "guard_room":        (11, 6),
+    "mushroom_cavern":   (12, 6),
+    "spider_queen_lair": (12, 7),
+    "torture_chamber":   (10, 5),
+    # Deep dungeon (continuing north from torture_chamber)
+    "underground_river": (10, 4),
+    "prison_cells":      (9, 4),
+    "crypt":             (11, 4),
+    "alchemist_lab":     (11, 3),
+    "ritual_chamber":    (11, 2),
+    "demon_gate":        (11, 1),
+    "boss_chamber":      (11, 0),
 }
 
 # ─── Player start state ────────────────────────────────────────────────────────

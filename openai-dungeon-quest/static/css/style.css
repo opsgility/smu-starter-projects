@@ -191,20 +191,21 @@ html, body {
 }
 
 #minimap {
-  margin-top: 6px;
+  margin-top: 4px;
   display: flex;
   justify-content: center;
   background: rgba(0, 0, 0, 0.45);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 6px;
+  padding: 4px;
 }
 
 #minimap:empty { display: none; }
 
 .minimap-svg {
   width: 100%;
-  max-width: 260px;
+  max-width: 170px;
+  max-height: 170px;
   height: auto;
   display: block;
 }

@@ -99,6 +99,20 @@ async function handleInput() {
   // Otherwise, check for a few client-side quick commands first
   const lower = raw.toLowerCase();
 
+  // Movement: handled deterministically, no LLM round-trip needed
+  const moveMatch = lower.match(/^(?:go|move|head|walk)\s+(north|south|east|west|n|s|e|w)$/);
+  if (moveMatch) {
+    const dirMap = { n: "north", s: "south", e: "east", w: "west" };
+    const dir = dirMap[moveMatch[1]] ?? moveMatch[1];
+    await moveDir(dir);
+    return;
+  }
+  if (["north", "south", "east", "west", "n", "s", "e", "w"].includes(lower)) {
+    const dirMap = { n: "north", s: "south", e: "east", w: "west" };
+    await moveDir(dirMap[lower] ?? lower);
+    return;
+  }
+
   if (lower === "help") {
     appendLog(
       "Commands:\n" +
@@ -162,6 +176,19 @@ async function handleInput() {
     appendLog(data.narrative, "narrator");
   } catch (e) {
     appendLog("The dungeon master is silent. (Check your server logs.)", "system");
+  }
+  setLoading(false);
+}
+
+// ── Movement ──────────────────────────────────────────────────────────────────
+async function moveDir(direction) {
+  setLoading(true);
+  try {
+    const data = await api("api/move", { direction });
+    applyUpdate(data);
+    appendLog(data.narrative, "narrator");
+  } catch (e) {
+    appendLog(`You can't move ${direction} right now.`, "system");
   }
   setLoading(false);
 }
@@ -270,8 +297,8 @@ function applyRoomData(roomData) {
     badge.textContent = dir;
     badge.title = `Go ${dir}`;
     badge.addEventListener("click", () => {
-      $input.value = `go ${dir}`;
-      handleInput();
+      appendLog(`> go ${dir}`, "player");
+      moveDir(dir);
     });
     $exitsList.appendChild(badge);
   }

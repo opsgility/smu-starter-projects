@@ -76,6 +76,45 @@ def start():
 # ─── Exercise 2 - Part 1: Wire Up the Talk Endpoint End ──────────────────────
 
 
+@app.route("/api/move", methods=["POST"])
+def move():
+    """Deterministic room-to-room movement. No LLM involved."""
+    if session.get("combat"):
+        return jsonify({"error": "You can't leave while in combat."}), 400
+
+    data      = request.get_json() or {}
+    direction = (data.get("direction") or "").strip().lower()
+    room      = current_room()
+    exits     = room["exits"]
+
+    if direction not in exits:
+        available = ", ".join(exits.keys()) or "none"
+        return jsonify({
+            "narrative": f"You can't go {direction or 'that way'}. Exits: {available}.",
+            "room":      session["player"]["room"],
+            "room_data": _room_state(),
+            "player":    session["player"],
+            "combat":    None,
+        })
+
+    session["player"]["room"] = exits[direction]
+    session.modified = True
+
+    new_room  = current_room()
+    exits_str = ", ".join(new_room["exits"].keys()) or "none"
+    return jsonify({
+        "narrative": (
+            f"You head {direction} into {new_room['name']}.\n\n"
+            f"{new_room['description']}\n\n"
+            f"Exits: {exits_str}."
+        ),
+        "room":      session["player"]["room"],
+        "room_data": _room_state(),
+        "player":    session["player"],
+        "combat":    None,
+    })
+
+
 @app.route("/api/combat/start", methods=["POST"])
 def combat_start():
     """Initiate combat with an enemy in the current room."""
