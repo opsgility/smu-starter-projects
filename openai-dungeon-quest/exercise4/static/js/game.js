@@ -241,8 +241,8 @@ function applyRoomData(roomData) {
   state.room = roomData;
 
   // Background image
-  const newSrc = `/static/assets/backgrounds/${roomData.background}`;
-  if ($roomBg.src !== newSrc) {
+  const newSrc = `static/assets/backgrounds/${roomData.background}`;
+  if (!$roomBg.src.endsWith(roomData.background)) {
     $roomBg.classList.add("loading");
     $roomBg.onload = () => $roomBg.classList.remove("loading");
     $roomBg.src = newSrc;
@@ -283,7 +283,7 @@ function makeEntityCard(entity, isEnemy) {
 
   const img  = document.createElement("img");
   img.className  = "entity-sprite";
-  img.src        = `/static/assets/characters/${entity.sprite}`;
+  img.src        = `static/assets/characters/${entity.sprite}`;
   img.alt        = entity.name;
 
   const label = document.createElement("div");
@@ -318,7 +318,7 @@ function updatePlayerStats(player) {
 
 function updateCombatHud(enemy, currentHp) {
   const maxHp = enemy.max_hp ?? enemy.hp ?? currentHp;
-  $enemyPortrait.src    = `/static/assets/characters/${enemy.sprite}`;
+  $enemyPortrait.src    = `static/assets/characters/${enemy.sprite}`;
   $enemyPortrait.alt    = enemy.name;
   $enemyName.textContent = enemy.name;
   const pct = Math.max(0, Math.round((currentHp / maxHp) * 100));
