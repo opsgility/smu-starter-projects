@@ -10,6 +10,10 @@ import copy, json
 from flask import Flask, render_template, request, jsonify, session
 from game_data import ROOMS, CHARACTERS, ENEMIES, PLAYER_START
 
+# ─── Exercise 1 - Part 1: Set Up the OpenAI Client Start ──────────────────────
+
+# ─── Exercise 1 - Part 1: Set Up the OpenAI Client End ────────────────────────
+
 app = Flask(__name__)
 app.secret_key = "dungeon-quest-dev-key"
 
@@ -24,6 +28,11 @@ def reset_session():
     session["game_history"]       = []   # [{role, content}]  — game master thread
     session["character_histories"] = {}  # {char_id: [{role, content}]}
     session["combat"]             = None # {enemy_id, enemy_hp} or None
+
+
+# ─── Exercise 1 - Part 2: Build the System Prompt Start ───────────────────────
+
+# ─── Exercise 1 - Part 2: Build the System Prompt End ─────────────────────────
 
 
 # ─── Routes ────────────────────────────────────────────────────────────────────
@@ -51,14 +60,14 @@ def start():
     })
 
 
-# ─── Exercise 1 → Task 1 Start ────────────────────────────────────────────────
+# ─── Exercise 1 - Part 3: Wire Up the API Call Start ─────────────────────────
 
-# ─── Exercise 1 → Task 1 End ──────────────────────────────────────────────────
+# ─── Exercise 1 - Part 3: Wire Up the API Call End ───────────────────────────
 
 
-# ─── Exercise 2 → Task 1 Start ────────────────────────────────────────────────
+# ─── Exercise 2 - Part 1: Wire Up the Talk Endpoint Start ────────────────────
 
-# ─── Exercise 2 → Task 1 End ──────────────────────────────────────────────────
+# ─── Exercise 2 - Part 1: Wire Up the Talk Endpoint End ──────────────────────
 
 
 @app.route("/api/combat/start", methods=["POST"])
@@ -83,9 +92,33 @@ def combat_start():
     })
 
 
-# ─── Exercise 3 → Task 1 Start ────────────────────────────────────────────────
+@app.route("/api/combat/action", methods=["POST"])
+def combat_action():
+    data   = request.get_json()
+    action = data.get("action", "")
+    combat = session.get("combat")
 
-# ─── Exercise 3 → Task 1 End ──────────────────────────────────────────────────
+    if not combat:
+        return jsonify({"error": "Not in combat"}), 400
+
+    # ─── Exercise 3 - Part 1: The Damage Calculation Start ───────────────────
+
+    # ─── Exercise 3 - Part 1: The Damage Calculation End ─────────────────────
+
+
+    # ─── Exercise 3 - Part 2: Narrate the Round Start ────────────────────────
+
+    # ─── Exercise 3 - Part 2: Narrate the Round End ──────────────────────────
+
+
+    # ─── Exercise 3 - Part 3: The Enemy Taunts You Start ─────────────────────
+
+    # ─── Exercise 3 - Part 3: The Enemy Taunts You End ───────────────────────
+
+
+    # ─── Exercise 3 - Part 4: Handle Enemy Defeat and Return Start ───────────
+
+    # ─── Exercise 3 - Part 4: Handle Enemy Defeat and Return End ─────────────
 
 
 # ─── Internal helpers ──────────────────────────────────────────────────────────
