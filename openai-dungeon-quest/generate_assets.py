@@ -211,7 +211,7 @@ DRAGON = [
 
 def save_sprite(grid, filename):
     sprite_from_grid(grid).save(os.path.join(CHARACTERS_DIR, filename))
-    print(f"  ✓ {filename}")
+    print(f"  OK {filename}")
 
 print("Generating character sprites...")
 save_sprite(HERO,      "hero.png")
@@ -259,9 +259,9 @@ def draw_sword_icon():
     return img
 
 print("Generating UI icons...")
-draw_heart().save(os.path.join(UI_DIR, "heart.png")); print("  ✓ heart.png")
-draw_coin().save(os.path.join(UI_DIR, "coin.png"));   print("  ✓ coin.png")
-draw_sword_icon().save(os.path.join(UI_DIR, "sword.png")); print("  ✓ sword.png")
+draw_heart().save(os.path.join(UI_DIR, "heart.png")); print("  OK heart.png")
+draw_coin().save(os.path.join(UI_DIR, "coin.png"));   print("  OK coin.png")
+draw_sword_icon().save(os.path.join(UI_DIR, "sword.png")); print("  OK sword.png")
 
 # ─── Background scenes (800×450) ───────────────────────────────────────────────
 
@@ -292,9 +292,9 @@ def torch(draw, x, y, flicker=0):
     """Draw a wall torch with flame."""
     draw.rectangle([x-4, y, x+4, y+18], fill=(100, 70, 30))
     draw.rectangle([x-5, y-3, x+5, y+3], fill=(130, 95, 45))
-    for i, (fc, fh) in enumerate([(255,140,20), (255,200,40), (255,240,80)]):
+    for i, flame_color in enumerate([(255,140,20), (255,200,40), (255,240,80)]):
         fx = x + rng.randint(-2, 2) + flicker
-        draw.ellipse([fx-6+i, y-18+i*3, fx+6-i, y+i*2], fill=(*[fc//1]*3, 255)[:3])
+        draw.ellipse([fx-6+i, y-18+i*3, fx+6-i, y+i*2], fill=flame_color)
 
 def bg_tavern():
     img  = Image.new("RGB", (W, H))
@@ -318,12 +318,16 @@ def bg_tavern():
         r  = rng.randint(4, 14)
         alpha_col = (255, rng.randint(100, 220), rng.randint(0, 60))
         draw.ellipse([fx-r, fy-r, fx+r, fy+r], fill=alpha_col)
-    # Glow overlay on floor
-    for i in range(30):
-        r = 120 + i*6
-        alpha = max(0, 60 - i*2)
-        draw.ellipse([W//2-r, H//2+20-r//3, W//2+r, H//2+20+r//3],
-                     outline=(255, 160, 40))
+    # Glow overlay on floor (soft filled halos, not outlines)
+    glow_img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    glow_draw = ImageDraw.Draw(glow_img)
+    for i in range(8):
+        r = 60 + i * 22
+        alpha = max(0, 55 - i * 7)
+        glow_draw.ellipse([W//2-r, H//2+10-r//4, W//2+r, H//2+10+r//4],
+                          fill=(255, 140, 20, alpha))
+    img.paste(Image.new("RGB", (W, H), (255, 140, 20)),
+              mask=glow_img.split()[3])
     # Torches
     torch(draw, 180, 120)
     torch(draw, W-180, 120)
@@ -531,7 +535,7 @@ scenes = [
 ]
 for fname, img in scenes:
     img.save(os.path.join(BACKGROUNDS_DIR, fname))
-    print(f"  ✓ {fname}")
+    print(f"  OK {fname}")
 
 print("\nAll assets generated successfully.")
 print(f"  Characters : {CHARACTERS_DIR}/")
