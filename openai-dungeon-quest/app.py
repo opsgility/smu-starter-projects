@@ -47,11 +47,15 @@ def start():
     """Reset and return the opening scene."""
     reset_session()
     room = current_room()
+    exits_str = ", ".join(room["exits"].keys()) or "none"
     return jsonify({
         "narrative": (
             f"You stand at the entrance of {room['name']}.\n\n"
             f"{room['description']}\n\n"
-            "Type 'help' to see what you can do."
+            f"Exits: {exits_str}.  (Click an exit badge or type `go east`, `go north`, etc.)\n\n"
+            "Quick path to the Skeleton Warrior: from the tavern, go EAST to the "
+            "Dungeon Entrance, then NORTH into the Corridor.\n\n"
+            "Type 'help' to see all commands."
         ),
         "room":       session["player"]["room"],
         "room_data":  _room_state(),
