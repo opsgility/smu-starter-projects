@@ -32,6 +32,21 @@ const $minimap    = document.getElementById("minimap");
 const $minimapBar = document.getElementById("minimap-bar");
 const $minimapToggle = document.getElementById("minimap-toggle");
 const $minimapCount  = document.getElementById("minimap-count");
+const $speechToggleLabel = document.getElementById("speech-toggle-label");
+const $speechToggle      = document.getElementById("speech-toggle");
+
+// ── Speech narration state ────────────────────────────────────────────────────
+let currentAudio = null;
+
+if ($speechToggle) {
+  $speechToggle.addEventListener("change", () => {
+    $speechToggleLabel.classList.toggle("is-on", $speechToggle.checked);
+    if (!$speechToggle.checked && currentAudio) {
+      currentAudio.pause();
+      currentAudio = null;
+    }
+  });
+}
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", startGame);
@@ -200,7 +215,7 @@ async function doTalk(characterId, message) {
     const data = await api("api/talk", { character_id: characterId, message });
     const char = state.room?.characters.find(c => c.id === characterId);
     const name = char?.name ?? characterId;
-    appendDialogue(name, data.reply);
+    appendDialogue(name, data.reply, characterId);
   } catch (e) {
     appendLog("No response. (Check your server logs.)", "system");
   }
@@ -462,9 +477,14 @@ function appendLog(text, type = "narrator") {
   entry.textContent = text;
   $log.appendChild(entry);
   entry.scrollIntoView({ behavior: "smooth", block: "end" });
+
+  // Voice narration (Exercise 4) — narrator and combat lines use the GM voice.
+  if (type === "narrator" || type === "combat") {
+    playNarration(text, "");
+  }
 }
 
-function appendDialogue(speakerName, text) {
+function appendDialogue(speakerName, text, speakerId = "") {
   const entry = document.createElement("div");
   entry.className = "log-entry dialogue";
   const nameEl = document.createElement("span");
@@ -474,6 +494,32 @@ function appendDialogue(speakerName, text) {
   entry.appendChild(document.createTextNode(text));
   $log.appendChild(entry);
   entry.scrollIntoView({ behavior: "smooth", block: "end" });
+
+  // Voice narration (Exercise 4) — character/enemy lines use that speaker's voice.
+  playNarration(text, speakerId);
+}
+
+// ── Voice narration ───────────────────────────────────────────────────────────
+// Calls /api/speech for each log line. Until Exercise 4 is wired up, the
+// backend returns {"audio_url": null} and this is a quiet no-op.
+async function playNarration(text, speaker) {
+  if (!$speechToggle || !$speechToggle.checked) return;
+  if (!text) return;
+  try {
+    if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+    const res = await fetch("api/speech", {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ text, speaker }),
+    });
+    if (!res.ok) return;
+    const { audio_url } = await res.json();
+    if (!audio_url) return;
+    currentAudio = new Audio(audio_url);
+    currentAudio.play().catch(() => { /* autoplay blocked; ignore */ });
+  } catch (e) {
+    console.warn("speech narration failed", e);
+  }
 }
 
 function clearLog() { $log.innerHTML = ""; }

@@ -80,6 +80,34 @@ html, body {
 }
 #btn-restart:hover { color: var(--gold); border-color: var(--gold); }
 
+/* ── Narrate toggle ────────────────────────────────────────────────────────── */
+.speech-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: rgba(255,255,255,0.05);
+  font-family: var(--font-title);
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  color: var(--text-dim);
+  cursor: pointer;
+  user-select: none;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.speech-toggle input { display: none; }
+.speech-toggle .speech-toggle-icon { opacity: 0.55; transition: opacity 0.2s; }
+.speech-toggle:hover { border-color: var(--gold); color: var(--gold); }
+.speech-toggle.is-on {
+  background: rgba(200, 168, 75, 0.18);
+  border-color: var(--gold-light);
+  color: var(--gold-light);
+  box-shadow: 0 0 10px rgba(200, 168, 75, 0.35);
+}
+.speech-toggle.is-on .speech-toggle-icon { opacity: 1; }
+
 /* ── Main layout ───────────────────────────────────────────────────────────── */
 #main {
   display: flex;

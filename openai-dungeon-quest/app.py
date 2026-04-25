@@ -6,7 +6,7 @@ Run:
 
 Then open the URL shown in the VS Code Ports panel.
 """
-import copy, json
+import copy, hashlib, json, os
 from flask import Flask, render_template, request, jsonify, session
 from game_data import ROOMS, CHARACTERS, ENEMIES, PLAYER_START, ROOM_COORDS
 
@@ -16,6 +16,9 @@ from game_data import ROOMS, CHARACTERS, ENEMIES, PLAYER_START, ROOM_COORDS
 
 app = Flask(__name__)
 app.secret_key = "dungeon-quest-dev-key"
+
+AUDIO_DIR = os.path.join("static", "generated", "audio")
+os.makedirs(AUDIO_DIR, exist_ok=True)
 
 
 # ─── Helpers ───────────────────────────────────────────────────────────────────
@@ -164,6 +167,34 @@ def combat_action():
     # ─── Exercise 3 - Part 4: Handle Enemy Defeat and Return Start ───────────
 
     # ─── Exercise 3 - Part 4: Handle Enemy Defeat and Return End ─────────────
+
+
+# ─── Exercise 4 - Part 1: Generate Speech Narration Start ─────────────────────
+
+def generate_narration_audio(text: str, voice_id: str):
+    """Return a URL path to a generated mp3 of the narration, or None."""
+    return None
+
+# ─── Exercise 4 - Part 1: Generate Speech Narration End ───────────────────────
+
+
+# ─── Exercise 4 - Part 2: Speech API Route Start ──────────────────────────────
+# In Exercise 4, this route turns log lines into spoken audio. Until the
+# student wires it up, generate_narration_audio() returns None so the frontend
+# stays silent — no 404, no error, just no voice.
+
+@app.route("/api/speech", methods=["POST"])
+def speech():
+    """Return a URL to a generated mp3 of the narration text, or None."""
+    data    = request.get_json() or {}
+    text    = (data.get("text") or "").strip()
+    speaker = (data.get("speaker") or "").strip().lower()  # "" = narrator, else char/enemy id
+    if not text:
+        return jsonify({"audio_url": None})
+    audio_url = generate_narration_audio(text, speaker)
+    return jsonify({"audio_url": audio_url})
+
+# ─── Exercise 4 - Part 2: Speech API Route End ────────────────────────────────
 
 
 # ─── Internal helpers ──────────────────────────────────────────────────────────
