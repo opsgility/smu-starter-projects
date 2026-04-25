@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+.env
+static/generated/*.png
+!static/generated/.gitkeep
