@@ -9,19 +9,36 @@ let state = {
 };
 
 // ── DOM refs ──────────────────────────────────────────────────────────────────
-const $sceneBg        = document.getElementById("scene-bg");
-const $titleScreen    = document.getElementById("title-screen");
-const $storyScreen    = document.getElementById("story-screen");
-const $genreGrid      = document.getElementById("genre-grid");
-const $genrePill      = document.getElementById("genre-pill");
-const $scenePill      = document.getElementById("scene-pill");
-const $speakerLine    = document.getElementById("speaker-line");
-const $narration      = document.getElementById("narration");
-const $page           = document.getElementById("page");
-const $choices        = document.getElementById("choices");
-const $loading        = document.getElementById("loading-overlay");
-const $loadingText    = document.getElementById("loading-text");
-const $endingOverlay  = document.getElementById("ending-overlay");
+const $sceneBg            = document.getElementById("scene-bg");
+const $titleScreen        = document.getElementById("title-screen");
+const $storyScreen        = document.getElementById("story-screen");
+const $genreGrid          = document.getElementById("genre-grid");
+const $genrePill          = document.getElementById("genre-pill");
+const $scenePill          = document.getElementById("scene-pill");
+const $speakerLine        = document.getElementById("speaker-line");
+const $narration          = document.getElementById("narration");
+const $page               = document.getElementById("page");
+const $choices            = document.getElementById("choices");
+const $loading            = document.getElementById("loading-overlay");
+const $loadingText        = document.getElementById("loading-text");
+const $endingOverlay      = document.getElementById("ending-overlay");
+const $speechToggleLabel  = document.getElementById("speech-toggle-label");
+const $speechToggle       = document.getElementById("speech-toggle");
+
+// ── Speech narration state ────────────────────────────────────────────────────
+let currentAudio = null;
+
+if ($speechToggle) {
+  $speechToggle.addEventListener("change", () => {
+    $speechToggleLabel.classList.toggle("is-on", $speechToggle.checked);
+    if (!$speechToggle.checked && currentAudio) {
+      currentAudio.pause();
+      currentAudio = null;
+    } else if ($speechToggle.checked && state.scene && state.scene.narration) {
+      playNarration(state.scene.narration);
+    }
+  });
+}
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", showTitleScreen);
@@ -46,6 +63,8 @@ async function showTitleScreen() {
   $genrePill.classList.add("hidden");
   $scenePill.classList.add("hidden");
   $endingOverlay.classList.add("hidden");
+  if ($speechToggleLabel) $speechToggleLabel.classList.add("hidden");
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
   setBackground(null);
 
   // Render the genre cards
@@ -109,6 +128,7 @@ function enterStoryScreen() {
     setBackground(state.genre.id);
   }
   $scenePill.classList.remove("hidden");
+  if ($speechToggleLabel) $speechToggleLabel.classList.remove("hidden");
 }
 
 
@@ -145,6 +165,11 @@ function renderScene(scene) {
   $page.style.animation = "";
   $narration.textContent = scene.narration || "";
 
+  // Voice narration (Exercise 6) — play if the toggle is on.
+  if ($speechToggle && $speechToggle.checked && scene.narration) {
+    playNarration(scene.narration);
+  }
+
   // Choices
   $choices.innerHTML = "";
   const choices = scene.choices || [];
@@ -169,6 +194,28 @@ function renderScene(scene) {
 
 function showEnding() {
   $endingOverlay.classList.remove("hidden");
+}
+
+
+// ── Voice narration ───────────────────────────────────────────────────────────
+// Calls /api/speech for the current scene text. Until Exercise 6 is wired up,
+// the backend returns {"audio_url": null} and this is a quiet no-op.
+async function playNarration(text) {
+  try {
+    if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+    const res = await fetch("api/speech", {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ text }),
+    });
+    if (!res.ok) return;
+    const { audio_url } = await res.json();
+    if (!audio_url) return;
+    currentAudio = new Audio(audio_url);
+    currentAudio.play().catch(() => { /* autoplay blocked; ignore */ });
+  } catch (e) {
+    console.warn("speech narration failed", e);
+  }
 }
 
 

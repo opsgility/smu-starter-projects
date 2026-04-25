@@ -23,7 +23,9 @@ app = Flask(__name__)
 app.secret_key = "pages-unwritten-dev-key"
 
 GENERATED_DIR = os.path.join("static", "generated")
+AUDIO_DIR     = os.path.join("static", "generated", "audio")
 os.makedirs(GENERATED_DIR, exist_ok=True)
+os.makedirs(AUDIO_DIR, exist_ok=True)
 
 
 # ─── Helpers ───────────────────────────────────────────────────────────────────
@@ -62,6 +64,15 @@ def generate_scene_image(scene_text: str, genre_id: str):
     return None
 
 # ─── Exercise 3 - Part 2: Generate and Cache the Scene Image End ──────────────
+
+
+# ─── Exercise 6 - Part 1: Generate Speech Narration Start ─────────────────────
+
+def generate_narration_audio(text: str, genre_id: str):
+    """Return a URL path to a generated mp3 of the narration, or None."""
+    return None
+
+# ─── Exercise 6 - Part 1: Generate Speech Narration End ───────────────────────
 
 
 # ─── Exercise 5 - Part 2: Compress Story Memory Start ─────────────────────────
@@ -145,6 +156,26 @@ def restart():
     """Clear the current story and return to the title screen."""
     session.clear()
     return jsonify({"ok": True})
+
+
+# ─── Exercise 6 - Part 2: Speech API Route Start ──────────────────────────────
+# In Exercise 6, this route turns scene narration into spoken audio. Until the
+# student wires it up, generate_narration_audio() returns None so the frontend
+# stays silent — no 404, no error, just no voice.
+
+@app.route("/api/speech", methods=["POST"])
+def speech():
+    """Return a URL to a generated mp3 of the narration text, or None."""
+    if "genre" not in session:
+        return jsonify({"audio_url": None})
+    data = request.get_json() or {}
+    text = (data.get("text") or "").strip()
+    if not text:
+        return jsonify({"audio_url": None})
+    audio_url = generate_narration_audio(text, session["genre"])
+    return jsonify({"audio_url": audio_url})
+
+# ─── Exercise 6 - Part 2: Speech API Route End ────────────────────────────────
 
 
 # ─── Exercise 5 - Part 1: Stream the Narration Start ──────────────────────────

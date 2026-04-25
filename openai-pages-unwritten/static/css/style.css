@@ -136,6 +136,46 @@ html, body {
   color: #0e0a08;
 }
 
+/* Narration toggle */
+.speech-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  transition: var(--transition);
+  user-select: none;
+}
+
+.speech-toggle:hover {
+  background: rgba(201,161,74,0.15);
+  border-color: var(--gold-bright);
+}
+
+.speech-toggle input[type="checkbox"] {
+  margin: 0;
+  accent-color: var(--gold-bright);
+  cursor: pointer;
+}
+
+.speech-toggle.is-on {
+  background: rgba(201,161,74,0.25);
+  border-color: var(--gold-bright);
+  color: #0e0a08;
+  background: var(--gold-bright);
+}
+
+.speech-toggle-icon { font-size: 13px; }
+
 
 /* ══════════════════════════════════════════════ TITLE SCREEN ══════════ */
 
