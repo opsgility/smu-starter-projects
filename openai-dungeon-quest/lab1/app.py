@@ -1,5 +1,16 @@
 """
-Dungeon Quest — Flask server (base starter project, no OpenAI yet).
+Dungeon Quest — Flask server (Lab 1 starter — no OpenAI yet).
+
+This folder is the Lab 1 starting point. The UI, routing, and game state are
+in place; no OpenAI calls have been wired up yet. The course is split across
+three labs, six exercises:
+
+    Lab 1 (this folder) — Exercise 1 (GM narration) + Exercise 2 (NPC dialogue)
+    Lab 2               — Exercise 3 (combat) + Exercise 4 (structured output)
+    Lab 3               — Exercise 5 (streaming) + Exercise 6 (TTS)
+
+Each lab folder ships with the previous lab's exercises pre-completed in
+app.py, so you can pick up exactly where you left off.
 
 Run:
     python app.py
@@ -169,17 +180,17 @@ def combat_action():
     # ─── Exercise 3 - Part 4: Handle Enemy Defeat and Return End ─────────────
 
 
-# ─── Exercise 4 - Part 1: Generate Speech Narration Start ─────────────────────
+# ─── Exercise 6 - Part 1: Generate Speech Narration Start ─────────────────────
 
 def generate_narration_audio(text: str, voice_id: str):
     """Return a URL path to a generated mp3 of the narration, or None."""
     return None
 
-# ─── Exercise 4 - Part 1: Generate Speech Narration End ───────────────────────
+# ─── Exercise 6 - Part 1: Generate Speech Narration End ───────────────────────
 
 
-# ─── Exercise 4 - Part 2: Speech API Route Start ──────────────────────────────
-# In Exercise 4, this route turns log lines into spoken audio. Until the
+# ─── Exercise 6 - Part 2: Speech API Route Start ──────────────────────────────
+# In Exercise 6, this route turns log lines into spoken audio. Until the
 # student wires it up, generate_narration_audio() returns None so the frontend
 # stays silent — no 404, no error, just no voice.
 
@@ -194,7 +205,7 @@ def speech():
     audio_url = generate_narration_audio(text, speaker)
     return jsonify({"audio_url": audio_url})
 
-# ─── Exercise 4 - Part 2: Speech API Route End ────────────────────────────────
+# ─── Exercise 6 - Part 2: Speech API Route End ────────────────────────────────
 
 
 # ─── Internal helpers ──────────────────────────────────────────────────────────
