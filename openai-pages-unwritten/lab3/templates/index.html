@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pages Unwritten</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="static/css/style.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ BACKGROUND LAYER ══════ -->
+<div id="scene-bg"></div>
+<div id="scene-vignette"></div>
+
+<!-- ═══════════════════════════════════════════════════ HEADER ════════ -->
+<header id="header">
+  <div id="title-text">📖 PAGES UNWRITTEN</div>
+  <div id="header-info">
+    <label id="speech-toggle-label" class="speech-toggle hidden" title="Read narration aloud">
+      <input type="checkbox" id="speech-toggle" />
+      <span class="speech-toggle-icon">🔊</span>
+      <span class="speech-toggle-text">Narrate</span>
+    </label>
+    <span id="genre-pill" class="hidden"></span>
+    <span id="scene-pill" class="hidden">Scene 1</span>
+    <button id="btn-restart" title="Begin a new story">↺</button>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════ TITLE SCREEN (genre picker) ════ -->
+<section id="title-screen">
+  <div id="title-inner">
+    <h1 id="big-title">Pages Unwritten</h1>
+    <p id="big-subtitle">A choose-your-own story, written one page at a time.</p>
+    <p id="picker-prompt">Choose your tale:</p>
+    <div id="genre-grid"></div>
+    <p id="title-footer">Each story is unique. Every choice rewrites the page.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ STORY ═════════ -->
+<main id="story-screen" class="hidden">
+
+  <!-- speaker / scene meta line -->
+  <div id="speaker-line"></div>
+
+  <!-- the page itself -->
+  <article id="page-wrap">
+    <div id="page">
+      <div id="narration"></div>
+    </div>
+  </article>
+
+  <!-- choices -->
+  <div id="choices-wrap">
+    <div id="choices"></div>
+  </div>
+
+</main>
+
+<!-- ═══════════════════════════════════════════════════ OVERLAYS ══════ -->
+<div id="loading-overlay" class="hidden">
+  <div id="loading-spinner"></div>
+  <div id="loading-text">The storyteller pauses…</div>
+</div>
+
+<div id="ending-overlay" class="hidden">
+  <div id="ending-box">
+    <div id="ending-flourish">❦</div>
+    <div id="ending-title">The End</div>
+    <div id="ending-sub">Your story has been written.</div>
+    <button id="btn-new-story">Begin Another Tale</button>
+  </div>
+</div>
+
+<script src="static/js/novel.js"></script>
+</body>
+</html>
