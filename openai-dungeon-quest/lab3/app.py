@@ -33,6 +33,11 @@ AUDIO_DIR = os.path.join("static", "generated", "audio")
 os.makedirs(AUDIO_DIR, exist_ok=True)
 
 
+# ─── Exercise 6 - Part 1: Voice Mapping Start ─────────────────────────────────
+
+# ─── Exercise 6 - Part 1: Voice Mapping End ───────────────────────────────────
+
+
 # ─── Helpers ───────────────────────────────────────────────────────────────────
 
 def current_room():
@@ -44,6 +49,11 @@ def reset_session():
     session["character_histories"] = {}  # {char_id: [{role, content}]}
     session["combat"]             = None # {enemy_id, enemy_hp} or None
     session["visited"]            = [PLAYER_START["room"]]
+
+
+# ─── Exercise 5 - Part 2: Add the Summarizer Start ────────────────────────────
+
+# ─── Exercise 5 - Part 2: Add the Summarizer End ──────────────────────────────
 
 
 # ─── Exercise 4 - Part 1: GM System Prompt — JSON mode (✓ Completed in Lab 2) ─
@@ -122,6 +132,10 @@ def start():
     })
 
 
+# ─── Exercise 5 - Part 3: Stream the GM Response ──────────────────────────────
+# This action() route was completed in Lab 2 (Exercise 4 — JSON mode). In
+# Exercise 5 you'll replace its entire body with a streaming version that
+# yields Server-Sent Events. The signature and decorator stay the same.
 # ─── Exercise 4 - Part 2: /api/action — JSON mode (✓ Completed in Lab 2) ─────
 @app.route("/api/action", methods=["POST"])
 def action():
@@ -423,19 +437,18 @@ def combat_action():
     # ──────────────────────────────────────────────────────────────────────────
 
 
-# ─── Exercise 6 - Part 1: Generate Speech Narration Start ─────────────────────
+# ─── Exercise 6 - Part 2: Generate and Cache the Audio Start ──────────────────
 
 def generate_narration_audio(text: str, voice_id: str):
     """Return a URL path to a generated mp3 of the narration, or None."""
     return None
 
-# ─── Exercise 6 - Part 1: Generate Speech Narration End ───────────────────────
+# ─── Exercise 6 - Part 2: Generate and Cache the Audio End ────────────────────
 
 
-# ─── Exercise 6 - Part 2: Speech API Route Start ──────────────────────────────
-# In Exercise 6, this route turns log lines into spoken audio. Until the
-# student wires it up, generate_narration_audio() returns None so the frontend
-# stays silent — no 404, no error, just no voice.
+# The /api/speech route below is already wired up — it just calls
+# generate_narration_audio(). Until you complete Exercise 6 Part 2, that
+# function returns None so the frontend stays silent (no 404, no error).
 
 @app.route("/api/speech", methods=["POST"])
 def speech():
@@ -447,8 +460,6 @@ def speech():
         return jsonify({"audio_url": None})
     audio_url = generate_narration_audio(text, speaker)
     return jsonify({"audio_url": audio_url})
-
-# ─── Exercise 6 - Part 2: Speech API Route End ────────────────────────────────
 
 
 # ─── Internal helpers ──────────────────────────────────────────────────────────
