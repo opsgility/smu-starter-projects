@@ -50,11 +50,6 @@ def analyze(image_bytes: bytes) -> dict:
     json.loads(response.output_text), then verify the dict contains all
     three required keys before returning it.
     """
-    # TODO (Exercise 4 Step 2): Call client.responses.create with the SYSTEM
-    #   message, the image-only user message, and JSON mode enabled.
-    #   Parse response.output_text with json.loads, validate that the
-    #   three required keys are present, and return the dict.
-    required = {"extracted_text", "injection_attempt", "reason"}
-    raise NotImplementedError(
-        f"Implement analyze() in Exercise 4 Step 2. Must return dict with keys {required}."
-    )
+    # Exercise 4 - Step 2 Start
+    raise NotImplementedError("Complete Exercise 4 Step 2")
+    # Exercise 4 - Step 2 End

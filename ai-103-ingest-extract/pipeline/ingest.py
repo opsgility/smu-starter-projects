@@ -118,10 +118,9 @@ def main() -> None:
       4. Explicitly sender.flush() before leaving the `with` block and
          report sender.failed_count.
     """
-    # TODO (Exercise 2 Step 4): Implement the pipeline body as described in
-    # the docstring above. Use `SearchIndexingBufferedSender` as the uploader
-    # and remember the explicit `.flush()` call before the context exits.
-    raise NotImplementedError("Implement main() in Exercise 2 Step 4.")
+    # Exercise 2 - Step 4 Start
+    raise NotImplementedError("Complete Exercise 2 Step 4")
+    # Exercise 2 - Step 4 End
 
 
 if __name__ == "__main__":

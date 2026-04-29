@@ -22,7 +22,6 @@ def edit(image_bytes: bytes, mask_bytes: bytes, prompt: str) -> bytes:
     Call client.images.edit with model, image, mask, prompt,
     response_format='b64_json', then base64-decode response.data[0].b64_json.
     """
-    # TODO (Exercise 1 Step 8): Call images.edit via AIProjectClient with
-    #   DefaultAzureCredential, passing image_bytes and mask_bytes, and
-    #   return the base64-decoded PNG bytes from response.data[0].b64_json.
-    raise NotImplementedError("Implement edit() in Exercise 1 Step 8")
+    # Exercise 1 - Step 8 Start
+    raise NotImplementedError("Complete Exercise 1 Step 8")
+    # Exercise 1 - Step 8 End

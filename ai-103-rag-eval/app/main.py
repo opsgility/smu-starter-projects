@@ -66,14 +66,6 @@ def chat(message: str = Form(...)) -> dict:
           "sources": ["returns-policy.md", "faq.md", ...]
         }
     """
-    # TODO (Exercise 3, Step 1): Retrieve top-5 chunks with retrieval.search
-    # TODO (Exercise 3, Step 1): Build `context` by joining
-    #     f"[{h['source']}] {h['chunk']}" entries with blank lines
-    # TODO (Exercise 3, Step 1): Build `prompt` = f"Context:\n{context}\n\nQuestion: {message}"
-    # TODO (Exercise 3, Step 1): Call _project.get_openai_client().responses.create(
-    #     model=_deployment,
-    #     input=[{"role": "system", "content": SYSTEM},
-    #            {"role": "user",   "content": prompt}])
-    # TODO (Exercise 3, Step 1): Return {"reply": response.output_text,
-    #                                     "sources": [h["source"] for h in hits]}
-    raise NotImplementedError("Exercise 3: implement /chat")
+    # Exercise 3 - Step 1 Start
+    raise NotImplementedError("Complete Exercise 3 Step 1")
+    # Exercise 3 - Step 1 End

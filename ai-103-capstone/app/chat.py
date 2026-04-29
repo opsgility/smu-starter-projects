@@ -39,12 +39,6 @@ def reply(message: str) -> str:
     with tracer.start_as_current_span("summitline.chat.reply") as span:
         span.set_attribute("message.chars", len(message))
 
-        # TODO (Exercise 1 Step 7): open an AIProjectClient with endpoint=ENDPOINT
-        # and DefaultAzureCredential(). Inside, open the OpenAI client via
-        # project.get_openai_client() and call client.responses.create(...)
-        # with model=DEPLOYMENT and a messages list [system, user].
-
-        # TODO (Exercise 1 Step 7): return response.output_text.
-        raise NotImplementedError(
-            "Complete TODOs in app/chat.py (Exercise 1 Step 7)."
-        )
+        # Exercise 1 - Step 7 Start
+        raise NotImplementedError("Complete Exercise 1 Step 7")
+        # Exercise 1 - Step 7 End

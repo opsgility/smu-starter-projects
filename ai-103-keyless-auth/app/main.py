@@ -27,9 +27,7 @@ load_dotenv()
 
 app = FastAPI(title="Summitline Outfitters Concierge (LEGACY key-auth)")
 
-# TODO (Exercise 1 Step 7): Remove all of the key-based wiring below.
-# Replace with AIProjectClient(endpoint=..., credential=DefaultAzureCredential())
-# and store the deployment name from AZURE_OPENAI_DEPLOYMENT.
+# Exercise 1 - Step 5 Start
 _deployment = os.environ.get("AZURE_OPENAI_DEPLOYMENT", "gpt-4.1")
 _openai = AzureOpenAI(
     api_key=os.environ["AZURE_OPENAI_API_KEY"],
@@ -45,9 +43,6 @@ def health() -> dict:
 
 @app.post("/chat")
 def chat(message: str = Form(...)) -> dict:
-    # TODO (Exercise 1 Step 7): Replace chat.completions.create(...) with
-    # _openai.responses.create(model=_deployment, input=message) and return
-    # response.output_text instead of choices[0].message.content.
     response = _openai.chat.completions.create(
         model=_deployment,
         messages=[{"role": "user", "content": message}],
@@ -57,6 +52,5 @@ def chat(message: str = Form(...)) -> dict:
 
 @app.on_event("shutdown")
 def _close() -> None:
-    # TODO (Exercise 1 Step 7): Close both the OpenAI client and the
-    # AIProjectClient instance here after the migration.
     _openai.close()
+# Exercise 1 - Step 5 End

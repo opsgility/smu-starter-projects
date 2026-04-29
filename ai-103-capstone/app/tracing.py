@@ -24,8 +24,6 @@ def init() -> "trace.Tracer":
         A tracer named ``summitline-capstone`` that endpoint modules use
         to wrap custom logic spans (e.g. ``summitline.rag.search``).
     """
-    # TODO (Exercise 1 Step 6): call configure_azure_monitor(connection_string=...)
-    # using os.environ["APPLICATIONINSIGHTS_CONNECTION_STRING"].
-
-    # TODO (Exercise 1 Step 6): return trace.get_tracer("summitline-capstone").
-    raise NotImplementedError("Complete TODOs in app/tracing.py (Exercise 1 Step 6).")
+    # Exercise 1 - Step 6 Start
+    raise NotImplementedError("Complete Exercise 1 Step 6")
+    # Exercise 1 - Step 6 End

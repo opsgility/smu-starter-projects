@@ -94,17 +94,17 @@ def request(message: str = Form(...), customer_id: str = Form("anonymous")) -> d
     - ``summitline.message_length``  — ``len(message)``.
     - ``summitline.status``          — ``"ok"`` (or ``"error"`` on failure).
     """
-    # TODO (Exercise 3392 Step 3): open a span named "handle_request" via
-    # _tracer.start_as_current_span, set the three summitline.* attributes,
-    # call converse(_client, _orchestrator, message), and return {"reply": reply}.
-    raise NotImplementedError("Exercise 3392 Step 3: implement POST /request")
+    # Exercise 2 - Step 3 Start
+    raise NotImplementedError("Complete Exercise 2 Step 3")
+    # Exercise 2 - Step 3 End
 
 
 @app.get("/approvals")
 def list_approvals():
     """Return every pending HITL approval currently blocking a refund."""
-    # TODO (Exercise 3392 Step 4): return [{"id": k, **v} for k, v in PENDING.items() if v["status"] == "pending"].
-    raise NotImplementedError("Exercise 3392 Step 4: implement GET /approvals")
+    # Exercise 2 - Step 4 Start
+    raise NotImplementedError("Complete Exercise 2 Step 4")
+    # Exercise 2 - Step 4 End
 
 
 @app.post("/approvals/{approval_id}")
@@ -115,7 +115,6 @@ def resolve(approval_id: str, decision: str = Form(...)):
     result unblocks the ``request_refund`` call that is waiting inside the
     refund worker's tool invocation.
     """
-    # TODO (Exercise 3392 Step 4): if approval_id not in FUTURES, return an error dict.
-    # Otherwise, update PENDING[approval_id]["status"] = decision,
-    # call FUTURES[approval_id].set_result(decision), and return {"ok": True, "decision": decision}.
-    raise NotImplementedError("Exercise 3392 Step 4: implement POST /approvals/{id}")
+    # Exercise 2 - Step 4 Start
+    raise NotImplementedError("Complete Exercise 2 Step 4")
+    # Exercise 2 - Step 4 End

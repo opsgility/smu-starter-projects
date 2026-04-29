@@ -163,10 +163,9 @@ def make_refund_worker(client: AgentsClient, model: str):
     - Return the agent object so the caller can reuse ``agent.id`` with
       ``ConnectedAgentTool``.
     """
-    # TODO (Exercise 3391 Step 7): Build a ToolSet containing FunctionTool({_refund}),
-    # call client.enable_auto_function_calls(toolset), and return
-    # client.create_agent(model=model, name="refund-worker", instructions=..., tools=toolset.definitions, tool_resources=toolset.resources).
-    raise NotImplementedError("Exercise 3391 Step 7: implement make_refund_worker")
+    # Exercise 1 - Step 7 Start
+    raise NotImplementedError("Complete Exercise 1 Step 7")
+    # Exercise 1 - Step 7 End
 
 
 def make_lookup_worker(client: AgentsClient, model: str):
@@ -177,7 +176,6 @@ def make_lookup_worker(client: AgentsClient, model: str):
     you attach different RBAC, rate limits, and routing policy (see Exercise
     3392).
     """
-    # TODO (Exercise 3391 Step 8): Build a ToolSet containing FunctionTool({_lookup_order}),
-    # call client.enable_auto_function_calls(toolset), and return
-    # client.create_agent(model=model, name="lookup-worker", instructions=..., tools=toolset.definitions, tool_resources=toolset.resources).
-    raise NotImplementedError("Exercise 3391 Step 8: implement make_lookup_worker")
+    # Exercise 1 - Step 8 Start
+    raise NotImplementedError("Complete Exercise 1 Step 8")
+    # Exercise 1 - Step 8 End

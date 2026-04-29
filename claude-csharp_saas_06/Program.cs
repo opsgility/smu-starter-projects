@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using TeamTrackr.Auth;
-using TeamTrackr.BackgroundServices;
 using TeamTrackr.Data;
 using TeamTrackr.Hubs;
 using TeamTrackr.Middleware;
@@ -50,10 +49,15 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
     };
-})
-.AddScheme<ApiKeyAuthOptions, ApiKeyAuthHandler>(ApiKeyAuthDefaults.AuthenticationScheme, _ => { });
+});
 
-builder.Services.AddAuthorization();
+// Authorization policies
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireOwner", policy => policy.RequireRole("Owner"));
+    options.AddPolicy("RequireAdmin", policy => policy.RequireRole("Owner", "Admin"));
+    options.AddPolicy("RequireMember", policy => policy.RequireRole("Owner", "Admin", "Member"));
+});
 
 // HttpContext accessor for tenant resolution
 builder.Services.AddHttpContextAccessor();
@@ -70,20 +74,10 @@ builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<ILabelService, LabelService>();
-builder.Services.AddScoped<IBillingService, BillingService>();
-builder.Services.AddScoped<IFileStorageService, FileStorageService>();
-builder.Services.AddScoped<ISearchService, SearchService>();
 
 // SignalR
 builder.Services.AddSignalR();
 builder.Services.AddScoped<INotificationService, NotificationService>();
-
-// Email service
-builder.Services.AddScoped<IEmailService, EmailService>();
-
-// Background services
-builder.Services.AddHostedService<TaskReminderService>();
-builder.Services.AddHostedService<DailyDigestService>();
 
 // Controllers
 builder.Services.AddControllers();
@@ -127,11 +121,18 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-// Apply migrations and seed on startup
+// Apply migrations and seed roles on startup
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.EnsureCreated();
+
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    foreach (var roleName in Enum.GetNames<UserRole>())
+    {
+        if (!await roleManager.RoleExistsAsync(roleName))
+            await roleManager.CreateAsync(new IdentityRole(roleName));
+    }
 }
 
 // Middleware pipeline
@@ -141,12 +142,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseMiddleware<CorrelationIdMiddleware>();
-app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseAuthentication();
-app.UseMiddleware<RateLimitMiddleware>();
 app.UseMiddleware<TenantMiddleware>();
-app.UseMiddleware<PlanLimitMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();

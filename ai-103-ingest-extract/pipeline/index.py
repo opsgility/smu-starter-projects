@@ -66,24 +66,9 @@ def ensure_index() -> None:
     changes (renaming a field, changing a type) fail with 400 and need a
     brand new index.
     """
-    # TODO (Exercise 3 Step 1): Build the SearchField list. See the module
-    # docstring for exact field names, types, and flags. Remember the vector
-    # field's `vector_search_dimensions=3072` and `vector_search_profile_name="default"`.
-    fields: list = []
-
-    # TODO (Exercise 3 Step 1): Build the VectorSearch definition with one
-    # HnswAlgorithmConfiguration called "default-hnsw" and one
-    # VectorSearchProfile called "default" that references it.
-    vector = None  # type: ignore[assignment]
-
-    # TODO (Exercise 3 Step 1): Build the SemanticSearch definition with a
-    # single SemanticConfiguration named "default" whose prioritized_fields
-    # wire source -> title, markdown -> content, doc_type -> keywords.
-    semantic = None  # type: ignore[assignment]
-
-    # TODO (Exercise 3 Step 1): Assemble the SearchIndex and call
-    # SearchIndexClient(ENDPOINT, CRED).create_or_update_index(index_def).
-    raise NotImplementedError("Implement ensure_index in Exercise 3 Step 1.")
+    # Exercise 3 - Step 1 Start
+    raise NotImplementedError("Complete Exercise 3 Step 1")
+    # Exercise 3 - Step 1 End
 
 
 if __name__ == "__main__":

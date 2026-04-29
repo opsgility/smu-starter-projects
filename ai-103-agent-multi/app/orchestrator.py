@@ -49,12 +49,6 @@ def build() -> Tuple[AgentsClient, object, List[str]]:
        instructions that tell it to call ``lookup_worker`` before ``refund_worker``.
     5. Return ``(client, orchestrator, [refund_agent.id, lookup_agent.id])``.
     """
-    # TODO (Exercise 3392 Step 1): implement build() per the docstring above.
-    # Pay attention to:
-    #   - ConnectedAgentTool(id=..., name=..., description=...) — id must be the
-    #     GUID from the returned agent object, not the agent name string.
-    #   - tools=refund_tool.definitions + lookup_tool.definitions (list concat).
-    #   - instructions must tell the orchestrator to verify with lookup_worker
-    #     before calling refund_worker, and to summarize tool output in one
-    #     sentence for the end user.
-    raise NotImplementedError("Exercise 3392 Step 1: implement orchestrator.build()")
+    # Exercise 2 - Step 1 Start
+    raise NotImplementedError("Complete Exercise 2 Step 1")
+    # Exercise 2 - Step 1 End

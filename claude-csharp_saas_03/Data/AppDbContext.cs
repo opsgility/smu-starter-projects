@@ -17,15 +17,6 @@ public class AppDbContext : IdentityDbContext<AppUser>
     }
 
     public DbSet<Tenant> Tenants => Set<Tenant>();
-    public DbSet<Project> Projects => Set<Project>();
-    public DbSet<TaskItem> TaskItems => Set<TaskItem>();
-    public DbSet<TaskLabel> TaskLabels => Set<TaskLabel>();
-    public DbSet<TaskItemLabel> TaskItemLabels => Set<TaskItemLabel>();
-    public DbSet<Comment> Comments => Set<Comment>();
-    public DbSet<Subscription> Subscriptions => Set<Subscription>();
-    public DbSet<FileAttachment> FileAttachments => Set<FileAttachment>();
-    public DbSet<SavedFilter> SavedFilters => Set<SavedFilter>();
-    public DbSet<ApiKey> ApiKeys => Set<ApiKey>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -44,99 +35,6 @@ public class AppDbContext : IdentityDbContext<AppUser>
                 .WithMany()
                 .HasForeignKey(u => u.TenantId)
                 .OnDelete(DeleteBehavior.Restrict);
-        });
-
-        // Project
-        builder.Entity<Project>(e =>
-        {
-            e.HasQueryFilter(p => p.TenantId == _tenantId);
-            e.HasIndex(p => new { p.TenantId, p.Key }).IsUnique();
-        });
-
-        // TaskItem
-        builder.Entity<TaskItem>(e =>
-        {
-            e.HasQueryFilter(t => t.TenantId == _tenantId);
-            e.HasOne(t => t.Project)
-                .WithMany()
-                .HasForeignKey(t => t.ProjectId)
-                .OnDelete(DeleteBehavior.Cascade);
-            e.HasOne(t => t.Assignee)
-                .WithMany()
-                .HasForeignKey(t => t.AssigneeId)
-                .OnDelete(DeleteBehavior.SetNull);
-        });
-
-        // TaskLabel
-        builder.Entity<TaskLabel>(e =>
-        {
-            e.HasQueryFilter(l => l.TenantId == _tenantId);
-        });
-
-        // TaskItemLabel (join table)
-        builder.Entity<TaskItemLabel>(e =>
-        {
-            e.HasKey(til => new { til.TaskItemId, til.TaskLabelId });
-            e.HasOne(til => til.TaskItem)
-                .WithMany(t => t.TaskItemLabels)
-                .HasForeignKey(til => til.TaskItemId)
-                .OnDelete(DeleteBehavior.Cascade);
-            e.HasOne(til => til.TaskLabel)
-                .WithMany(l => l.TaskItemLabels)
-                .HasForeignKey(til => til.TaskLabelId)
-                .OnDelete(DeleteBehavior.Cascade);
-        });
-
-        // Comment
-        builder.Entity<Comment>(e =>
-        {
-            e.HasQueryFilter(c => c.TenantId == _tenantId);
-            e.HasOne(c => c.TaskItem)
-                .WithMany()
-                .HasForeignKey(c => c.TaskItemId)
-                .OnDelete(DeleteBehavior.Cascade);
-            e.HasOne(c => c.Author)
-                .WithMany()
-                .HasForeignKey(c => c.AuthorId)
-                .OnDelete(DeleteBehavior.Restrict);
-        });
-
-        // Subscription
-        builder.Entity<Subscription>(e =>
-        {
-            e.HasOne(s => s.Tenant)
-                .WithMany()
-                .HasForeignKey(s => s.TenantId)
-                .OnDelete(DeleteBehavior.Cascade);
-            e.HasIndex(s => s.TenantId);
-        });
-
-        // FileAttachment
-        builder.Entity<FileAttachment>(e =>
-        {
-            e.HasQueryFilter(f => f.TenantId == _tenantId);
-            e.HasOne(f => f.TaskItem)
-                .WithMany()
-                .HasForeignKey(f => f.TaskItemId)
-                .OnDelete(DeleteBehavior.Cascade);
-            e.HasOne(f => f.UploadedBy)
-                .WithMany()
-                .HasForeignKey(f => f.UploadedByUserId)
-                .OnDelete(DeleteBehavior.Restrict);
-        });
-
-        // SavedFilter
-        builder.Entity<SavedFilter>(e =>
-        {
-            e.HasQueryFilter(f => f.TenantId == _tenantId);
-            e.HasIndex(f => new { f.TenantId, f.UserId });
-        });
-
-        // ApiKey
-        builder.Entity<ApiKey>(e =>
-        {
-            e.HasIndex(k => k.Key).IsUnique();
-            e.HasIndex(k => k.TenantId);
         });
 
         // Seed default tenant

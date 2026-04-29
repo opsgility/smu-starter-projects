@@ -25,17 +25,10 @@ echo "Deploying to resource group: $AZURE_RESOURCE_GROUP (location: $AZURE_LOCAT
 
 deployment_name="ai103-infra-$(date +%s)"
 
-# TODO 1 (Exercise 2 Step 3): Run `az deployment group create` against infra/main.bicep
-#   - --resource-group "$AZURE_RESOURCE_GROUP"
-#   - --name "$deployment_name"
-#   - --template-file infra/main.bicep
-#   - --parameters infra/main.parameters.json
-#   - --parameters location="$AZURE_LOCATION"
-#   - --output none
-echo "NOT IMPLEMENTED — remove this line and implement TODO 1 (az deployment group create)"
+# Exercise 2 - Step 3 Start
+echo "NOT IMPLEMENTED — remove this line and add the az deployment group create command"
 exit 1
+# Exercise 2 - Step 3 End
 
-# TODO 2 (Exercise 2 Step 4): Print the deployment outputs
-#   - Use `az deployment group show` with
-#       --query "properties.outputs.{foundry:foundryEndpoint.value, search:searchEndpoint.value, storage:storageAccountName.value, appInsights:applicationInsightsConnectionString.value}"
-#       -o jsonc
+# Exercise 2 - Step 4 Start
+# Exercise 2 - Step 4 End

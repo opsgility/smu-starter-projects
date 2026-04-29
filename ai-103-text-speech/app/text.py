@@ -63,17 +63,9 @@ def analyze(content: str) -> dict:
             "key_phrases": ["Aurora parka", "minus twenty", ...],
         }
     """
-    # TODO (Exercise 1 Step 10 - TODO 1): call ``_lang.analyze_sentiment([content])``
-    # and take index ``[0]`` to get the single document's sentiment result.
-    raise NotImplementedError("Exercise 1 TODO 1: analyze_sentiment")
-
-    # TODO (Exercise 1 Step 10 - TODO 2): call ``_lang.extract_key_phrases([content])``
-    # and take index ``[0]`` to get the single document's key phrase result.
-
-    # TODO (Exercise 1 Step 10 - TODO 3): return a dict with keys
-    #   ``sentiment``   -> sent.sentiment
-    #   ``confidence``  -> sent.confidence_scores.as_dict()
-    #   ``key_phrases`` -> list(kp.key_phrases)
+    # Exercise 1 - Step 10 Start
+    raise NotImplementedError("Complete Exercise 1 Step 10")
+    # Exercise 1 - Step 10 End
 
 
 def extract(content: str) -> dict:
@@ -83,10 +75,6 @@ def extract(content: str) -> dict:
     the Foundry project and auth flows through ``DefaultAzureCredential``
     (Azure CLI token in the lab VM).
     """
-    # TODO (Exercise 1 Step 11 - TODO 4): open an ``AIProjectClient`` against
-    # ``PROJECT_ENDPOINT`` with ``DefaultAzureCredential()``; call
-    # ``project.get_openai_client()``; then ``client.responses.create(...)``
-    # passing ``model=MODEL``, a system+user ``input=[...]`` array using
-    # ``EXTRACTION_PROMPT``, and ``response_format={"type": "json_object"}``.
-    # Return ``json.loads(response.output_text)``.
-    raise NotImplementedError("Exercise 1 TODO 4: Responses API structured extraction")
+    # Exercise 1 - Step 11 Start
+    raise NotImplementedError("Complete Exercise 1 Step 11")
+    # Exercise 1 - Step 11 End

@@ -44,26 +44,6 @@ def extract_invoice(file_path: str) -> str:
     :return: JSON string of extracted fields (VendorName, InvoiceTotal,
         InvoiceDate, LineItems, etc.).
     """
-    # TODO (Exercise 3, Step 1): Implement the three-step Content Understanding
-    # REST flow:
-    #
-    #   1. PUT {ENDPOINT}/contentunderstanding/analyzers/{ANALYZER_ID}
-    #      ?api-version={API_VERSION}
-    #      - Body: {"description": ..., "baseAnalyzerId": "prebuilt-documentAnalyzer",
-    #        "fieldSchema": {"fields": {"VendorName": {"type": "string"}, ...}}}
-    #      - Accept 200/201/409 as success (409 = already exists).
-    #
-    #   2. POST {ENDPOINT}/contentunderstanding/analyzers/{ANALYZER_ID}:analyze
-    #      ?api-version={API_VERSION}
-    #      - Headers: HEADERS + {"Content-Type": "application/pdf"}
-    #      - Body: raw PDF bytes read from `file_path`
-    #      - Capture the "Operation-Location" response header.
-    #
-    #   3. Poll the Operation-Location URL until status == "Succeeded"
-    #      (fail fast on "Failed" or "Cancelled").
-    #
-    # Return json.dumps(result["result"]["contents"][0]["fields"]).
-    pdf = Path(file_path)
-    raise NotImplementedError(
-        "Implement extract_invoice() per Exercise 3 (lab 2259)."
-    )
+    # Exercise 3 - Step 1 Start
+    raise NotImplementedError("Complete Exercise 3 Step 1")
+    # Exercise 3 - Step 1 End

@@ -39,15 +39,9 @@ def synthesize(text: str, out_path: Path) -> Path:
     Uses ``en-US-JennyNeural`` and ``Riff24Khz16BitMonoPcm`` so the resulting
     WAV is browser-playable for the kiosk front-end.
     """
-    # TODO (Exercise 3 Step 7 - TODO 1): build a SpeechConfig via ``_config()``,
-    # set ``speech_synthesis_voice_name = "en-US-JennyNeural"`` and
-    # ``set_speech_synthesis_output_format(SpeechSynthesisOutputFormat.Riff24Khz16BitMonoPcm)``,
-    # create an AudioOutputConfig with ``filename=str(out_path)``, instantiate
-    # a SpeechSynthesizer, and call ``speak_text_async(text).get()``. Raise
-    # RuntimeError if ``result.reason != SynthesizingAudioCompleted`` including
-    # ``result.cancellation_details.error_details`` in the message. Return
-    # ``out_path``.
-    raise NotImplementedError("Exercise 3 TODO 1: synthesize (TTS)")
+    # Exercise 3 - Step 7 Start
+    raise NotImplementedError("Complete Exercise 3 Step 7")
+    # Exercise 3 - Step 7 End
 
 
 def transcribe(audio_path: Path) -> str:
@@ -57,12 +51,9 @@ def transcribe(audio_path: Path) -> str:
     inspect the WAV with ``ffprobe`` and convert with
     ``ffmpeg -i in.wav -ar 16000 -ac 1 -sample_fmt s16 fixed.wav``.
     """
-    # TODO (Exercise 3 Step 8 - TODO 2): build a SpeechConfig
-    # (``speechsdk.SpeechConfig(subscription=KEY, region=REGION)``), build an
-    # AudioConfig with ``filename=str(audio_path)``, create a SpeechRecognizer,
-    # and call ``recognize_once_async().get()``. Raise RuntimeError if
-    # ``result.reason != RecognizedSpeech``. Return ``result.text``.
-    raise NotImplementedError("Exercise 3 TODO 2: transcribe (STT)")
+    # Exercise 3 - Step 8 Start
+    raise NotImplementedError("Complete Exercise 3 Step 8")
+    # Exercise 3 - Step 8 End
 
 
 def translate_speech(audio_path: Path, target_lang: str) -> dict:
@@ -70,12 +61,6 @@ def translate_speech(audio_path: Path, target_lang: str) -> dict:
 
     Returns ``{"source_text": <recognized English>, "translations": {<lang>: <text>}}``.
     """
-    # TODO (Exercise 3 Step 9 - TODO 3): build a
-    # ``speechsdk.translation.SpeechTranslationConfig(subscription=KEY, region=REGION)``,
-    # set ``speech_recognition_language = "en-US"``, call
-    # ``add_target_language(target_lang)``, build an AudioConfig from
-    # ``audio_path``, create a TranslationRecognizer, and call
-    # ``recognize_once_async().get()``. Accept either ``TranslatedSpeech`` or
-    # ``RecognizedSpeech`` as success. Return
-    # ``{"source_text": result.text, "translations": dict(result.translations)}``.
-    raise NotImplementedError("Exercise 3 TODO 3: translate_speech")
+    # Exercise 3 - Step 9 Start
+    raise NotImplementedError("Complete Exercise 3 Step 9")
+    # Exercise 3 - Step 9 End

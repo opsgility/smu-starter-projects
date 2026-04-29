@@ -66,6 +66,8 @@ public class AuthService : IAuthService
             throw new InvalidOperationException($"Registration failed: {errors}");
         }
 
+        await _userManager.AddToRoleAsync(user, user.Role.ToString());
+
         var token = _jwtTokenService.GenerateAccessToken(user);
         var refreshToken = _jwtTokenService.GenerateRefreshToken();
         _refreshTokens[user.Id] = (user.Id, refreshToken);

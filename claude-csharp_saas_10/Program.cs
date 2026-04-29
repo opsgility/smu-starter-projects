@@ -50,10 +50,14 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
     };
-})
-.AddScheme<ApiKeyAuthOptions, ApiKeyAuthHandler>(ApiKeyAuthDefaults.AuthenticationScheme, _ => { });
+});
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireOwner", policy => policy.RequireRole("Owner"));
+    options.AddPolicy("RequireAdmin", policy => policy.RequireRole("Owner", "Admin"));
+    options.AddPolicy("RequireMember", policy => policy.RequireRole("Owner", "Admin", "Member"));
+});
 
 // HttpContext accessor for tenant resolution
 builder.Services.AddHttpContextAccessor();
@@ -132,6 +136,12 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.EnsureCreated();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    foreach (var roleName in Enum.GetNames<UserRole>())
+    {
+        if (!await roleManager.RoleExistsAsync(roleName))
+            await roleManager.CreateAsync(new IdentityRole(roleName));
+    }
 }
 
 // Middleware pipeline
@@ -141,10 +151,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseMiddleware<CorrelationIdMiddleware>();
-app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseAuthentication();
-app.UseMiddleware<RateLimitMiddleware>();
 app.UseMiddleware<TenantMiddleware>();
 app.UseMiddleware<PlanLimitMiddleware>();
 app.UseAuthorization();

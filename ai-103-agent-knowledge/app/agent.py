@@ -51,44 +51,9 @@ def build_agent_with_tools():
     credential = DefaultAzureCredential()
     client = AIProjectClient(endpoint=PROJECT_ENDPOINT, credential=credential).agents
 
-    # TODO (Exercise 1, Step 6): Upload sample_data/product-catalog.pdf with
-    # client.files.upload_and_poll(..., purpose=FilePurpose.AGENTS).
-    # Assign the result to a variable named `catalog`.
-
-    # TODO (Exercise 1, Step 6): Create a vector store from [catalog.id] using
-    # client.vector_stores.create_and_poll(...). Name it "summitline-catalog".
-    # Assign the result to a variable named `vector_store` and assert that
-    # vector_store.status == "completed".
-
-    # TODO (Exercise 1, Step 7): Build a FileSearchTool bound to
-    # [vector_store.id] and assign it to `file_search`.
-
-    # TODO (Exercise 2, Step 5): Build an AzureAISearchTool using
-    # index_connection_id=SEARCH_CONN, index_name=SEARCH_INDEX,
-    # query_type=AzureAISearchQueryType.SEMANTIC, top_k=5.
-    # Assign it to `ai_search`.
-
-    # TODO (Exercise 3, Step 2): Build a FunctionTool wrapping
-    # {extract_invoice} and assign it to `cu_tool`.
-
-    # TODO (Exercise 1, Step 8 -> Exercise 2, Step 6 -> Exercise 3, Step 2):
-    # Create a ToolSet and add file_search (Ex1), ai_search (Ex2), and
-    # cu_tool (Ex3) to it as you progress through the exercises.
-    toolset = ToolSet()
-
-    # TODO (Exercise 3, Step 2): enable the auto function-call loop
-    # client.enable_auto_function_calls(toolset)
-
-    # TODO (Exercise 1, Step 8): Create the agent with
-    #   model=MODEL,
-    #   name="summitline-concierge",
-    #   instructions=<see exercise - widen in Ex2 and Ex3>,
-    #   tools=toolset.definitions,
-    #   tool_resources=toolset.resources,
-    # and return (client, agent).
-    raise NotImplementedError(
-        "Implement build_agent_with_tools() following exercises 1-3."
-    )
+    # Exercise 1 - Step 6 Start
+    raise NotImplementedError("Complete Exercise 1 Step 6, then continue with Exercises 2 and 3")
+    # Exercise 1 - Step 6 End
 
 
 def ask(client, agent, question: str) -> None:

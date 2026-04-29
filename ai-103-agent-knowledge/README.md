@@ -93,5 +93,6 @@ in sample_data/invoice.pdf.".
 ## Authentication
 
 `DefaultAzureCredential` is used everywhere except the Content Understanding
-REST calls, which still require the Foundry account's `Ocp-Apim-Subscription-Key`
-in `eastus2` (CU AAD support is not yet GA there).
+REST calls, which use the Foundry account's `Ocp-Apim-Subscription-Key`
+(the exercises use key auth to keep focus on the Content Understanding API
+surface; keyless auth is available with API version `2025-11-01`).

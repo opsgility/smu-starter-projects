@@ -117,23 +117,9 @@ def cite(question: str, k: int = 5) -> dict:
     Returns a dict with `answer`, `citations` (markers found in the answer),
     and `invalid_citations` (markers that do NOT match any retrieved hit).
     """
-    # TODO (Exercise 4 Step 3): Implement the cite() helper.
-    # 1. hits = query(question, k)
-    # 2. Build a context string that joins each hit as
-    #       "[{source}#chunk{id.rsplit('_',1)[-1]}] {snippet}"
-    #    separated by blank lines.
-    # 3. Build a strict system prompt that tells the model to answer ONLY
-    #    from the context and cite [source#chunk] tags EXACTLY as shown.
-    # 4. Use AIProjectClient(endpoint=AZURE_AI_PROJECT_ENDPOINT, credential=CRED)
-    #    as a context manager, then `proj.get_openai_client()` similarly, and
-    #    call client.responses.create(model=MODEL_DEPLOYMENT, temperature=0,
-    #    input=[system, user]) where user = f"Context:\n{context}\n\nQ: {question}".
-    # 5. answer = resp.output_text
-    # 6. markers = _extract_markers(answer)
-    # 7. valid_tags = {f"{h['source']}#chunk{h['id'].rsplit('_',1)[-1]}" for h in hits}
-    # 8. invalid = [m for m in markers if m not in valid_tags]
-    # 9. Return {"answer": ..., "citations": markers, "invalid_citations": invalid}.
-    raise NotImplementedError("Implement cite() in Exercise 4 Step 3.")
+    # Exercise 4 - Step 3 Start
+    raise NotImplementedError("Complete Exercise 4 Step 3")
+    # Exercise 4 - Step 3 End
 
 
 # ---------------------------------------------------------------------------
@@ -141,13 +127,6 @@ def cite(question: str, k: int = 5) -> dict:
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    # TODO (Exercise 4 Step 4): Implement the CLI entry-point.
-    # If sys.argv looks like:   --cite <question words...>
-    #   - call cite(" ".join(sys.argv[2:]))
-    #   - print result["answer"], then "citations: <list>"
-    #   - if invalid_citations is non-empty, print a WARNING line with them.
-    # Otherwise treat sys.argv[1:] as the question:
-    #   - for each hit from query("..."), print:
-    #       f"{h['score']:.3f}  rerank={h['rerank']:.2f}  {h['source']:30s} ({h['doc_type']})"
-    #       f"   {h['snippet']}"
-    raise NotImplementedError("Implement the CLI branch in Exercise 4 Step 4.")
+    # Exercise 4 - Step 4 Start
+    raise NotImplementedError("Complete Exercise 4 Step 4")
+    # Exercise 4 - Step 4 End

@@ -58,38 +58,6 @@ def converse(messages: List[str]) -> List[Dict[str, str]]:
     every text-bearing message on the thread (user and assistant).
     """
     with build_client() as client:
-        # TODO 1 (Exercise 1 Step 7): Build a ToolSet and add a FunctionTool
-        # that wraps USER_FUNCTIONS. Then call
-        # client.enable_auto_function_calls(toolset) so the SDK dispatches
-        # tool calls to your Python functions automatically.
-        #
-        # Example:
-        #     toolset = ToolSet()
-        #     toolset.add(FunctionTool(USER_FUNCTIONS))
-        #     client.enable_auto_function_calls(toolset)
-
-        # TODO 2 (Exercise 1 Step 7): Create the Summitline concierge agent
-        # using client.create_agent(...). Pass model=MODEL,
-        # name="summitline-concierge", instructions=INSTRUCTIONS,
-        # tools=toolset.definitions, tool_resources=toolset.resources.
-
-        # TODO 3 (Exercise 2 Step 1): Create a fresh thread for this
-        # conversation with client.threads.create().
-
-        # TODO 4 (Exercise 2 Step 2): For each user message in `messages`,
-        # push it with client.messages.create(thread_id=..., role="user",
-        # content=...) and then drive the turn with
-        # client.runs.create_and_process(thread_id=..., agent_id=...). One
-        # run per turn so each tool call completes before the next user
-        # message arrives.
-
-        # TODO 5 (Exercise 2 Step 3): List the thread messages in ascending
-        # order with client.messages.list(thread_id=..., order=
-        # ListSortOrder.ASCENDING), collapse each text-bearing message to
-        # {"role": m.role, "text": m.text_messages[-1].text.value}, delete
-        # the agent with client.delete_agent(agent.id), and return the
-        # transcript.
-
-        raise NotImplementedError(
-            "Implement TODOs 1-5 in converse() — see Exercises 1 and 2."
-        )
+        # Exercise 1 - Step 7 Start
+        raise NotImplementedError("Complete Exercise 1 Step 7, then continue with Exercise 2")
+        # Exercise 1 - Step 7 End

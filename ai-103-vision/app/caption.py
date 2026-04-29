@@ -33,11 +33,9 @@ def caption(image_bytes: bytes, *, accessibility: bool = False) -> str:
     'input_image' with the image as a data: URL (use _data_url()).
     Return response.output_text.
     """
-    # TODO (Exercise 2 Step 2): Build the instruction string based on the
-    #   accessibility flag, then call client.responses.create on
-    #   AIProjectClient.get_openai_client() with a user message containing
-    #   input_text + input_image content parts. Return response.output_text.
-    raise NotImplementedError("Implement caption() in Exercise 2 Step 2")
+    # Exercise 2 - Step 2 Start
+    raise NotImplementedError("Complete Exercise 2 Step 2")
+    # Exercise 2 - Step 2 End
 
 
 def answer(image_bytes: bytes, question: str) -> str:
@@ -46,6 +44,6 @@ def answer(image_bytes: bytes, question: str) -> str:
     Same Responses API shape as caption(): a user message with an input_text
     (the question) and an input_image (the data: URL). Return response.output_text.
     """
-    # TODO (Exercise 2 Step 3): Call client.responses.create with the question
-    #   as input_text and the image as input_image; return response.output_text.
-    raise NotImplementedError("Implement answer() in Exercise 2 Step 3")
+    # Exercise 2 - Step 3 Start
+    raise NotImplementedError("Complete Exercise 2 Step 3")
+    # Exercise 2 - Step 3 End

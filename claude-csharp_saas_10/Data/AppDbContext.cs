@@ -25,7 +25,6 @@ public class AppDbContext : IdentityDbContext<AppUser>
     public DbSet<Subscription> Subscriptions => Set<Subscription>();
     public DbSet<FileAttachment> FileAttachments => Set<FileAttachment>();
     public DbSet<SavedFilter> SavedFilters => Set<SavedFilter>();
-    public DbSet<ApiKey> ApiKeys => Set<ApiKey>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -130,13 +129,6 @@ public class AppDbContext : IdentityDbContext<AppUser>
         {
             e.HasQueryFilter(f => f.TenantId == _tenantId);
             e.HasIndex(f => new { f.TenantId, f.UserId });
-        });
-
-        // ApiKey
-        builder.Entity<ApiKey>(e =>
-        {
-            e.HasIndex(k => k.Key).IsUnique();
-            e.HasIndex(k => k.TenantId);
         });
 
         // Seed default tenant

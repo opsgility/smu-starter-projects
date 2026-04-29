@@ -36,18 +36,6 @@ def translate(text: str, to_lang: str) -> str:
     ``to_lang`` must be a BCP-47 / ISO 639-1 code — ``fr``, ``es``, ``ja``,
     ``de``, ``zh-Hans`` — NOT ``french`` / ``japanese``.
     """
-    # TODO (Exercise 2 Step 7 - TODO 1): build the request headers dict with
-    #   "Ocp-Apim-Subscription-Key":    KEY,
-    #   "Ocp-Apim-Subscription-Region": REGION,   # required — #1 cause of 401
-    #   "Content-type":                 "application/json",
-    # then POST to ENDPOINT with
-    #   params={"api-version": "3.0", "to": to_lang},
-    #   headers=headers,
-    #   json=[{"text": text}],
-    #   timeout=30,
-    # Call response.raise_for_status() so 4xx/5xx surface as exceptions.
-    raise NotImplementedError("Exercise 2 TODO 1: POST to Translator v3.0")
-
-    # TODO (Exercise 2 Step 7 - TODO 2): parse the nested response and return
-    # ``response.json()[0]["translations"][0]["text"]`` — a single translation
-    # for a single input document.
+    # Exercise 2 - Step 7 Start
+    raise NotImplementedError("Complete Exercise 2 Step 7")
+    # Exercise 2 - Step 7 End

@@ -10,13 +10,11 @@ public class TaskService : ITaskService
 {
     private readonly AppDbContext _db;
     private readonly ITenantProvider _tenantProvider;
-    private readonly IEmailService _emailService;
 
-    public TaskService(AppDbContext db, ITenantProvider tenantProvider, IEmailService emailService)
+    public TaskService(AppDbContext db, ITenantProvider tenantProvider)
     {
         _db = db;
         _tenantProvider = tenantProvider;
-        _emailService = emailService;
     }
 
     public async Task<List<TaskResponse>> GetAllAsync(
@@ -118,16 +116,7 @@ public class TaskService : ITaskService
         _db.TaskItems.Add(task);
         await _db.SaveChangesAsync();
 
-        // Send assignment email if task is assigned
-        if (task.AssigneeId != null)
-        {
-            var assignee = await _db.Users.FindAsync(task.AssigneeId);
-            var project = await _db.Projects.FindAsync(task.ProjectId);
-            if (assignee?.Email != null && project != null)
-            {
-                await _emailService.SendTaskAssignedEmail(assignee.Email, task.Title, project.Name);
-            }
-        }
+        // Email notification will be implemented in the Background Jobs lab
 
         // Reload with navigation properties
         return (await GetByIdAsync(task.Id))!;
@@ -151,16 +140,7 @@ public class TaskService : ITaskService
 
         await _db.SaveChangesAsync();
 
-        // Send assignment email if assignee changed
-        if (request.AssigneeId != null && request.AssigneeId != previousAssigneeId)
-        {
-            var assignee = await _db.Users.FindAsync(request.AssigneeId);
-            var project = await _db.Projects.FindAsync(task.ProjectId);
-            if (assignee?.Email != null && project != null)
-            {
-                await _emailService.SendTaskAssignedEmail(assignee.Email, task.Title, project.Name);
-            }
-        }
+        // Email notification will be implemented in the Background Jobs lab
 
         return await GetByIdAsync(id);
     }

@@ -50,7 +50,6 @@ def init() -> "trace.Tracer":
     - Return ``trace.get_tracer("summitline-concierge")``.
     - Do NOT install a custom ``TracerProvider`` — the distro installs one.
     """
-    # TODO (Exercise 3393 Step 3): call configure_azure_monitor with the
-    # APPLICATIONINSIGHTS_CONNECTION_STRING env var and return
-    # trace.get_tracer("summitline-concierge").
-    raise NotImplementedError("Exercise 3393 Step 3: implement tracing.init()")
+    # Exercise 3 - Step 3 Start
+    raise NotImplementedError("Complete Exercise 3 Step 3")
+    # Exercise 3 - Step 3 End

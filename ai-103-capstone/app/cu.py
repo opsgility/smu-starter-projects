@@ -17,9 +17,9 @@ HEADERS = {"Ocp-Apim-Subscription-Key": KEY}
 
 tracer = trace.get_tracer("summitline-capstone")
 
-# TODO (Exercise 3 Step 2): define the SCHEMA dict used by _ensure() below.
-# It should have baseAnalyzerId="prebuilt-documentAnalyzer" and a fieldSchema
-# with three generate-method fields: vendor, doc_type, total.
+# Exercise 3 - Step 2 Start
+SCHEMA: dict = {}
+# Exercise 3 - Step 2 End
 
 
 def _ensure() -> None:
@@ -28,10 +28,9 @@ def _ensure() -> None:
     First call: GET returns 404 -> PUT the SCHEMA.
     Subsequent calls: GET returns 200 -> no-op.
     """
-    # TODO (Exercise 3 Step 2): implement GET then conditional PUT using SCHEMA.
-    raise NotImplementedError(
-        "Complete TODOs in app/cu.py (Exercise 3 Step 2)."
-    )
+    # Exercise 3 - Step 2 Start
+    raise NotImplementedError("Complete Exercise 3 Step 2")
+    # Exercise 3 - Step 2 End
 
 
 def extract(file_bytes: bytes) -> dict:
@@ -43,11 +42,6 @@ def extract(file_bytes: bytes) -> dict:
     with tracer.start_as_current_span("summitline.cu.extract") as span:
         span.set_attribute("file.bytes", len(file_bytes))
 
-        # TODO (Exercise 3 Step 2): call _ensure(). POST file_bytes to
-        # f"{ENDPOINT}/contentunderstanding/analyzers/{ANALYZER_ID}:analyze?api-version={API_VERSION}"
-        # with Content-Type: application/octet-stream. Capture Operation-Location
-        # from the response headers and poll it until status == "Succeeded".
-        # Return poll["result"]["contents"][0].get("fields", {}). On "Failed", raise.
-        raise NotImplementedError(
-            "Complete TODOs in app/cu.py (Exercise 3 Step 2)."
-        )
+        # Exercise 3 - Step 2 Start
+        raise NotImplementedError("Complete Exercise 3 Step 2")
+        # Exercise 3 - Step 2 End

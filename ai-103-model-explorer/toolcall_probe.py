@@ -51,7 +51,7 @@ def _load_deployments() -> list[str]:
     if not names:
         raise RuntimeError(
             "MODEL_DEPLOYMENTS is not set. Populate .env from the ARM template outputs "
-            "(see Exercise 1, step 6)."
+            "(see Exercise 1, step 5)."
         )
     return names
 
@@ -61,7 +61,7 @@ def main() -> int:
     if not endpoint:
         raise RuntimeError(
             "AZURE_AI_PROJECT_ENDPOINT is not set. Populate .env from the ARM template "
-            "outputs (see Exercise 1, step 6)."
+            "outputs (see Exercise 1, step 5)."
         )
 
     deployments = _load_deployments()
@@ -76,26 +76,9 @@ def main() -> int:
         with AIProjectClient(endpoint=endpoint, credential=credential) as project_client:
             with project_client.get_openai_client() as client:
                 for name in deployments:
-                    # TODO (Exercise 2, Step 4, TODO 1): call the Responses API
-                    # with client.responses.create(model=name, input=PROBE,
-                    # tools=TOOLS). Wrap the call in try/except so a single
-                    # model failure doesn't abort the whole probe — on
-                    # Exception, add_row(name, "error", str(exc)[:60]) and
-                    # continue.
-                    #
-                    # TODO (Exercise 2, Step 4, TODO 2): scan response.output
-                    # for the first item whose type attribute equals
-                    # "function_call" using
-                    # next((item for item in response.output
-                    #       if getattr(item, "type", None) == "function_call"),
-                    #      None).
-                    #
-                    # TODO (Exercise 2, Step 4, TODO 3): if a call was found,
-                    # add a "yes" row with a JSON-rendered {name, args} detail;
-                    # otherwise add a "no" row.
-                    raise NotImplementedError(
-                        "Finish the three TODOs in toolcall_probe.py (Exercise 2, step 4)."
-                    )
+                    # Exercise 2 - Step 2 Start
+                    raise NotImplementedError("Complete Exercise 2 Step 2")
+                    # Exercise 2 - Step 2 End
 
     console.print(table)
     return 0

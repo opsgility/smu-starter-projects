@@ -34,14 +34,6 @@ def ask(image_bytes: bytes, question: str) -> str:
         span.set_attribute("image.bytes", len(image_bytes))
         span.set_attribute("question.chars", len(question))
 
-        # TODO (Exercise 2 Step 3): open AIProjectClient(endpoint=ENDPOINT, credential=DefaultAzureCredential())
-        # then the OpenAI client via project.get_openai_client().
-
-        # TODO (Exercise 2 Step 3): call client.responses.create(model=DEPLOYMENT, input=[...])
-        # where the single user message has a content array with two items:
-        #   {"type": "input_text",  "text": question}
-        #   {"type": "input_image", "image_url": _data_url(image_bytes)}
-        # Return response.output_text.
-        raise NotImplementedError(
-            "Complete TODOs in app/vision.py (Exercise 2 Step 3)."
-        )
+        # Exercise 2 - Step 3 Start
+        raise NotImplementedError("Complete Exercise 2 Step 3")
+        # Exercise 2 - Step 3 End

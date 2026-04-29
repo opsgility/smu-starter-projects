@@ -37,7 +37,7 @@ def deployments() -> Iterable[str]:
     if not names:
         raise RuntimeError(
             "MODEL_DEPLOYMENTS is not set. Populate .env from the ARM template outputs "
-            "(see Exercise 1, step 6)."
+            "(see Exercise 1, step 5)."
         )
     return names
 
@@ -49,7 +49,7 @@ def main() -> int:
     if not endpoint:
         raise RuntimeError(
             "AZURE_AI_PROJECT_ENDPOINT is not set. Populate .env from the ARM template "
-            "outputs (see Exercise 1, step 6)."
+            "outputs (see Exercise 1, step 5)."
         )
 
     console = Console()
@@ -67,19 +67,9 @@ def main() -> int:
         with AIProjectClient(endpoint=endpoint, credential=credential) as project_client:
             with project_client.get_openai_client() as client:
                 for name in deployments():
-                    # TODO (Exercise 1, Step 9, TODO 1): record a wall-clock start
-                    # time with time.perf_counter() so we can measure latency.
-                    #
-                    # TODO (Exercise 1, Step 9, TODO 2): call the Responses API
-                    # with client.responses.create(model=name, input=prompt) and
-                    # read response.usage + response.output_text.
-                    #
-                    # TODO (Exercise 1, Step 9, TODO 3): append a row to the Rich
-                    # table containing the deployment name, elapsed seconds,
-                    # input_tokens, output_tokens, and an 80-char preview.
-                    raise NotImplementedError(
-                        "Finish the three TODOs in compare_models.py (Exercise 1, step 9)."
-                    )
+                    # Exercise 1 - Step 6 Start
+                    raise NotImplementedError("Complete Exercise 1 Step 6")
+                    # Exercise 1 - Step 6 End
 
     console.print(table)
     return 0

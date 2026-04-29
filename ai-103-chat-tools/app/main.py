@@ -124,32 +124,9 @@ def chat(message: str = Form(...)) -> dict:
     calls_made: list[dict] = []
 
     with _project.get_openai_client() as client:
-        # TODO (Exercise 1 Step 8 — TODO 1): Make the initial responses.create call.
-        #   Pass model=_deployment, input=message, tools=TOOL_SCHEMAS.
-        #   Assign the result to a variable named `response`.
-        response = None  # replace me
-
-        while True:
-            # TODO (Exercise 1 Step 8 — TODO 2): From response.output, collect
-            #   every item whose .type == "function_call" into `tool_calls`.
-            #   If the list is empty, break out of the loop — the model is done.
-            tool_calls: list = []  # replace me
-
-            if not tool_calls:
-                break
-
-            for call in tool_calls:
-                calls_made.append({"name": call.name, "arguments": call.arguments})
-
-            # TODO (Exercise 1 Step 8 — TODO 3): Run the tools via _run_tools(tool_calls).
-            #   Store the returned list in a variable named `outputs`.
-            outputs: list = []  # replace me
-
-            # TODO (Exercise 1 Step 8 — TODO 4): Call responses.create again with
-            #   input=outputs, previous_response_id=response.id, tools=TOOL_SCHEMAS,
-            #   and re-assign the result to `response` so the loop re-checks
-            #   for more function calls.
-            response = response  # replace me
+        # Exercise 1 - Step 8 Start
+        raise NotImplementedError("Complete Exercise 1 Step 8")
+        # Exercise 1 - Step 8 End
 
     return {"reply": response.output_text, "tool_calls": calls_made}
 
@@ -171,14 +148,9 @@ def stream(message: str = Form(...)) -> StreamingResponse:
     """
 
     def event_gen():
-        # TODO (Exercise 2 Step 1 — TODO 5): Inside `with _project.get_openai_client() as client:`
-        #   call client.responses.create(model=_deployment, input=message,
-        #   tools=TOOL_SCHEMAS, stream=True) as a context manager. Iterate the
-        #   events; when event.type == "response.output_text.delta",
-        #   yield f"data: {json.dumps({'delta': event.delta})}\n\n". When
-        #   event.type == "response.completed", yield "data: [DONE]\n\n" and
-        #   return.
-        raise NotImplementedError("Implement TODO 5 in Exercise 2.")
+        # Exercise 2 - Step 1 Start
+        raise NotImplementedError("Complete Exercise 2 Step 1")
+        # Exercise 2 - Step 1 End
 
     return StreamingResponse(event_gen(), media_type="text/event-stream")
 

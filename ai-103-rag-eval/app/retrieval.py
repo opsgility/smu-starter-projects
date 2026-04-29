@@ -73,29 +73,9 @@ def create_index() -> None:
     configuration with a single `SemanticConfiguration` named `default` whose
     prioritized content field is `chunk`.
     """
-    # TODO (Exercise 1, Step 7): Build the list of SearchField objects
-    #   - id:        SearchFieldDataType.String, key=True
-    #   - source:    SearchFieldDataType.String, filterable=True
-    #   - chunk:     SearchFieldDataType.String, searchable=True
-    #   - embedding: SearchFieldDataType.Collection(SearchFieldDataType.Single),
-    #                searchable=True, vector_search_dimensions=EMBED_DIMENSIONS,
-    #                vector_search_profile_name="default"
-    fields = []  # type: list[SearchField]
-
-    # TODO (Exercise 1, Step 7): Build the VectorSearch configuration
-    #   - algorithms: [HnswAlgorithmConfiguration(name="default-hnsw")]
-    #   - profiles:   [VectorSearchProfile(name="default",
-    #                                       algorithm_configuration_name="default-hnsw")]
-    vector_search = None
-
-    # TODO (Exercise 1, Step 7): Build the SemanticSearch configuration
-    #   One SemanticConfiguration named "default" whose prioritized_fields
-    #   list chunk as the content field.
-    semantic_search = None
-
-    # TODO (Exercise 1, Step 7): Assemble the SearchIndex(name=INDEX, ...)
-    # and call SearchIndexClient(ENDPOINT, CRED).create_or_update_index(index)
-    raise NotImplementedError("Exercise 1: implement create_index()")
+    # Exercise 1 - Step 7 Start
+    raise NotImplementedError("Complete Exercise 1 Step 7")
+    # Exercise 1 - Step 7 End
 
 
 # ---------------------------------------------------------------------------
@@ -109,14 +89,9 @@ def ingest() -> None:
     `_embed()`, build `{id, source, chunk, embedding}` dicts, and upload them
     via `SearchClient.upload_documents`.
     """
-    # TODO (Exercise 2, Step 1): Replace this stub with the ingest loop
-    #   1. client = SearchClient(ENDPOINT, INDEX, CRED)
-    #   2. for md in SAMPLE_DOCS.glob("*.md"):
-    #        - read text, chunk, skip if empty
-    #        - embed the chunks in one batch
-    #        - append {"id", "source", "chunk", "embedding"} for each chunk
-    #   3. upload_documents(documents=docs) and print the chunk count
-    raise NotImplementedError("Exercise 2: implement ingest()")
+    # Exercise 2 - Step 1 Start
+    raise NotImplementedError("Complete Exercise 2 Step 1")
+    # Exercise 2 - Step 1 End
 
 
 def search(query: str, k: int = 5) -> list[dict]:
@@ -125,21 +100,9 @@ def search(query: str, k: int = 5) -> list[dict]:
     Returns a list of dicts with `id`, `source`, `chunk`, and `score` keys,
     ordered by semantic reranker score.
     """
-    # TODO (Exercise 2, Step 2): Replace this stub with the hybrid query
-    #   1. vec = _embed([query])[0]
-    #   2. vq  = VectorizedQuery(vector=vec, k_nearest_neighbors=50,
-    #                             fields="embedding")
-    #   3. results = SearchClient(ENDPOINT, INDEX, CRED).search(
-    #        search_text=query,
-    #        vector_queries=[vq],
-    #        select=["id", "source", "chunk"],
-    #        top=k,
-    #        query_type="semantic",
-    #        semantic_configuration_name="default",
-    #      )
-    #   4. return a list of {"id", "source", "chunk", "score"} dicts where
-    #      score = r["@search.score"]
-    raise NotImplementedError("Exercise 2: implement search()")
+    # Exercise 2 - Step 2 Start
+    raise NotImplementedError("Complete Exercise 2 Step 2")
+    # Exercise 2 - Step 2 End
 
 
 # ---------------------------------------------------------------------------

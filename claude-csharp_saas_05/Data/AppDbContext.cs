@@ -22,10 +22,6 @@ public class AppDbContext : IdentityDbContext<AppUser>
     public DbSet<TaskLabel> TaskLabels => Set<TaskLabel>();
     public DbSet<TaskItemLabel> TaskItemLabels => Set<TaskItemLabel>();
     public DbSet<Comment> Comments => Set<Comment>();
-    public DbSet<Subscription> Subscriptions => Set<Subscription>();
-    public DbSet<FileAttachment> FileAttachments => Set<FileAttachment>();
-    public DbSet<SavedFilter> SavedFilters => Set<SavedFilter>();
-    public DbSet<ApiKey> ApiKeys => Set<ApiKey>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -99,44 +95,6 @@ public class AppDbContext : IdentityDbContext<AppUser>
                 .WithMany()
                 .HasForeignKey(c => c.AuthorId)
                 .OnDelete(DeleteBehavior.Restrict);
-        });
-
-        // Subscription
-        builder.Entity<Subscription>(e =>
-        {
-            e.HasOne(s => s.Tenant)
-                .WithMany()
-                .HasForeignKey(s => s.TenantId)
-                .OnDelete(DeleteBehavior.Cascade);
-            e.HasIndex(s => s.TenantId);
-        });
-
-        // FileAttachment
-        builder.Entity<FileAttachment>(e =>
-        {
-            e.HasQueryFilter(f => f.TenantId == _tenantId);
-            e.HasOne(f => f.TaskItem)
-                .WithMany()
-                .HasForeignKey(f => f.TaskItemId)
-                .OnDelete(DeleteBehavior.Cascade);
-            e.HasOne(f => f.UploadedBy)
-                .WithMany()
-                .HasForeignKey(f => f.UploadedByUserId)
-                .OnDelete(DeleteBehavior.Restrict);
-        });
-
-        // SavedFilter
-        builder.Entity<SavedFilter>(e =>
-        {
-            e.HasQueryFilter(f => f.TenantId == _tenantId);
-            e.HasIndex(f => new { f.TenantId, f.UserId });
-        });
-
-        // ApiKey
-        builder.Entity<ApiKey>(e =>
-        {
-            e.HasIndex(k => k.Key).IsUnique();
-            e.HasIndex(k => k.TenantId);
         });
 
         // Seed default tenant
