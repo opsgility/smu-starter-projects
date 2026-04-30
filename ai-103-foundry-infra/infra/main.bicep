@@ -1,14 +1,14 @@
 @description('Azure region for all resources')
 param location string = 'eastus2'
 
-@description('Name of the Foundry AI Services (hub) account')
-param hubName string
-
 @description('Name of the Foundry project (child of hub)')
 param projectName string
 
-// uniqueSuffix is used to avoid global name collisions on storage + search
+// uniqueSuffix ensures globally unique names for resources with global namespaces
 var uniqueSuffix = toLower(uniqueString(resourceGroup().id))
+
+// hubName must be globally unique — derive it from uniqueSuffix like storage and search
+var hubName = 'ai103hub${uniqueSuffix}'
 
 // Exercise 1 - Step 3 Start
 // Exercise 1 - Step 3 End
