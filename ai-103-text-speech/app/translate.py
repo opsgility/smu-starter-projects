@@ -36,6 +36,6 @@ def translate(text: str, to_lang: str) -> str:
     ``to_lang`` must be a BCP-47 / ISO 639-1 code — ``fr``, ``es``, ``ja``,
     ``de``, ``zh-Hans`` — NOT ``french`` / ``japanese``.
     """
-    # Exercise 2 - Step 7 Start
-    raise NotImplementedError("Complete Exercise 2 Step 7")
-    # Exercise 2 - Step 7 End
+    # Exercise 2 - Step 6 Start
+    raise NotImplementedError("Complete Exercise 2 Step 6")
+    # Exercise 2 - Step 6 End

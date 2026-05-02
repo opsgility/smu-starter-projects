@@ -39,9 +39,9 @@ def synthesize(text: str, out_path: Path) -> Path:
     Uses ``en-US-JennyNeural`` and ``Riff24Khz16BitMonoPcm`` so the resulting
     WAV is browser-playable for the kiosk front-end.
     """
-    # Exercise 3 - Step 7 Start
-    raise NotImplementedError("Complete Exercise 3 Step 7")
-    # Exercise 3 - Step 7 End
+    # Exercise 3 - Step 6 Start
+    raise NotImplementedError("Complete Exercise 3 Step 6")
+    # Exercise 3 - Step 6 End
 
 
 def transcribe(audio_path: Path) -> str:
@@ -51,9 +51,9 @@ def transcribe(audio_path: Path) -> str:
     inspect the WAV with ``ffprobe`` and convert with
     ``ffmpeg -i in.wav -ar 16000 -ac 1 -sample_fmt s16 fixed.wav``.
     """
-    # Exercise 3 - Step 8 Start
-    raise NotImplementedError("Complete Exercise 3 Step 8")
-    # Exercise 3 - Step 8 End
+    # Exercise 3 - Step 7 Start
+    raise NotImplementedError("Complete Exercise 3 Step 7")
+    # Exercise 3 - Step 7 End
 
 
 def translate_speech(audio_path: Path, target_lang: str) -> dict:
@@ -61,6 +61,6 @@ def translate_speech(audio_path: Path, target_lang: str) -> dict:
 
     Returns ``{"source_text": <recognized English>, "translations": {<lang>: <text>}}``.
     """
-    # Exercise 3 - Step 9 Start
-    raise NotImplementedError("Complete Exercise 3 Step 9")
-    # Exercise 3 - Step 9 End
+    # Exercise 3 - Step 8 Start
+    raise NotImplementedError("Complete Exercise 3 Step 8")
+    # Exercise 3 - Step 8 End

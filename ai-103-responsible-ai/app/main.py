@@ -25,9 +25,9 @@ _deployment = os.environ["MODEL_DEPLOYMENT"]
 
 @app.post("/generate")
 def generate(prompt: str = Form(...), requires_approval: bool = Form(False)) -> dict:
-    # Exercise 1 - Step 7 Start
-    raise NotImplementedError("Complete Exercise 1 Step 7")
-    # Exercise 1 - Step 7 End
+    # Exercise 1 - Step 6 Start
+    raise NotImplementedError("Complete Exercise 1 Step 6")
+    # Exercise 1 - Step 6 End
 
 
 @app.get("/approvals")

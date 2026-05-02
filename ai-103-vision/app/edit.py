@@ -22,6 +22,6 @@ def edit(image_bytes: bytes, mask_bytes: bytes, prompt: str) -> bytes:
     Call client.images.edit with model, image, mask, prompt,
     response_format='b64_json', then base64-decode response.data[0].b64_json.
     """
-    # Exercise 1 - Step 8 Start
-    raise NotImplementedError("Complete Exercise 1 Step 8")
-    # Exercise 1 - Step 8 End
+    # Exercise 1 - Step 7 Start
+    raise NotImplementedError("Complete Exercise 1 Step 7")
+    # Exercise 1 - Step 7 End

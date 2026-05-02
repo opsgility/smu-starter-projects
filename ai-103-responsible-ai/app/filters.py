@@ -18,6 +18,6 @@ SEVERITY_THRESHOLD = 4
 
 def check(text: str) -> dict:
     """Return {"blocked": bool, "categories": {name: severity}}."""
-    # Exercise 1 - Step 6 Start
-    raise NotImplementedError("Complete Exercise 1 Step 6")
-    # Exercise 1 - Step 6 End
+    # Exercise 1 - Step 5 Start
+    raise NotImplementedError("Complete Exercise 1 Step 5")
+    # Exercise 1 - Step 5 End

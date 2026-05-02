@@ -19,6 +19,6 @@ def generate(prompt: str, size: str = "1024x1024") -> bytes:
     base64-decode response.data[0].b64_json and return the raw PNG bytes.
     Supported sizes for gpt-image-1: 1024x1024, 1024x1536, 1536x1024.
     """
-    # Exercise 1 - Step 7 Start
-    raise NotImplementedError("Complete Exercise 1 Step 7")
-    # Exercise 1 - Step 7 End
+    # Exercise 1 - Step 6 Start
+    raise NotImplementedError("Complete Exercise 1 Step 6")
+    # Exercise 1 - Step 6 End

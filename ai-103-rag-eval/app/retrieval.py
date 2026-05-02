@@ -73,9 +73,9 @@ def create_index() -> None:
     configuration with a single `SemanticConfiguration` named `default` whose
     prioritized content field is `chunk`.
     """
-    # Exercise 1 - Step 7 Start
-    raise NotImplementedError("Complete Exercise 1 Step 7")
-    # Exercise 1 - Step 7 End
+    # Exercise 1 - Step 6 Start
+    raise NotImplementedError("Complete Exercise 1 Step 6")
+    # Exercise 1 - Step 6 End
 
 
 # ---------------------------------------------------------------------------

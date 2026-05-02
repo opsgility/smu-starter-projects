@@ -22,9 +22,9 @@ def run() -> dict:
     project_endpoint = os.environ["AZURE_AI_PROJECT_ENDPOINT"]
     deployment = os.environ["MODEL_DEPLOYMENT"]
 
-    # Exercise 2 - Step 3 Start
-    raise NotImplementedError("Complete Exercise 2 Step 3")
-    # Exercise 2 - Step 3 End
+    # Exercise 2 - Step 1 Start
+    raise NotImplementedError("Complete Exercise 2 Step 1")
+    # Exercise 2 - Step 1 End
 
 
 if __name__ == "__main__":

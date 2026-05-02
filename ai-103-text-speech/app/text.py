@@ -63,9 +63,9 @@ def analyze(content: str) -> dict:
             "key_phrases": ["Aurora parka", "minus twenty", ...],
         }
     """
-    # Exercise 1 - Step 10 Start
-    raise NotImplementedError("Complete Exercise 1 Step 10")
-    # Exercise 1 - Step 10 End
+    # Exercise 1 - Step 9 Start
+    raise NotImplementedError("Complete Exercise 1 Step 9")
+    # Exercise 1 - Step 9 End
 
 
 def extract(content: str) -> dict:
@@ -75,6 +75,6 @@ def extract(content: str) -> dict:
     the Foundry project and auth flows through ``DefaultAzureCredential``
     (Azure CLI token in the lab VM).
     """
-    # Exercise 1 - Step 11 Start
-    raise NotImplementedError("Complete Exercise 1 Step 11")
-    # Exercise 1 - Step 11 End
+    # Exercise 1 - Step 10 Start
+    raise NotImplementedError("Complete Exercise 1 Step 10")
+    # Exercise 1 - Step 10 End
