@@ -19,9 +19,13 @@ Exercise 1 of Lab 2258 has you rewrite this file end-to-end:
 """
 import os
 
+# Exercise 1 - Step 5: replace the import below with:
+#   from azure.ai.projects import AIProjectClient
+#   from azure.identity import DefaultAzureCredential
+from openai import AzureOpenAI
+
 from dotenv import load_dotenv
 from fastapi import FastAPI, Form
-from openai import AzureOpenAI
 
 load_dotenv()
 
