@@ -4,7 +4,7 @@ This is the prototype you inherited from the Summitline Outfitters team. It
 authenticates to Azure OpenAI using a static API key (`AZURE_OPENAI_API_KEY`)
 read from the environment — a compliance and security liability.
 
-Exercise 1 of Lab 2258 has you rewrite this file end-to-end:
+Exercise 2 of Lab 2258 has you rewrite this file end-to-end:
 
     - Drop `from openai import AzureOpenAI`.
     - Replace the key-based client with:
@@ -19,7 +19,7 @@ Exercise 1 of Lab 2258 has you rewrite this file end-to-end:
 """
 import os
 
-# Exercise 1 - Step 5: replace the import below with:
+# Exercise 2 - Step 5: replace the import below with:
 #   from azure.ai.projects import AIProjectClient
 #   from azure.identity import DefaultAzureCredential
 from openai import AzureOpenAI
@@ -31,7 +31,7 @@ load_dotenv()
 
 app = FastAPI(title="Summitline Outfitters Concierge (LEGACY key-auth)")
 
-# Exercise 1 - Step 5 Start
+# Exercise 2 - Step 5 Start
 _deployment = os.environ.get("AZURE_OPENAI_DEPLOYMENT", "gpt-4.1")
 _openai = AzureOpenAI(
     api_key=os.environ["AZURE_OPENAI_API_KEY"],
@@ -57,4 +57,4 @@ def chat(message: str = Form(...)) -> dict:
 @app.on_event("shutdown")
 def _close() -> None:
     _openai.close()
-# Exercise 1 - Step 5 End
+# Exercise 2 - Step 5 End
