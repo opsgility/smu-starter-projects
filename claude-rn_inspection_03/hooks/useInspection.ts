@@ -1,18 +1,18 @@
 import { useState, useEffect, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as FileSystem from 'expo-file-system';
+import { File, Directory, Paths } from 'expo-file-system';
 import { Inspection, InspectionPhoto } from '@/types';
 
 const STORAGE_KEY = 'inspectai_inspections';
-const PHOTOS_DIR = FileSystem.documentDirectory + 'inspectai_photos/';
+const PHOTOS_DIR = Paths.document.uri + 'inspectai_photos/';
 
 function generateId(): string {
   return Date.now().toString(36) + Math.random().toString(36).slice(2);
 }
 
-async function ensurePhotosDir() {
-  const info = await FileSystem.getInfoAsync(PHOTOS_DIR);
-  if (!info.exists) await FileSystem.makeDirectoryAsync(PHOTOS_DIR, { intermediates: true });
+function ensurePhotosDir() {
+  const dir = new Directory(PHOTOS_DIR);
+  if (!dir.exists) dir.create({ intermediates: true });
 }
 
 export function useInspection() {
@@ -52,10 +52,10 @@ export function useInspection() {
   };
 
   const addPhoto = async (inspectionId: string, uri: string): Promise<InspectionPhoto> => {
-    await ensurePhotosDir();
+    ensurePhotosDir();
     const photoId = generateId();
     const destPath = PHOTOS_DIR + photoId + '.jpg';
-    await FileSystem.copyAsync({ from: uri, to: destPath });
+    new File(uri).copy(new File(destPath));
 
     const photo: InspectionPhoto = {
       id: photoId,
@@ -76,7 +76,7 @@ export function useInspection() {
     const inspection = inspections.find(i => i.id === inspectionId);
     const photo = inspection?.photos.find(p => p.id === photoId);
     if (photo) {
-      await FileSystem.deleteAsync(photo.uri, { idempotent: true });
+      try { new File(photo.uri).delete(); } catch {}
     }
     const updated = inspections.map(i =>
       i.id === inspectionId

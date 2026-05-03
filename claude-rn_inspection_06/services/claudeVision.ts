@@ -1,10 +1,11 @@
-import * as FileSystem from 'expo-file-system';
+import { File } from 'expo-file-system';
 import { PhotoAnalysis } from '@/types';
 
 const API_URL = 'https://api.anthropic.com/v1/messages';
+const MODEL = 'claude-sonnet-4-6';
 
 async function toBase64(uri: string): Promise<string> {
-  return await FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 });
+  return await new File(uri).base64();
 }
 
 export async function analyzeInspectionPhoto(
@@ -23,7 +24,7 @@ export async function analyzeInspectionPhoto(
       'content-type': 'application/json',
     },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-6',
+      model: MODEL,
       max_tokens: 1024,
       messages: [
         {

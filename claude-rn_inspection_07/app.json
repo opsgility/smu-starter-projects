@@ -7,12 +7,12 @@
     "icon": "./assets/icon.png",
     "scheme": "inspectai",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.skillmeup.inspectai"
     },
     "android": {
+      "edgeToEdgeEnabled": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#1D4ED8"
@@ -25,7 +25,14 @@
     },
     "plugins": [
       "expo-router",
-      "expo-splash-screen"
+      "expo-splash-screen",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow InspectAI to access your photos to attach inspection evidence.",
+          "cameraPermission": "Allow InspectAI to use the camera to capture inspection photos."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
