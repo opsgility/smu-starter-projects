@@ -22,6 +22,7 @@ public class AppDbContext : IdentityDbContext<AppUser>
     public DbSet<TaskLabel> TaskLabels => Set<TaskLabel>();
     public DbSet<TaskItemLabel> TaskItemLabels => Set<TaskItemLabel>();
     public DbSet<Comment> Comments => Set<Comment>();
+    public DbSet<TenantInvitation> TenantInvitations => Set<TenantInvitation>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -94,6 +95,21 @@ public class AppDbContext : IdentityDbContext<AppUser>
             e.HasOne(c => c.Author)
                 .WithMany()
                 .HasForeignKey(c => c.AuthorId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        // TenantInvitation
+        builder.Entity<TenantInvitation>(e =>
+        {
+            e.HasIndex(i => i.Token).IsUnique();
+            e.HasIndex(i => i.TenantId);
+            e.HasOne(i => i.Tenant)
+                .WithMany()
+                .HasForeignKey(i => i.TenantId)
+                .OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(i => i.InvitedBy)
+                .WithMany()
+                .HasForeignKey(i => i.InvitedByUserId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
 

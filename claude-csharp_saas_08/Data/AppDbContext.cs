@@ -23,6 +23,7 @@ public class AppDbContext : IdentityDbContext<AppUser>
     public DbSet<TaskItemLabel> TaskItemLabels => Set<TaskItemLabel>();
     public DbSet<Comment> Comments => Set<Comment>();
     public DbSet<Subscription> Subscriptions => Set<Subscription>();
+    public DbSet<TenantInvitation> TenantInvitations => Set<TenantInvitation>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -106,6 +107,21 @@ public class AppDbContext : IdentityDbContext<AppUser>
                 .HasForeignKey(s => s.TenantId)
                 .OnDelete(DeleteBehavior.Cascade);
             e.HasIndex(s => s.TenantId);
+        });
+
+        // TenantInvitation
+        builder.Entity<TenantInvitation>(e =>
+        {
+            e.HasIndex(i => i.Token).IsUnique();
+            e.HasIndex(i => i.TenantId);
+            e.HasOne(i => i.Tenant)
+                .WithMany()
+                .HasForeignKey(i => i.TenantId)
+                .OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(i => i.InvitedBy)
+                .WithMany()
+                .HasForeignKey(i => i.InvitedByUserId)
+                .OnDelete(DeleteBehavior.Restrict);
         });
 
         // Seed default tenant

@@ -35,6 +35,8 @@ public class JwtTokenService : IJwtTokenService
             new Claim(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
             new Claim("tenant_id", user.TenantId.ToString()),
             new Claim("role", user.Role.ToString()),
+            // ClaimTypes.Role enables [Authorize(Policy = "RequireAdmin")] etc.
+            new Claim(System.Security.Claims.ClaimTypes.Role, user.Role.ToString()),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 

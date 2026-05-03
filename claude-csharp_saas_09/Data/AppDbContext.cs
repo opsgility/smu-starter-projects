@@ -24,6 +24,7 @@ public class AppDbContext : IdentityDbContext<AppUser>
     public DbSet<Comment> Comments => Set<Comment>();
     public DbSet<Subscription> Subscriptions => Set<Subscription>();
     public DbSet<FileAttachment> FileAttachments => Set<FileAttachment>();
+    public DbSet<TenantInvitation> TenantInvitations => Set<TenantInvitation>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -120,6 +121,21 @@ public class AppDbContext : IdentityDbContext<AppUser>
             e.HasOne(f => f.UploadedBy)
                 .WithMany()
                 .HasForeignKey(f => f.UploadedByUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        // TenantInvitation
+        builder.Entity<TenantInvitation>(e =>
+        {
+            e.HasIndex(i => i.Token).IsUnique();
+            e.HasIndex(i => i.TenantId);
+            e.HasOne(i => i.Tenant)
+                .WithMany()
+                .HasForeignKey(i => i.TenantId)
+                .OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(i => i.InvitedBy)
+                .WithMany()
+                .HasForeignKey(i => i.InvitedByUserId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
 

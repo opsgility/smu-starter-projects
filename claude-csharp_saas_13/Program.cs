@@ -66,6 +66,7 @@ builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
 // Application services
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IInvitationService, InvitationService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddScoped<ICommentService, CommentService>();

@@ -25,6 +25,7 @@ public class AppDbContext : IdentityDbContext<AppUser>
     public DbSet<Subscription> Subscriptions => Set<Subscription>();
     public DbSet<FileAttachment> FileAttachments => Set<FileAttachment>();
     public DbSet<SavedFilter> SavedFilters => Set<SavedFilter>();
+    public DbSet<TenantInvitation> TenantInvitations => Set<TenantInvitation>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -129,6 +130,21 @@ public class AppDbContext : IdentityDbContext<AppUser>
         {
             e.HasQueryFilter(f => f.TenantId == _tenantId);
             e.HasIndex(f => new { f.TenantId, f.UserId });
+        });
+
+        // TenantInvitation
+        builder.Entity<TenantInvitation>(e =>
+        {
+            e.HasIndex(i => i.Token).IsUnique();
+            e.HasIndex(i => i.TenantId);
+            e.HasOne(i => i.Tenant)
+                .WithMany()
+                .HasForeignKey(i => i.TenantId)
+                .OnDelete(DeleteBehavior.Cascade);
+            e.HasOne(i => i.InvitedBy)
+                .WithMany()
+                .HasForeignKey(i => i.InvitedByUserId)
+                .OnDelete(DeleteBehavior.Restrict);
         });
 
         // Seed default tenant
