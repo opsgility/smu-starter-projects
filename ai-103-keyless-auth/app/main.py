@@ -9,7 +9,7 @@ Exercise 2 of Lab 2258 has you rewrite this file end-to-end:
     - Drop `from openai import AzureOpenAI`.
     - Replace the key-based client with:
         - `AIProjectClient` from `azure.ai.projects`
-        - `DefaultAzureCredential` from `azure.identity`
+        - `ChainedTokenCredential(ManagedIdentityCredential(client_id=...), AzureCliCredential())` from `azure.identity`
         - `project.get_openai_client()` for the OpenAI surface
     - Switch from `chat.completions.create(messages=...)` to
       `responses.create(input=...)` and return `response.output_text`.
@@ -21,7 +21,7 @@ import os
 
 # Exercise 2 - Step 5: replace the import below with:
 #   from azure.ai.projects import AIProjectClient
-#   from azure.identity import DefaultAzureCredential
+#   from azure.identity import ManagedIdentityCredential, AzureCliCredential, ChainedTokenCredential
 from openai import AzureOpenAI
 
 from dotenv import load_dotenv
