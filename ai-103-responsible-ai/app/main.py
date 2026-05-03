@@ -23,8 +23,13 @@ _project = AIProjectClient(
 _deployment = os.environ["MODEL_DEPLOYMENT"]
 
 
+def _form_bool(value: str) -> bool:
+    return str(value).lower() in ("1", "true", "yes")
+
+
 @app.post("/generate")
-def generate(prompt: str = Form(...), requires_approval: bool = Form(False)) -> dict:
+def generate(prompt: str = Form(...), requires_approval: str = Form("0")) -> dict:
+    requires_approval: bool = _form_bool(requires_approval)  # type: ignore[assignment]
     # Exercise 1 - Step 6 Start
     raise NotImplementedError("Complete Exercise 1 Step 6")
     # Exercise 1 - Step 6 End
@@ -48,12 +53,12 @@ def list_approvals() -> list[dict]:
 @app.post("/approvals/{req_id}")
 def decide_approval(
     req_id: str,
-    approved: bool = Form(...),
+    approved: str = Form(...),
     reason: str = Form(""),
 ) -> dict:
     """Approve or reject a pending request by id."""
     try:
-        req = approval.decide(req_id, approved=approved, reason=reason)
+        req = approval.decide(req_id, approved=_form_bool(approved), reason=reason)
     except KeyError:
         raise HTTPException(status_code=404, detail=f"approval {req_id} not found")
     except ValueError as exc:
