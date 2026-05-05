@@ -1,7 +1,12 @@
 import { File } from 'expo-file-system';
 import { PhotoAnalysis } from '@/types';
 
-const API_URL = 'https://api.anthropic.com/v1/messages';
+// Default to Anthropic's public API. In a SkillMeUp lab, startup.sh injects
+// EXPO_PUBLIC_CLAUDE_API_URL pointing at the lab's Claude proxy, and Metro
+// inlines that into the bundle at build time — so the same code calls the
+// proxy in the lab and Anthropic directly when run elsewhere.
+const API_URL =
+  process.env.EXPO_PUBLIC_CLAUDE_API_URL ?? 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-sonnet-4-6';
 
 async function toBase64(uri: string): Promise<string> {
