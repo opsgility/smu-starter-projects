@@ -13,6 +13,28 @@ async function toBase64(uri: string): Promise<string> {
   return await new File(uri).base64();
 }
 
+function extractJson(text: string): any {
+  // 1. Direct parse — Claude returned pure JSON.
+  try { return JSON.parse(text); } catch {}
+
+  // 2. Strip markdown code fence (```json ... ``` or ``` ... ```).
+  const fenced = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+  if (fenced) {
+    try { return JSON.parse(fenced[1]); } catch {}
+  }
+
+  // 3. Last resort — slice from first '{' to last '}'.
+  const start = text.indexOf('{');
+  const end = text.lastIndexOf('}');
+  if (start !== -1 && end > start) {
+    try { return JSON.parse(text.slice(start, end + 1)); } catch {}
+  }
+
+  throw new Error(
+    `Failed to parse Claude response as JSON. Response was: ${text.slice(0, 500)}`
+  );
+}
+
 export async function analyzeInspectionPhoto(
   photoUri: string,
   equipmentName: string,
@@ -68,12 +90,10 @@ Only respond with the JSON object, no other text.`,
   const data = await response.json();
   const text = data.content[0].text.trim();
 
-  let parsed: any;
-  try {
-    parsed = JSON.parse(text);
-  } catch {
-    throw new Error('Failed to parse Claude response as JSON');
-  }
+  // Claude often wraps JSON in markdown fences (```json ... ```) or adds a
+  // sentence of preamble even when told not to. Try a strict parse first, then
+  // strip fences, then fall back to the first balanced {...} block.
+  const parsed = extractJson(text);
 
   return {
     condition: parsed.condition ?? 'fair',

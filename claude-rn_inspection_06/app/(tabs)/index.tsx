@@ -1,5 +1,6 @@
+import { useCallback } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
 import { useEquipment } from '@/hooks/useEquipment';
@@ -7,8 +8,17 @@ import { useInspection } from '@/hooks/useInspection';
 
 export default function DashboardScreen() {
   const router = useRouter();
-  const { equipment } = useEquipment();
-  const { inspections } = useInspection();
+  const { equipment, reload: reloadEquipment } = useEquipment();
+  const { inspections, reload: reloadInspections } = useInspection();
+
+  // Reload whenever the dashboard regains focus so newly-added equipment and
+  // completed inspections show up without a manual pull-to-refresh.
+  useFocusEffect(
+    useCallback(() => {
+      reloadEquipment();
+      reloadInspections();
+    }, [reloadEquipment, reloadInspections])
+  );
 
   const activeCount = equipment.filter(e => e.status === 'active').length;
   const inProgressCount = inspections.filter(i => i.status === 'in_progress').length;

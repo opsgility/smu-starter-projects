@@ -1,5 +1,6 @@
+import { useCallback } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
 import { EquipmentCard } from '@/components/EquipmentCard';
@@ -7,7 +8,11 @@ import { useEquipment } from '@/hooks/useEquipment';
 
 export default function EquipmentScreen() {
   const router = useRouter();
-  const { equipment, loading, deleteEquipment } = useEquipment();
+  const { equipment, loading, deleteEquipment, reload } = useEquipment();
+
+  // Reload from AsyncStorage every time this tab regains focus so adds/edits
+  // made on other screens (e.g. equipment/add) show up immediately.
+  useFocusEffect(useCallback(() => { reload(); }, [reload]));
 
   const confirmDelete = (id: string, name: string) => {
     Alert.alert('Delete Equipment', `Remove "${name}"?`, [
