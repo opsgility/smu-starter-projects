@@ -4,7 +4,6 @@
     "slug": "inspectai",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "scheme": "inspectai",
     "userInterfaceStyle": "light",
     "ios": {
@@ -13,10 +12,6 @@
     },
     "android": {
       "edgeToEdgeEnabled": true,
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
-        "backgroundColor": "#1D4ED8"
-      },
       "package": "com.skillmeup.inspectai"
     },
     "web": {
