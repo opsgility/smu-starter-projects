@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { File, Directory, Paths } from 'expo-file-system';
-import { Inspection, InspectionPhoto, PhotoAnalysis } from '@/types';
+import { Inspection, InspectionPhoto } from '@/types';
 
 const STORAGE_KEY = 'inspectai_inspections';
 const PHOTOS_DIR = Paths.document.uri + 'inspectai_photos/';
@@ -70,24 +70,6 @@ export function useInspection() {
     return photo;
   };
 
-  const updatePhotoAnalysis = async (
-    inspectionId: string,
-    photoId: string,
-    analysis: PhotoAnalysis
-  ) => {
-    const updated = inspections.map(i =>
-      i.id === inspectionId
-        ? {
-            ...i,
-            photos: i.photos.map(p =>
-              p.id === photoId ? { ...p, analysis } : p
-            ),
-          }
-        : i
-    );
-    await save(updated);
-  };
-
   const removePhoto = async (inspectionId: string, photoId: string) => {
     const inspection = inspections.find(i => i.id === inspectionId);
     const photo = inspection?.photos.find(p => p.id === photoId);
@@ -116,7 +98,6 @@ export function useInspection() {
     loading,
     startInspection,
     addPhoto,
-    updatePhotoAnalysis,
     removePhoto,
     completeInspection,
     getInspection,

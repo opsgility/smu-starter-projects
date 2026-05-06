@@ -18,7 +18,6 @@ export default function RootLayout() {
         <Stack.Screen name="inspection/new" options={{ title: 'New Inspection', presentation: 'modal' }} />
         <Stack.Screen name="inspection/[id]/index" options={{ title: 'Inspection' }} />
         <Stack.Screen name="inspection/[id]/analyze" options={{ title: 'AI Analysis' }} />
-        <Stack.Screen name="inspection/[id]/checklist" options={{ title: 'Checklist & Findings' }} />
       </Stack>
       <StatusBar style="light" />
     </>

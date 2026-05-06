@@ -30,18 +30,16 @@ export interface InspectionPhoto {
   analysis?: PhotoAnalysis;
 }
 
-export interface PhotoAnalysis {
-  findings: string[];
-  readings: MeterReading[];
-  condition: FindingSeverity;
-  confidence: number;
-  summary: string;
-}
+export type AnalysisCondition = 'good' | 'fair' | 'poor' | 'critical';
+export type AnalysisUrgency = 'routine' | 'soon' | 'immediate';
 
-export interface MeterReading {
-  label: string;
-  value: string;
-  unit?: string;
+export interface PhotoAnalysis {
+  condition: AnalysisCondition;
+  summary: string;
+  defects: string[];
+  recommendations: string[];
+  urgency: AnalysisUrgency;
+  analyzedAt: string;
 }
 
 export interface ChecklistItem {

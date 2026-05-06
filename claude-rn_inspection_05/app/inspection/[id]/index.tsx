@@ -129,12 +129,6 @@ export default function InspectionDetailScreen() {
         )}
       </View>
 
-      <TouchableOpacity style={styles.checklistBtn} onPress={() => router.push(`/inspection/${id}/checklist`)}>
-        <Ionicons name="list" size={20} color={Colors.primary} />
-        <Text style={styles.checklistBtnText}>View Checklist & Findings</Text>
-        <Ionicons name="chevron-forward" size={16} color={Colors.textLight} />
-      </TouchableOpacity>
-
       {isActive && (
         <TouchableOpacity style={styles.completeBtn} onPress={handleComplete}>
           <Ionicons name="checkmark-circle" size={20} color="#fff" />
@@ -174,6 +168,4 @@ const styles = StyleSheet.create({
   photoBtnText: { color: Colors.primary, fontWeight: '600' },
   completeBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, backgroundColor: Colors.success, borderRadius: 12, padding: 16 },
   completeBtnText: { color: '#fff', fontSize: 16, fontWeight: '700' },
-  checklistBtn: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: Colors.surface, borderRadius: 12, padding: 16, borderWidth: 1, borderColor: Colors.border },
-  checklistBtnText: { flex: 1, fontSize: 15, fontWeight: '600', color: Colors.text },
 });

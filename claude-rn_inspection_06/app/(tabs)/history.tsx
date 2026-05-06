@@ -41,7 +41,7 @@ export default function HistoryScreen() {
           return (
             <TouchableOpacity
               style={styles.card}
-              onPress={() => router.push(`/inspection/${item.id}/report`)}
+              onPress={() => router.push(`/inspection/${item.id}/checklist`)}
               activeOpacity={0.7}
             >
               <View style={styles.cardHeader}>

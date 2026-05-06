@@ -84,34 +84,17 @@ export default function InspectionDetailScreen() {
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Photos ({inspection.photos.length})</Text>
-        {inspection.photos.map(photo => (
-          <View key={photo.id} style={styles.photoRow}>
+        <View style={styles.photoGrid}>
+          {inspection.photos.map(photo => (
             <TouchableOpacity
+              key={photo.id}
               style={styles.photoThumb}
               onLongPress={() => confirmDeletePhoto(photo.id)}
             >
               <Image source={{ uri: photo.uri }} style={styles.photoImage} />
-              {photo.analysis && (
-                <View style={[styles.analysisBadge, { backgroundColor: photo.analysis.condition === 'good' ? Colors.success : photo.analysis.condition === 'critical' ? Colors.danger : Colors.warning }]}>
-                  <Text style={styles.analysisBadgeText}>{photo.analysis.condition}</Text>
-                </View>
-              )}
             </TouchableOpacity>
-            <View style={styles.photoInfo}>
-              <Text style={styles.photoDate}>{new Date(photo.takenAt).toLocaleTimeString()}</Text>
-              {photo.analysis ? (
-                <Text style={styles.analysisSummary} numberOfLines={2}>{photo.analysis.summary}</Text>
-              ) : null}
-              <TouchableOpacity
-                style={styles.analyzeBtn}
-                onPress={() => router.push(`/inspection/${id}/analyze?photoId=${photo.id}`)}
-              >
-                <Ionicons name="sparkles" size={14} color={Colors.primary} />
-                <Text style={styles.analyzeBtnText}>{photo.analysis ? 'Re-analyze' : 'Analyze with AI'}</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        ))}
+          ))}
+        </View>
         {isActive && (
           <View style={styles.photoButtons}>
             <TouchableOpacity style={styles.photoBtn} onPress={handleAddPhoto}>
@@ -152,16 +135,9 @@ const styles = StyleSheet.create({
   dateText: { fontSize: 12, color: Colors.textSecondary },
   section: { backgroundColor: Colors.surface, borderRadius: 12, padding: 16, borderWidth: 1, borderColor: Colors.border, gap: 12 },
   sectionTitle: { fontSize: 15, fontWeight: '600', color: Colors.text },
-  photoRow: { flexDirection: 'row', gap: 12, alignItems: 'flex-start' },
+  photoGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   photoThumb: { width: 80, height: 80, borderRadius: 8, overflow: 'hidden', backgroundColor: Colors.border },
   photoImage: { width: '100%', height: '100%' },
-  analysisBadge: { position: 'absolute', bottom: 0, left: 0, right: 0, paddingVertical: 2, alignItems: 'center' },
-  analysisBadgeText: { color: '#fff', fontSize: 9, fontWeight: '700', textTransform: 'uppercase' },
-  photoInfo: { flex: 1, gap: 4 },
-  photoDate: { fontSize: 11, color: Colors.textLight },
-  analysisSummary: { fontSize: 12, color: Colors.textSecondary, lineHeight: 16 },
-  analyzeBtn: { flexDirection: 'row', alignItems: 'center', gap: 4, alignSelf: 'flex-start', borderWidth: 1, borderColor: Colors.primary, borderRadius: 6, paddingHorizontal: 8, paddingVertical: 4 },
-  analyzeBtnText: { color: Colors.primary, fontSize: 12, fontWeight: '600' },
   noPhotos: { color: Colors.textLight, fontSize: 13, textAlign: 'center', paddingVertical: 8 },
   photoButtons: { flexDirection: 'row', gap: 12 },
   photoBtn: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, borderWidth: 1, borderColor: Colors.primary, borderRadius: 10, padding: 12 },

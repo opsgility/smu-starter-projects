@@ -19,7 +19,6 @@ export default function RootLayout() {
         <Stack.Screen name="inspection/[id]/index" options={{ title: 'Inspection' }} />
         <Stack.Screen name="inspection/[id]/analyze" options={{ title: 'AI Analysis' }} />
         <Stack.Screen name="inspection/[id]/checklist" options={{ title: 'Checklist & Findings' }} />
-        <Stack.Screen name="inspection/[id]/report" options={{ title: 'Inspection Report' }} />
       </Stack>
       <StatusBar style="light" />
     </>
