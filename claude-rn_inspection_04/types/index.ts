@@ -5,11 +5,15 @@ export type EquipmentType =
   | 'plumbing'
   | 'safety'
   | 'it'
+  | 'vehicle'
   | 'other';
 
-export type EquipmentStatus = 'operational' | 'degraded' | 'failed' | 'offline';
+export type EquipmentStatus = 'active' | 'inactive' | 'maintenance' | 'retired';
 export type InspectionStatus = 'in_progress' | 'completed';
-export type FindingSeverity = 'good' | 'fair' | 'poor' | 'critical';
+export type FindingSeverity = 'low' | 'medium' | 'high' | 'critical';
+
+export type AnalysisCondition = 'good' | 'fair' | 'poor' | 'critical';
+export type AnalysisUrgency = 'routine' | 'soon' | 'immediate';
 
 export interface Equipment {
   id: string;
@@ -21,6 +25,7 @@ export interface Equipment {
   status: EquipmentStatus;
   lastInspectedAt?: string;
   createdAt: string;
+  updatedAt: string;
 }
 
 export interface InspectionPhoto {
@@ -29,9 +34,6 @@ export interface InspectionPhoto {
   takenAt: string;
   analysis?: PhotoAnalysis;
 }
-
-export type AnalysisCondition = 'good' | 'fair' | 'poor' | 'critical';
-export type AnalysisUrgency = 'routine' | 'soon' | 'immediate';
 
 export interface PhotoAnalysis {
   condition: AnalysisCondition;
@@ -63,13 +65,13 @@ export interface Inspection {
   id: string;
   equipmentId: string;
   equipmentName: string;
-  equipmentLocation: string;
+  equipmentLocation?: string;
   status: InspectionStatus;
   startedAt: string;
   completedAt?: string;
   photos: InspectionPhoto[];
   checklistItems: ChecklistItem[];
   findings: Finding[];
-  overallCondition?: FindingSeverity;
+  overallCondition?: AnalysisCondition;
   notes?: string;
 }
