@@ -1,6 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { Providers } from './providers';
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-display' });
 const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-mono' });
@@ -13,7 +14,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`dark ${geist.variable} ${geistMono.variable}`}>
-      <body className="bg-rs-bg text-rs-fg antialiased">{children}</body>
+      <body className="bg-rs-bg text-rs-fg antialiased">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
