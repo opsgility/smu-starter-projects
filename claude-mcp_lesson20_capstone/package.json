@@ -1,0 +1,36 @@
+{
+  "name": "claude-mcp-lesson20-capstone",
+  "version": "0.1.0",
+  "description": "Lesson 20 capstone: choose-your-own-track MCP server scaffold (DevOps / Knowledge / Data)",
+  "type": "module",
+  "main": "dist/server.js",
+  "bin": {
+    "mcp-capstone": "dist/server.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "inspect": "npx @modelcontextprotocol/inspector node dist/server.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "pack:mcpb": "npx @anthropic-ai/dxt pack"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@anthropic-ai/dxt": "^0.2.0",
+    "@types/node": "^22.7.4",
+    "@typescript-eslint/eslint-plugin": "^8.8.0",
+    "@typescript-eslint/parser": "^8.8.0",
+    "@vitest/coverage-v8": "^2.1.0",
+    "eslint": "^9.12.0",
+    "prettier": "^3.3.0",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.0"
+  }
+}

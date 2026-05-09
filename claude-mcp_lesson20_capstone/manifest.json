@@ -1,0 +1,36 @@
+{
+  "manifest_version": "0.2",
+  "name": "<your-package-name>",
+  "display_name": "<Your Server>",
+  "version": "0.1.0",
+  "description": "<short description>",
+  "long_description": "<full description>",
+  "author": {
+    "name": "<your name>",
+    "email": "<email>",
+    "url": "<url>"
+  },
+  "homepage": "<url>",
+  "repository": {
+    "type": "git",
+    "url": "<git url>"
+  },
+  "license": "MIT",
+  "icon": "icon.png",
+  "server": {
+    "type": "node",
+    "entry_point": "dist/server.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/dist/server.js"]
+    }
+  },
+  "tools": [],
+  "prompts": [],
+  "resources": [],
+  "user_config": {},
+  "compatibility": {
+    "claude_desktop": ">=0.10.0",
+    "platforms": ["darwin", "win32", "linux"]
+  }
+}

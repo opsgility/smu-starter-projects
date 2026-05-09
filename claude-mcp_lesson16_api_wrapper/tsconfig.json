@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "rootDir": ".",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": false,
+    "sourceMap": true
+  },
+  "include": ["src/**/*", "auth-server/**/*", "mock-api/**/*", "data/**/*"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "auth-server/node_modules",
+    "auth-server/dist",
+    "mock-api/node_modules",
+    "mock-api/dist"
+  ]
+}

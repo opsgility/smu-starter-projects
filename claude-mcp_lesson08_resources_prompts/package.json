@@ -1,0 +1,23 @@
+{
+  "name": "claude-mcp-lesson08-resources-prompts",
+  "version": "0.1.0",
+  "description": "Lesson 8 starter: multi-tool MCP server with TODO scaffolds for resources, URI templates, and prompt templates",
+  "type": "module",
+  "main": "dist/server.js",
+  "bin": {
+    "mcp-resources-prompts": "dist/server.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "inspect": "npx @modelcontextprotocol/inspector node dist/server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.4",
+    "typescript": "^5.6.2"
+  }
+}

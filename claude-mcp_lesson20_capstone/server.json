@@ -1,0 +1,25 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-11-25/server.schema.json",
+  "name": "io.github.<your-username>/<your-server>",
+  "description": "<short description>",
+  "repository": {
+    "url": "https://github.com/<your-username>/<your-server>",
+    "source": "github"
+  },
+  "version_detail": {
+    "version": "0.1.0",
+    "release_date": "2026-05-08",
+    "is_latest": true
+  },
+  "packages": [
+    {
+      "registry_name": "npm",
+      "name": "<your-npm-package>",
+      "version": "0.1.0",
+      "runtime_hint": "node",
+      "package_arguments": [],
+      "environment_variables": []
+    }
+  ],
+  "remotes": []
+}
