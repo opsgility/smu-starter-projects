@@ -18,6 +18,10 @@ web-tunnel
 
 Open the public URL. The dashboard at `/` should render four KPI tiles, two donuts, and the live holdings table — or the empty-state welcome card if no holdings exist yet.
 
+
+> **Don't use the `/proxy/3000/` URL** that VS Code surfaces — Next.js's Turbopack dev server emits absolute `/_next/static/...` URLs that don't resolve through code-server's path-prefixed proxy. Always view the app through the `web-tunnel` ngrok URL instead.
+
+
 ## What's New (Module 4 → Module 5)
 
 - `lib/utils/format.ts` — `formatCurrency`, `formatPercent`, `formatCurrencyAbbrev`, `formatNumber` (all `Intl.NumberFormat` driven)

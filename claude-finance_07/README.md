@@ -17,6 +17,10 @@ web-tunnel
 
 Open the public URL, navigate to **Tax Planner**, fill in the form, and run the sequencer.
 
+
+> **Don't use the `/proxy/3000/` URL** that VS Code surfaces — Next.js's Turbopack dev server emits absolute `/_next/static/...` URLs that don't resolve through code-server's path-prefixed proxy. Always view the app through the `web-tunnel` ngrok URL instead.
+
+
 ## What's New (Module 6 → Module 7)
 
 - `lib/finance/tax-brackets.ts` — `computeFederalTax`, `marginalRate`, `computeLTCGTax`

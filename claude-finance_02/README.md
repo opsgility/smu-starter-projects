@@ -17,6 +17,10 @@ web-tunnel
 
 Open the public URL — you should see the dark dashboard shell with the sidebar.
 
+
+> **Don't use the `/proxy/3000/` URL** that VS Code surfaces — Next.js's Turbopack dev server emits absolute `/_next/static/...` URLs that don't resolve through code-server's path-prefixed proxy. Always view the app through the `web-tunnel` ngrok URL instead.
+
+
 ## What's New (Module 1 → Module 2)
 
 - `app/globals.css` — full `@theme` block with brand, surface, text, and font tokens

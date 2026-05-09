@@ -35,6 +35,10 @@ web-tunnel
 
 Open the public URL. Click **Accounts** in the sidebar — you should see an empty state. Click **+ Add Account** and create one.
 
+
+> **Don't use the `/proxy/3000/` URL** that VS Code surfaces — Next.js's Turbopack dev server emits absolute `/_next/static/...` URLs that don't resolve through code-server's path-prefixed proxy. Always view the app through the `web-tunnel` ngrok URL instead.
+
+
 ## What's New (Module 2 → Module 3)
 
 - `lib/db/schema.ts` — full Drizzle schema (users, accounts, holdings, quote_cache) with pgEnums and relations

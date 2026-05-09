@@ -19,6 +19,10 @@ web-tunnel
 
 Open the public URL, navigate to **Projection**, fill in the scenario form, and watch the fan chart render.
 
+
+> **Don't use the `/proxy/3000/` URL** that VS Code surfaces — Next.js's Turbopack dev server emits absolute `/_next/static/...` URLs that don't resolve through code-server's path-prefixed proxy. Always view the app through the `web-tunnel` ngrok URL instead.
+
+
 ## What's New (Module 5 → Module 6)
 
 - `lib/finance/monte-carlo.ts` — `runMonteCarlo`, `sampleNormal` (Box-Muller), `percentile`
