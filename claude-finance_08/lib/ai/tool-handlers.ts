@@ -18,6 +18,7 @@ async function loadHoldingsWithQuotes() {
       quantity: holdings.quantity,
       costBasis: holdings.costBasis,
       price: quoteCache.price,
+      changePct: quoteCache.changePct,
     })
     .from(holdings)
     .innerJoin(accounts, eq(accounts.id, holdings.accountId))
@@ -29,9 +30,10 @@ async function loadHoldingsWithQuotes() {
     accountType: r.accountType,
     symbol: r.symbol,
     assetClass: r.assetClass,
-    quantity: parseFloat(r.quantity),
-    costBasis: parseFloat(r.costBasis),
+    quantity: r.quantity,
+    costBasis: r.costBasis,
     price: r.price ? parseFloat(r.price) : parseFloat(r.costBasis) / parseFloat(r.quantity),
+    changePct: r.changePct ? parseFloat(r.changePct) : null,
   }));
 }
 

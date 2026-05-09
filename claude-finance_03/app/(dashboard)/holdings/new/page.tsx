@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { redirect } from 'next/navigation';
 import { db } from '@/lib/db/client';
 import { accounts as accountsTable } from '@/lib/db/schema';

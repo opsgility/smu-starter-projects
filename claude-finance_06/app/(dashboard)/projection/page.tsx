@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { eq, desc } from 'drizzle-orm';
 import { db } from '@/lib/db/client';
 import { scenarios } from '@/lib/db/schema';

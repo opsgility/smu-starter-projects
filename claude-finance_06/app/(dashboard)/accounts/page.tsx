@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import Link from 'next/link';
 import { Wallet } from 'lucide-react';
 import { eq } from 'drizzle-orm';
