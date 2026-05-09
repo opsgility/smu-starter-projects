@@ -1,3 +1,5 @@
+'use client';
+
 import { Card, Title, DonutChart, Legend } from '@tremor/react';
 import { formatCurrency } from '@/lib/utils/format';
 import type { AllocationSlice } from '@/lib/finance/allocation';

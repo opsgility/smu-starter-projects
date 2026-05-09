@@ -1,3 +1,5 @@
+'use client';
+
 import { Card, Text, Metric, BadgeDelta } from '@tremor/react';
 
 export function KPITile({
