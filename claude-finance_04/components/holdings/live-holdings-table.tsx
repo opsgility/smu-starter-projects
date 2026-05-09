@@ -43,7 +43,7 @@ export function LiveHoldingsTable({
   const { data } = useQuery<QuoteResponse>({
     queryKey: ['quotes', symbols],
     queryFn: () =>
-      fetch(`/api/quotes?symbols=${encodeURIComponent(symbols)}`).then((r) =>
+      fetch(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/api/quotes?symbols=${encodeURIComponent(symbols)}`).then((r) =>
         r.json()
       ),
     initialData: {
