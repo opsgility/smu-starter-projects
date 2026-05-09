@@ -1,3 +1,5 @@
+import { asNumericHolding } from '@/lib/db/holdings-helpers';
+
 export interface DashboardKPIs {
   totalValue: number;
   todayChange: { dollars: number; percent: number };
@@ -15,15 +17,14 @@ export interface KPIHolding {
 }
 
 export function computeKPIs(holdings: KPIHolding[]): DashboardKPIs {
-  const totalValue = holdings.reduce(
-    (s, h) => s + h.price * parseFloat(h.quantity),
-    0
-  );
+  const numeric = holdings.map(asNumericHolding);
 
-  const todayChangeDollars = holdings.reduce((s, h) => {
+  const totalValue = numeric.reduce((s, h) => s + h.price * h.quantity, 0);
+
+  const todayChangeDollars = numeric.reduce((s, h) => {
     if (h.changePct == null || h.price <= 0) return s;
     const yesterdayPrice = h.price / (1 + h.changePct);
-    return s + (h.price - yesterdayPrice) * parseFloat(h.quantity);
+    return s + (h.price - yesterdayPrice) * h.quantity;
   }, 0);
   const todayDenom = totalValue - todayChangeDollars;
   const todayChangePct = todayDenom > 0 ? todayChangeDollars / todayDenom : 0;
@@ -31,20 +32,16 @@ export function computeKPIs(holdings: KPIHolding[]): DashboardKPIs {
   // Year-to-date change requires a baseline price snapshot.
   // For v1, we approximate using cost basis. The Performance module (capstone
   // option A) replaces this with TWR computed from a transactions log.
-  const ytdValueStart = holdings.reduce(
-    (s, h) =>
-      s +
-      (h.ytdPrice != null
-        ? h.ytdPrice * parseFloat(h.quantity)
-        : parseFloat(h.costBasis)),
+  const ytdValueStart = numeric.reduce(
+    (s, h) => s + (h.ytdPrice != null ? h.ytdPrice * h.quantity : h.costBasis),
     0
   );
   const ytdChangeDollars = totalValue - ytdValueStart;
   const ytdChangePct = ytdValueStart > 0 ? ytdChangeDollars / ytdValueStart : 0;
 
-  const cashAvailable = holdings
+  const cashAvailable = numeric
     .filter((h) => h.assetClass === 'cash_equivalent')
-    .reduce((s, h) => s + h.price * parseFloat(h.quantity), 0);
+    .reduce((s, h) => s + h.price * h.quantity, 0);
 
   return {
     totalValue,

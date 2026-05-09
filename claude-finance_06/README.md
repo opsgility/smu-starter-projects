@@ -6,7 +6,6 @@ Monte Carlo retirement projection now live: simulation engine in pure TypeScript
 
 ```bash
 npm install
-npm run db:generate    # adds scenarios + simulation_results tables
 npm run db:migrate
 npm run dev
 ```
