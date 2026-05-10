@@ -16,14 +16,14 @@
     "test:coverage": "vitest run --coverage",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "pack:mcpb": "npx @anthropic-ai/dxt pack"
+    "pack:mcpb": "npx @anthropic-ai/mcpb pack"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@anthropic-ai/dxt": "^0.2.0",
+    "@anthropic-ai/mcpb": "^2.1.2",
     "@types/node": "^22.7.4",
     "@typescript-eslint/eslint-plugin": "^8.8.0",
     "@typescript-eslint/parser": "^8.8.0",

@@ -1,5 +1,5 @@
 {
-  "manifest_version": "0.2",
+  "manifest_version": "0.3",
   "name": "<your-package-name>",
   "display_name": "<Your Server>",
   "version": "0.1.0",
