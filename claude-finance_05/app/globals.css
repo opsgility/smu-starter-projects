@@ -1,5 +1,13 @@
 @import 'tailwindcss';
 
+/* Tremor charts (DonutChart, BadgeDelta, etc.) use named colors like 'indigo', 'violet'
+   and resolve them at render time to dynamic Tailwind class strings (bg-indigo-500,
+   text-emerald-600, etc.). Tailwind 4's JIT only emits classes that appear LITERALLY
+   in source — dynamic class strings aren't picked up, so without a safelist Tremor's
+   chart segments and legend dots render black. Safelist the bg/fill/stroke/text/
+   border/ring × {color} × {shade} grid Tremor needs. */
+@source inline("{bg,text,fill,stroke,border,ring}-{indigo,violet,emerald,teal,amber,slate,rose,gray,blue,cyan,sky,lime,yellow,orange,red,pink,fuchsia,purple,green}-{300,400,500,600,700}");
+
 @theme {
   /* Brand */
   --color-rs-primary: oklch(0.62 0.18 264);
