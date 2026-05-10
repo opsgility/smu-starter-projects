@@ -39,9 +39,13 @@ export function ChatPanel() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          // Drop turns with no payload (the empty placeholder assistant turn
+          // we appended to stream into), then drop the first turn — it's a
+          // UI-only welcome greeting, not a real Claude response. The API
+          // requires the conversation to start AND end with a user message.
           messages: next
             .filter((t) => t.content || t.toolCalls?.length)
-            .slice(0, -1)
+            .slice(1)
             .map((t) => ({ role: t.role, content: t.content })),
         }),
       });
