@@ -2,7 +2,50 @@
 
 import { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { Send, Wrench } from 'lucide-react';
+
+// Style overrides for markdown elements so they render with the design tokens
+// instead of unstyled browser defaults. remark-gfm parses tables, task lists,
+// and strikethrough; without it, pipe-character table syntax shows literally.
+const MARKDOWN_COMPONENTS = {
+  p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
+    <p className="my-1.5 leading-relaxed" {...props} />
+  ),
+  ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
+    <ul className="list-disc ml-5 my-1.5 space-y-0.5" {...props} />
+  ),
+  ol: (props: React.HTMLAttributes<HTMLOListElement>) => (
+    <ol className="list-decimal ml-5 my-1.5 space-y-0.5" {...props} />
+  ),
+  table: (props: React.HTMLAttributes<HTMLTableElement>) => (
+    <table className="border-collapse my-2 text-sm" {...props} />
+  ),
+  th: (props: React.HTMLAttributes<HTMLTableCellElement>) => (
+    <th className="border border-rs-border px-2 py-1 text-left bg-rs-card" {...props} />
+  ),
+  td: (props: React.HTMLAttributes<HTMLTableCellElement>) => (
+    <td className="border border-rs-border px-2 py-1 font-mono tabular" {...props} />
+  ),
+  code: ({ className, children, ...props }: React.HTMLAttributes<HTMLElement>) => {
+    const isBlock = className?.includes('language-');
+    return isBlock ? (
+      <pre className="bg-rs-card border border-rs-border rounded-lg p-3 my-2 overflow-x-auto text-xs">
+        <code className={className} {...props}>{children}</code>
+      </pre>
+    ) : (
+      <code className="bg-rs-card px-1.5 py-0.5 rounded text-xs font-mono" {...props}>
+        {children}
+      </code>
+    );
+  },
+  strong: (props: React.HTMLAttributes<HTMLElement>) => (
+    <strong className="font-bold text-rs-fg" {...props} />
+  ),
+  a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+    <a className="text-rs-primary underline" target="_blank" rel="noopener noreferrer" {...props} />
+  ),
+};
 
 interface ChatTurn {
   role: 'user' | 'assistant';
@@ -118,8 +161,13 @@ export function ChatPanel() {
                 </div>
               ))}
               {t.content && (
-                <div className="prose prose-invert prose-sm max-w-none">
-                  <ReactMarkdown>{t.content}</ReactMarkdown>
+                <div className="text-sm text-rs-fg max-w-none">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={MARKDOWN_COMPONENTS}
+                  >
+                    {t.content}
+                  </ReactMarkdown>
                 </div>
               )}
             </div>
