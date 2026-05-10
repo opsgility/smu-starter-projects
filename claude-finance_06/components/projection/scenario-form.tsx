@@ -6,7 +6,11 @@ import {
   type ScenarioInput,
 } from '@/lib/actions/projections';
 
-const DEFAULTS: ScenarioInput = {
+interface ScenarioFormProps {
+  defaults?: Partial<ScenarioInput>;
+}
+
+const FALLBACK_DEFAULTS: ScenarioInput = {
   startAge: 65,
   endAge: 95,
   startingBalance: 1_000_000,
@@ -17,9 +21,11 @@ const DEFAULTS: ScenarioInput = {
   withdrawalRule: 'fixed_pct',
 };
 
-export function ScenarioForm() {
+export function ScenarioForm({ defaults = {} }: ScenarioFormProps = {}) {
   const [, startTransition] = useTransition();
   const [pending, setPending] = useState(false);
+
+  const d: ScenarioInput = { ...FALLBACK_DEFAULTS, ...defaults };
 
   function onSubmit(formData: FormData) {
     setPending(true);
@@ -51,27 +57,26 @@ export function ScenarioForm() {
       className="bg-rs-surface border border-rs-border rounded-2xl p-6 space-y-4"
     >
       <h2 className="text-lg font-bold text-rs-fg">Scenario Parameters</h2>
+      <p className="text-rs-fg-dim text-xs -mt-2">
+        Pre-filled from your last run (or your current portfolio on first use). Edit any field and re-run.
+      </p>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-rs-fg-muted text-sm mb-1.5">
-            Start age
-          </label>
+          <label className="block text-rs-fg-muted text-sm mb-1.5">Start age</label>
           <input
             name="startAge"
             type="number"
-            defaultValue={DEFAULTS.startAge}
+            defaultValue={d.startAge}
             className="w-full bg-rs-card border border-rs-border rounded-lg px-3 py-2 text-rs-fg font-mono tabular"
           />
         </div>
         <div>
-          <label className="block text-rs-fg-muted text-sm mb-1.5">
-            End age
-          </label>
+          <label className="block text-rs-fg-muted text-sm mb-1.5">End age</label>
           <input
             name="endAge"
             type="number"
-            defaultValue={DEFAULTS.endAge}
+            defaultValue={d.endAge}
             className="w-full bg-rs-card border border-rs-border rounded-lg px-3 py-2 text-rs-fg font-mono tabular"
           />
         </div>
@@ -85,7 +90,7 @@ export function ScenarioForm() {
           name="startingBalance"
           type="number"
           step="1000"
-          defaultValue={DEFAULTS.startingBalance}
+          defaultValue={Math.round(d.startingBalance)}
           className="w-full bg-rs-card border border-rs-border rounded-lg px-3 py-2 text-rs-fg font-mono tabular"
         />
       </div>
@@ -98,7 +103,7 @@ export function ScenarioForm() {
           name="annualWithdrawal"
           type="number"
           step="1000"
-          defaultValue={DEFAULTS.annualWithdrawal}
+          defaultValue={Math.round(d.annualWithdrawal)}
           className="w-full bg-rs-card border border-rs-border rounded-lg px-3 py-2 text-rs-fg font-mono tabular"
         />
       </div>
@@ -112,31 +117,27 @@ export function ScenarioForm() {
             name="expectedReturn"
             type="number"
             step="0.1"
-            defaultValue={DEFAULTS.expectedReturn * 100}
+            defaultValue={(d.expectedReturn * 100).toFixed(1)}
             className="w-full bg-rs-card border border-rs-border rounded-lg px-3 py-2 text-rs-fg font-mono tabular"
           />
         </div>
         <div>
-          <label className="block text-rs-fg-muted text-sm mb-1.5">
-            Std dev (%)
-          </label>
+          <label className="block text-rs-fg-muted text-sm mb-1.5">Std dev (%)</label>
           <input
             name="returnStdDev"
             type="number"
             step="0.5"
-            defaultValue={DEFAULTS.returnStdDev * 100}
+            defaultValue={(d.returnStdDev * 100).toFixed(1)}
             className="w-full bg-rs-card border border-rs-border rounded-lg px-3 py-2 text-rs-fg font-mono tabular"
           />
         </div>
         <div>
-          <label className="block text-rs-fg-muted text-sm mb-1.5">
-            Inflation (%)
-          </label>
+          <label className="block text-rs-fg-muted text-sm mb-1.5">Inflation (%)</label>
           <input
             name="inflationRate"
             type="number"
             step="0.1"
-            defaultValue={DEFAULTS.inflationRate * 100}
+            defaultValue={(d.inflationRate * 100).toFixed(1)}
             className="w-full bg-rs-card border border-rs-border rounded-lg px-3 py-2 text-rs-fg font-mono tabular"
           />
         </div>
@@ -148,7 +149,7 @@ export function ScenarioForm() {
         </label>
         <select
           name="withdrawalRule"
-          defaultValue={DEFAULTS.withdrawalRule}
+          defaultValue={d.withdrawalRule}
           className="w-full bg-rs-card border border-rs-border rounded-lg px-3 py-2 text-rs-fg"
         >
           <option value="fixed_pct">Fixed (4% rule)</option>

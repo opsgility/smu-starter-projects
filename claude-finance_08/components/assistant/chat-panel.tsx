@@ -70,6 +70,8 @@ export function ChatPanel() {
               last.content = (last.content ?? '') + data.text;
             } else if (event === 'tool_use') {
               last.toolCalls = [...(last.toolCalls ?? []), { name: data.name, input: data.input }];
+            } else if (event === 'error') {
+              last.content = `Error: ${data.message}`;
             }
             updated[updated.length - 1] = last;
             return updated;

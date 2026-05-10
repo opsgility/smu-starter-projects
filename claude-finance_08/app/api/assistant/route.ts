@@ -82,7 +82,11 @@ export async function POST(req: NextRequest) {
           conversation.push({ role: 'user', content: toolResults });
         }
       } catch (e) {
-        send('error', { message: (e as Error).message });
+        const err = e as Error;
+        // Log to the dev terminal so the failure isn't invisible — the SSE
+        // error event handles client-side surfacing.
+        console.error('[assistant] error:', err.message, err.stack);
+        send('error', { message: err.message });
       } finally {
         controller.close();
       }
