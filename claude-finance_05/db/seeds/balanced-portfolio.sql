@@ -104,4 +104,35 @@ WHERE NOT EXISTS (
   SELECT 1 FROM holdings hh WHERE hh.account_id = h.acct AND hh.symbol = h.sym
 );
 
+
+
+-- ---------------------------------------------------------------------------
+-- Quote cache: snapshot prices so the dashboard renders immediately on import
+-- without needing a Finnhub fetch. ON CONFLICT updates fetched_at on re-import.
+-- These are static demo values — real-time prices come from /api/quotes
+-- (Finnhub) once FINNHUB_API_KEY is set in .env.
+-- All 15 symbols across the three demo portfolios are populated here so any
+-- portfolio renders even if you swap between them.
+-- ---------------------------------------------------------------------------
+INSERT INTO quote_cache (symbol, price, change_pct, fetched_at) VALUES
+  ('VTI',  265.40,  0.42, NOW()),
+  ('VOO',  510.20,  0.38, NOW()),
+  ('VXUS',  62.45,  0.22, NOW()),
+  ('VEA',   52.10,  0.18, NOW()),
+  ('VWO',   48.30,  0.55, NOW()),
+  ('VNQ',   92.15, -0.18, NOW()),
+  ('QQQ',  510.70,  0.62, NOW()),
+  ('AGG',   98.20, -0.05, NOW()),
+  ('BND',   73.45, -0.08, NOW()),
+  ('BNDX',  50.60, -0.04, NOW()),
+  ('BIL',   91.85,  0.01, NOW()),
+  ('VCSH',  76.30,  0.02, NOW()),
+  ('AAPL', 235.10,  0.31, NOW()),
+  ('MSFT', 425.80,  0.18, NOW()),
+  ('NVDA', 135.20,  1.85, NOW())
+ON CONFLICT (symbol) DO UPDATE SET
+  price      = EXCLUDED.price,
+  change_pct = EXCLUDED.change_pct,
+  fetched_at = EXCLUDED.fetched_at;
+
 COMMIT;
