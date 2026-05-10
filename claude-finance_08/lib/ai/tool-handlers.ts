@@ -46,7 +46,12 @@ export async function handleToolCall(
       case 'get_portfolio_summary': {
         const enriched = await loadHoldingsWithQuotes();
         const kpis = computeKPIs(enriched);
-        return JSON.stringify(kpis);
+        // Rename ytdChange -> gainsSincePurchase in the tool payload so the
+        // model can't misreport cost-basis-anchored gains as year-to-date.
+        // The internal kpis.ts type keeps `ytdChange` for back-compat with
+        // the dashboard tile that students build in Module 4.
+        const { ytdChange, ...rest } = kpis;
+        return JSON.stringify({ ...rest, gainsSincePurchase: ytdChange });
       }
       case 'list_accounts': {
         const rows = await db

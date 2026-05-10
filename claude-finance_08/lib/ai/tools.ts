@@ -4,7 +4,7 @@ export const TOOLS: Anthropic.Tool[] = [
   {
     name: 'get_portfolio_summary',
     description:
-      'Returns the user\'s total portfolio value, today\'s change, YTD change, and cash available across all accounts.',
+      'Returns portfolio KPIs across all accounts. Fields: totalValue (current market value), todayChange ({dollars, percent} day-on-day move from quote_cache change_pct), gainsSincePurchase ({dollars, percent} unrealized gain — totalValue minus total cost basis; this is NOT a year-to-date figure, it is cumulative since each holding was purchased), cashAvailable (sum of cash_equivalent holdings). When reporting gainsSincePurchase to the user, call it "gain since purchase" or "unrealized gain" — never call it "YTD" because cost basis is not anchored to start-of-year.',
     input_schema: {
       type: 'object' as const,
       properties: {},
