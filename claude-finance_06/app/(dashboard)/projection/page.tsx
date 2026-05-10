@@ -9,6 +9,7 @@ import {
 } from '@/lib/finance/monte-carlo';
 import { MonteCarloFan } from '@/components/charts/monte-carlo-fan';
 import { ScenarioForm } from '@/components/projection/scenario-form';
+import { YearByYearTable } from '@/components/projection/year-by-year-table';
 import type { ScenarioInput } from '@/lib/actions/projections';
 
 function successRateColor(rate: number): string {
@@ -51,17 +52,21 @@ export default async function ProjectionPage() {
 
   let result: MonteCarloResult | null = null;
   let startAge = 65;
+  let annualWithdrawal = 0;
+  let inflationRate = 0;
   let formDefaults: Partial<ScenarioInput>;
 
   if (scenario) {
     startAge = scenario.startAge;
+    annualWithdrawal = parseFloat(scenario.annualWithdrawal);
+    inflationRate = parseFloat(scenario.inflationRate);
     result = runMonteCarlo({
       startingBalance: parseFloat(scenario.startingBalance),
-      annualWithdrawal: parseFloat(scenario.annualWithdrawal),
+      annualWithdrawal,
       years: scenario.endAge - scenario.startAge,
       expectedReturn: parseFloat(scenario.expectedReturn),
       returnStdDev: parseFloat(scenario.returnStdDev),
-      inflationRate: parseFloat(scenario.inflationRate),
+      inflationRate,
     });
     // Pre-fill the form with the LAST submitted scenario so editing one field
     // and re-running doesn't reset every other field.
@@ -69,10 +74,10 @@ export default async function ProjectionPage() {
       startAge: scenario.startAge,
       endAge: scenario.endAge,
       startingBalance: parseFloat(scenario.startingBalance),
-      annualWithdrawal: parseFloat(scenario.annualWithdrawal),
+      annualWithdrawal,
       expectedReturn: parseFloat(scenario.expectedReturn),
       returnStdDev: parseFloat(scenario.returnStdDev),
-      inflationRate: parseFloat(scenario.inflationRate),
+      inflationRate,
       withdrawalRule: scenario.withdrawalRule as 'fixed_pct',
     };
   } else {
@@ -115,6 +120,15 @@ export default async function ProjectionPage() {
           <ScenarioForm defaults={formDefaults} />
         </div>
       </div>
+
+      {result && (
+        <YearByYearTable
+          result={result}
+          startAge={startAge}
+          annualWithdrawal={annualWithdrawal}
+          inflationRate={inflationRate}
+        />
+      )}
     </div>
   );
 }
