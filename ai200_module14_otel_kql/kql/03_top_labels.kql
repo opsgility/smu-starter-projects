@@ -1,0 +1,7 @@
+// Most-frequent classifier labels by tenant.
+dependencies
+| where timestamp > ago(1h)
+| where name == "classify"
+| extend label = tostring(customDimensions["classifier.label"]), tenant = tostring(customDimensions["tenant"])
+| summarize n=count() by tenant, label
+| order by n desc

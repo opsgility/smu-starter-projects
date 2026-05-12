@@ -1,0 +1,7 @@
+// Trace IDs for the 20 slowest classify operations in the last hour.
+dependencies
+| where timestamp > ago(1h)
+| where name == "classify"
+| order by duration desc
+| take 20
+| project timestamp, operation_Id, duration, customDimensions

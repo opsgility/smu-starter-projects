@@ -1,0 +1,6 @@
+// Most recent 50 spans across the whole app.
+requests
+| where timestamp > ago(1h)
+| project timestamp, name, duration, resultCode, customDimensions
+| order by timestamp desc
+| take 50
