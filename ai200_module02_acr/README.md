@@ -12,7 +12,8 @@ digest, and verify the image round-trips back from the registry.
 | `app/main.py` | FastAPI app exposing `GET /`, `GET /healthz`, `POST /classify` |
 | `requirements.txt` | Pinned FastAPI / uvicorn / pydantic versions |
 | `Dockerfile` | Multi-stage build on `mcr.microsoft.com/azurelinux/base/python:3.12` |
-| `acr-task.yaml` | Multi-step ACR Task (build → smoke-test → push) used in Step 8 |
+| `acr-task.yaml` | Multi-step ACR Task (build → smoke-test → push) used by the local-context task run |
+| `rules.json` | Classifier rule table — pushed as an OCI artifact alongside the image |
 | `.dockerignore` / `.gitignore` | Hygiene |
 | `.env.example` | Variables you'll populate during the lab |
 
