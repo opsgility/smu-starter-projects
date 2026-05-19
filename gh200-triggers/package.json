@@ -1,0 +1,8 @@
+{
+  "name": "triggers-demo",
+  "version": "1.0.0",
+  "description": "Starter project for GH-200 Workflow Triggers and Events exercise.",
+  "scripts": {
+    "test": "echo 'Tests pass'"
+  }
+}

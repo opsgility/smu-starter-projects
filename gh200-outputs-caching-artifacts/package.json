@@ -1,0 +1,14 @@
+{
+  "name": "outputs-caching-demo",
+  "version": "1.0.0",
+  "description": "Starter project for GH-200 Workflow Outputs, Caching, and Artifacts exercise.",
+  "scripts": {
+    "test": "node tests/test.js",
+    "build": "node scripts/build.js"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.0.0"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "workflow-anatomy",
+  "version": "1.0.0",
+  "description": "Starter project for GH-200 Workflow Structure: Jobs and Steps exercise.",
+  "scripts": {
+    "test": "node tests/test.js"
+  }
+}
