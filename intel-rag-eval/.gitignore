@@ -1,0 +1,30 @@
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# Evaluation outputs
+eval_output.json
+eval_output*.json
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
