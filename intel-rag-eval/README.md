@@ -44,7 +44,8 @@ capture the outputs (Exercise 1, Step 4):
 
 ## Setup
 
-From the `intel-rag-eval` folder, inside the VS Code Server terminal:
+Inside the VS Code Server terminal (the workspace is already the starter
+root; no `cd` needed):
 
 ```bash
 python -m venv .venv

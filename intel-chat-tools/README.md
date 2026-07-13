@@ -57,10 +57,10 @@ The lab's ARM template auto-deploys the Foundry account, the project
 pre-created resource group. Exercise 1 walks through pulling
 `projectEndpoint` and `modelDeploymentName` out of the ARM outputs.
 
-Local workflow inside the VS Code Server terminal:
+Local workflow inside the VS Code Server terminal (the workspace is
+already the starter root; no `cd` needed):
 
 ```bash
-cd intel-chat-tools
 cp .env.example .env
 # Edit .env with the project endpoint + deployment name from ARM outputs.
 pip install -r requirements.txt

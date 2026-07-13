@@ -71,9 +71,9 @@ Python 3.11+, `az` CLI (already logged in as the lab user).
 
 ## Setup
 
-```bash
-cd intel-capstone
+The workspace is already the starter root; no `cd` needed.
 
+```bash
 # Copy the example env file and let Exercise 1 Step 3 append real deployment values.
 cp .env.example .env
 
