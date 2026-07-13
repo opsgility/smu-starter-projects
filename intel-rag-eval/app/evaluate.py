@@ -35,16 +35,16 @@ def chat_target(query: str) -> dict:
 
         {"response": "<model answer>", "context": "<retrieved chunks>"}
     """
-    # Exercise 3 - Step 3 Start
-    raise NotImplementedError("Complete Exercise 3 Step 3")
-    # Exercise 3 - Step 3 End
+    # Exercise 3 - Step 3a Start
+    raise NotImplementedError("Complete Exercise 3 Step 3a")
+    # Exercise 3 - Step 3a End
 
 
 def main() -> None:
     """Run GroundednessEvaluator + RelevanceEvaluator against eval_data.jsonl."""
-    # Exercise 3 - Step 3 Start
-    raise NotImplementedError("Complete Exercise 3 Step 3")
-    # Exercise 3 - Step 3 End
+    # Exercise 3 - Step 3b Start
+    raise NotImplementedError("Complete Exercise 3 Step 3b")
+    # Exercise 3 - Step 3b End
 
 
 if __name__ == "__main__":
