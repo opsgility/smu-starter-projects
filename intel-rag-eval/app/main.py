@@ -40,7 +40,7 @@ SYSTEM = (
 # ---------------------------------------------------------------------------
 
 _project_endpoint = os.environ.get("AZURE_AI_PROJECT_ENDPOINT", "")
-_deployment = os.environ.get("MODEL_DEPLOYMENT", "gpt-4.1-mini")
+_deployment = os.environ.get("MODEL_DEPLOYMENT", "gpt-5-mini")
 
 _project = AIProjectClient(
     endpoint=_project_endpoint,

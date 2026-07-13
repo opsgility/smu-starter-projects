@@ -53,7 +53,7 @@ The canonical sample indicator used throughout the exercises is
 ## Setup
 
 The lab's ARM template auto-deploys the Foundry account, the project
-`sib-osint-concierge`, and a `gpt-4.1-mini` model deployment into the
+`sib-osint-concierge`, and a `gpt-5-mini` model deployment into the
 pre-created resource group. Exercise 1 walks through pulling
 `projectEndpoint` and `modelDeploymentName` out of the ARM outputs.
 
@@ -78,7 +78,7 @@ python test_client.py
 | Variable                     | Description                                                                                       |
 | ---------------------------- | ------------------------------------------------------------------------------------------------- |
 | `AZURE_AI_PROJECT_ENDPOINT`  | Foundry **project** URL — `https://<svc>.services.ai.azure.com/api/projects/<project-name>`.      |
-| `MODEL_DEPLOYMENT`           | Deployment name (case-sensitive). The lab's ARM template defaults to `gpt-4.1-mini`.              |
+| `MODEL_DEPLOYMENT`           | Deployment name (case-sensitive). The lab's ARM template defaults to `gpt-5-mini`.                |
 
 ## Authentication
 

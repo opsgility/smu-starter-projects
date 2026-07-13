@@ -9,7 +9,7 @@ from azure.identity import DefaultAzureCredential
 from opentelemetry import trace
 
 ENDPOINT = os.environ.get("AZURE_AI_PROJECT_ENDPOINT", "")
-DEPLOYMENT = os.environ.get("MODEL_DEPLOYMENT", "gpt-4.1")
+DEPLOYMENT = os.environ.get("MODEL_DEPLOYMENT", "gpt-5")
 
 SYSTEM = (
     "You are the Sentinel Intelligence Bureau OSINT Concierge. Help analysts "

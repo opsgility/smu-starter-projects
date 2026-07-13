@@ -7,7 +7,7 @@ project. Four endpoints, one Application Insights trace stream.
 
 - `/health` — liveness probe.
 - `/chat` — stateless analyst chat against the Responses API
-  (`gpt-4.1`).
+  (`gpt-5`).
 - `/rag` — hybrid + semantic search over the `sib-osint-kb` index,
   followed by a grounded Responses generation.
 - `/agent` — Foundry AgentsClient 1.1 with two tools:
@@ -18,7 +18,7 @@ project. Four endpoints, one Application Insights trace stream.
 
 The `sib-osint-capstone` project owns:
 
-- `gpt-4.1` deployment — chat and Responses.
+- `gpt-5` deployment — chat and Responses.
 - `text-embedding-3-large` deployment — 3072-dim embeddings used for
   RAG and search seeding.
 - An Azure AI Search connection wired to the `sib-osint-kb` index.

@@ -37,7 +37,7 @@ lab resource group. You do **not** deploy Bicep or ARM yourself — just
 capture the outputs (Exercise 1, Step 4):
 
 - Foundry AI Services account + project (`sib-osint-rag`)
-- `gpt-4.1-mini` deployment (chat)
+- `gpt-5-mini` deployment (chat)
 - `text-embedding-3-small` deployment (1536-dim embeddings)
 - Azure AI Search (Basic SKU — vector + semantic ranker enabled)
 - Storage account with a `sib-osint-docs` container

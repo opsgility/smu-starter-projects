@@ -11,7 +11,7 @@ health:
 | Endpoint   | What it does                                                      | Touches                                              |
 | ---------- | ----------------------------------------------------------------- | ---------------------------------------------------- |
 | `/health`  | Liveness probe                                                    | —                                                    |
-| `/chat`    | Stateless analyst chat                                            | AIProjectClient → OpenAI Responses (gpt-4.1)         |
+| `/chat`    | Stateless analyst chat                                            | AIProjectClient → OpenAI Responses (gpt-5)           |
 | `/rag`     | Grounded answer with citations from `sib-osint-kb`                | Embeddings + Azure AI Search hybrid/semantic         |
 | `/agent`   | Tool-using concierge (indicator lookup + KB search)               | AgentsClient 1.1.0, FunctionTool, AzureAISearchTool  |
 
@@ -58,7 +58,7 @@ All sample data is non-classified, fictional, and synthesized for training.
 
 The lab's ARM template pre-deploys everything for you:
 
-- Azure AI Foundry account (kind `AIServices`) with `gpt-4.1` +
+- Azure AI Foundry account (kind `AIServices`) with `gpt-5` +
   `text-embedding-3-large` deployments
 - Foundry project (the `projectEndpoint` for AIProjectClient / AgentsClient)
 - Azure AI Search (Basic, semantic free, vector-enabled)

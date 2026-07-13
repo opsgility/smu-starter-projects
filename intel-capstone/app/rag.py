@@ -11,7 +11,7 @@ from azure.search.documents.models import VectorizedQuery
 from opentelemetry import trace
 
 PROJECT_ENDPOINT = os.environ.get("AZURE_AI_PROJECT_ENDPOINT", "")
-DEPLOYMENT = os.environ.get("MODEL_DEPLOYMENT", "gpt-4.1")
+DEPLOYMENT = os.environ.get("MODEL_DEPLOYMENT", "gpt-5")
 EMBEDDING = os.environ.get("EMBEDDING_DEPLOYMENT", "text-embedding-3-large")
 
 SEARCH_ENDPOINT = os.environ.get("AZURE_SEARCH_ENDPOINT", "")

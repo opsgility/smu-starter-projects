@@ -16,7 +16,7 @@ from azure.identity import DefaultAzureCredential
 from opentelemetry import trace
 
 PROJECT = os.environ.get("AZURE_AI_PROJECT_ENDPOINT", "")
-MODEL = os.environ.get("MODEL_DEPLOYMENT", "gpt-4.1")
+MODEL = os.environ.get("MODEL_DEPLOYMENT", "gpt-5")
 SEARCH_CONN = os.environ.get("AZURE_SEARCH_CONNECTION_ID", "")
 SEARCH_INDEX = os.environ.get("AZURE_SEARCH_INDEX", "sib-osint-kb")
 
