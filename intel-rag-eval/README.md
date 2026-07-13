@@ -45,12 +45,11 @@ capture the outputs (Exercise 1, Step 4):
 ## Setup
 
 Inside the VS Code Server terminal (the workspace is already the starter
-root; no `cd` needed):
+root; no `cd` needed). The `python-ai` lab container already has every
+package in `requirements.txt` pre-installed at container build time, so no
+`pip install` is needed:
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate        # Linux / macOS / WSL
-pip install -r requirements.txt
 cp .env.example .env
 # edit .env with the values captured from `az deployment group show` in Ex 1
 ```

@@ -58,12 +58,13 @@ pre-created resource group. Exercise 1 walks through pulling
 `projectEndpoint` and `modelDeploymentName` out of the ARM outputs.
 
 Local workflow inside the VS Code Server terminal (the workspace is
-already the starter root; no `cd` needed):
+already the starter root; no `cd` needed). The `python-ai` lab container
+already has every package in `requirements.txt` pre-installed at container
+build time, so no `pip install` is needed:
 
 ```bash
 cp .env.example .env
 # Edit .env with the project endpoint + deployment name from ARM outputs.
-pip install -r requirements.txt
 uvicorn app.main:app --reload --port 8000
 ```
 

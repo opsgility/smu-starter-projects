@@ -71,14 +71,13 @@ Python 3.11+, `az` CLI (already logged in as the lab user).
 
 ## Setup
 
-The workspace is already the starter root; no `cd` needed.
+The workspace is already the starter root; no `cd` needed. The `python-ai`
+lab container already has every package in `requirements.txt` pre-installed
+at container build time, so no `pip install` is needed.
 
 ```bash
 # Copy the example env file and let Exercise 1 Step 3 append real deployment values.
 cp .env.example .env
-
-# Install dependencies (the lab image already has them, but this is safe to re-run).
-pip install -r requirements.txt
 ```
 
 ## One-time search-index seed
