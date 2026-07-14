@@ -94,7 +94,7 @@ in `app/evaluate.py`. `evaluate()` scores every row in `eval_data.jsonl` with
 `GroundednessEvaluator` and `RelevanceEvaluator`.
 
 ```bash
-uvicorn app.main:app --reload --port 8000
+python -m uvicorn app.main:app --reload --port 8000
 # in another terminal:
 curl -s -X POST http://127.0.0.1:8000/chat -F "message=What sources are in scope?" | python -m json.tool
 

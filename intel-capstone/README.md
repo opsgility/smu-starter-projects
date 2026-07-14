@@ -107,7 +107,7 @@ Output: `Uploaded N documents to sib-osint-kb`.
 
 ```bash
 set -a; source .env; set +a
-uvicorn app.main:app --reload --port 8000
+python -m uvicorn app.main:app --reload --port 8000
 ```
 
 Leave that terminal running. Open a second terminal for smoke tests:

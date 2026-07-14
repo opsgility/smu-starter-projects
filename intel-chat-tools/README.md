@@ -65,7 +65,7 @@ build time, so no `pip install` is needed:
 ```bash
 cp .env.example .env
 # Edit .env with the project endpoint + deployment name from ARM outputs.
-uvicorn app.main:app --reload --port 8000
+python -m uvicorn app.main:app --reload --port 8000
 ```
 
 Then in a **second** terminal:
