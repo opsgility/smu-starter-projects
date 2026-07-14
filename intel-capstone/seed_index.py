@@ -1,17 +1,29 @@
-"""Seed the ``sib-osint-kb`` Azure AI Search index with sample SIB docs.
+"""Create (if missing) and seed the ``sib-osint-kb`` Azure AI Search index.
 
-Run once after Exercise 1 Step 5 has created the index schema:
+Run once after ``.env`` is filled in:
 
     python seed_index.py
 
-Reads every ``.md`` file under ``sample_docs/``, generates a
-``text-embedding-3-large`` embedding (3072-dim) for each, and uploads a
-document with the fields ``id``, ``source``, ``markdown``, ``embedding``.
+The script is idempotent: it creates the index schema on first run and
+re-uploads documents on subsequent runs (Search treats uploads as upserts
+keyed on ``id``).
 
-Note on the two-client split: embeddings go directly to the Azure OpenAI
-(account-scoped) endpoint via the ``AzureOpenAI`` client because the
-Foundry project endpoint does not currently route embeddings requests
-(it only routes chat/responses/agents). See MS Learn:
+Index schema:
+  - id        (String, key)
+  - source    (String, filterable + sortable)
+  - markdown  (String, searchable — full document text used for BM25)
+  - embedding (Collection[Single], 3072-dim vector, searchable)
+  - VectorSearch: HNSW algorithm + profile named ``default``
+  - SemanticSearch: configuration named ``default``, content field ``markdown``
+
+For each ``.md`` file under ``sample_docs/`` the script generates a
+``text-embedding-3-large`` embedding and uploads a document with the fields
+above.
+
+Two-client split: embeddings go directly to the Azure OpenAI (account-scoped)
+endpoint via the ``AzureOpenAI`` client because the Foundry project endpoint
+does not currently route embeddings requests (it only routes
+chat/responses/agents). See MS Learn:
 https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/embeddings
 """
 
@@ -29,14 +41,30 @@ try:
 except ImportError:
     pass
 
+from azure.core.credentials import TokenCredential
+from azure.core.exceptions import ResourceNotFoundError
 from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 from azure.search.documents import SearchClient
+from azure.search.documents.indexes import SearchIndexClient
+from azure.search.documents.indexes.models import (
+    HnswAlgorithmConfiguration,
+    SearchField,
+    SearchFieldDataType,
+    SearchIndex,
+    SemanticConfiguration,
+    SemanticField,
+    SemanticPrioritizedFields,
+    SemanticSearch,
+    VectorSearch,
+    VectorSearchProfile,
+)
 from openai import AzureOpenAI
 
 AOAI_ENDPOINT = os.environ.get("AZURE_OPENAI_ENDPOINT")
 EMBEDDING = os.environ.get("EMBEDDING_DEPLOYMENT", "text-embedding-3-large")
 SEARCH_ENDPOINT = os.environ.get("AZURE_SEARCH_ENDPOINT")
 INDEX = os.environ.get("AZURE_SEARCH_INDEX", "sib-osint-kb")
+EMBED_DIMENSIONS = 3072
 
 SAMPLE_DIR = Path(__file__).parent / "sample_docs"
 
@@ -44,6 +72,63 @@ SAMPLE_DIR = Path(__file__).parent / "sample_docs"
 def _slug_id(source: str) -> str:
     """Stable, URL-safe doc id derived from the file name."""
     return hashlib.sha1(source.encode("utf-8")).hexdigest()[:16]
+
+
+def _ensure_index(cred: TokenCredential) -> None:
+    """Create the ``sib-osint-kb`` index if it doesn't already exist.
+
+    Idempotent: uses ``create_or_update_index`` under the hood so a re-run
+    with an unchanged schema is a no-op.
+    """
+    client = SearchIndexClient(endpoint=SEARCH_ENDPOINT, credential=cred)
+    try:
+        client.get_index(INDEX)
+        print(f"Index '{INDEX}' already exists — reusing it.")
+        return
+    except ResourceNotFoundError:
+        pass  # fall through to create
+
+    fields = [
+        SearchField(name="id", type=SearchFieldDataType.String, key=True),
+        SearchField(
+            name="source",
+            type=SearchFieldDataType.String,
+            filterable=True,
+            sortable=True,
+        ),
+        SearchField(name="markdown", type=SearchFieldDataType.String, searchable=True),
+        SearchField(
+            name="embedding",
+            type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
+            searchable=True,
+            vector_search_dimensions=EMBED_DIMENSIONS,
+            vector_search_profile_name="default",
+        ),
+    ]
+    vector_search = VectorSearch(
+        algorithms=[HnswAlgorithmConfiguration(name="hnsw")],
+        profiles=[
+            VectorSearchProfile(name="default", algorithm_configuration_name="hnsw")
+        ],
+    )
+    semantic = SemanticSearch(
+        configurations=[
+            SemanticConfiguration(
+                name="default",
+                prioritized_fields=SemanticPrioritizedFields(
+                    content_fields=[SemanticField(field_name="markdown")],
+                ),
+            )
+        ]
+    )
+    index = SearchIndex(
+        name=INDEX,
+        fields=fields,
+        vector_search=vector_search,
+        semantic_search=semantic,
+    )
+    client.create_or_update_index(index)
+    print(f"Created index '{INDEX}'.")
 
 
 def main() -> int:
@@ -60,6 +145,9 @@ def main() -> int:
         return 2
 
     cred = DefaultAzureCredential()
+
+    _ensure_index(cred)
+
     token_provider = get_bearer_token_provider(
         cred, "https://cognitiveservices.azure.com/.default"
     )
