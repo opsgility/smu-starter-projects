@@ -18,6 +18,18 @@ health:
 Everything is observable in the Application Insights component deployed by
 the lab's ARM template.
 
+## Two-client split (embeddings vs chat/agents)
+
+The Foundry project endpoint (`AIProjectClient.get_openai_client()`) routes
+chat, responses, and agents traffic — use it for `/chat`, `/rag`
+generation, and `/agent`. It does **not** currently route embeddings
+requests, so embeddings must go directly to the Azure OpenAI
+(account-scoped) endpoint via the `AzureOpenAI` client with the
+`AZURE_OPENAI_ENDPOINT` env var. That's why `seed_index.py` and the
+embedding call inside `app/rag.py` construct an `AzureOpenAI` client
+alongside the `AIProjectClient` used for `responses.create`.
+Source: https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/embeddings
+
 ## Layout
 
 ```

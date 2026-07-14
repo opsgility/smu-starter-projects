@@ -13,6 +13,16 @@ in the RAG & Evaluation lessons of **Azure AI Foundry Intensive for DIA
 Developers (AI-3016)**. Each exercise asks you to replace marked `TODO`
 blocks with code from the exercise instructions.
 
+## Two-client split (embeddings vs chat)
+
+The Foundry project endpoint (`AIProjectClient.get_openai_client()`) routes
+chat, responses, and agents — use it for the `/chat` handler in Exercise 3.
+It does **not** currently route embeddings requests, so the pre-implemented
+`_embed()` helper in `app/retrieval.py` calls the Azure OpenAI
+(account-scoped) endpoint directly via the `AzureOpenAI` client and the
+`AZURE_OPENAI_ENDPOINT` env var.
+Source: https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/embeddings
+
 ## Files
 
 ```

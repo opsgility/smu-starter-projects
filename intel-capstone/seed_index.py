@@ -7,6 +7,12 @@ Run once after Exercise 1 Step 5 has created the index schema:
 Reads every ``.md`` file under ``sample_docs/``, generates a
 ``text-embedding-3-large`` embedding (3072-dim) for each, and uploads a
 document with the fields ``id``, ``source``, ``markdown``, ``embedding``.
+
+Note on the two-client split: embeddings go directly to the Azure OpenAI
+(account-scoped) endpoint via the ``AzureOpenAI`` client because the
+Foundry project endpoint does not currently route embeddings requests
+(it only routes chat/responses/agents). See MS Learn:
+https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/embeddings
 """
 
 from __future__ import annotations
@@ -23,13 +29,11 @@ try:
 except ImportError:
     pass
 
-from azure.ai.projects import AIProjectClient
-from azure.identity import DefaultAzureCredential
+from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 from azure.search.documents import SearchClient
+from openai import AzureOpenAI
 
-PROJECT_ENDPOINT = os.environ.get("AZURE_AI_PROJECT_ENDPOINT") or os.environ.get(
-    "PROJECT_ENDPOINT"
-)
+AOAI_ENDPOINT = os.environ.get("AZURE_OPENAI_ENDPOINT")
 EMBEDDING = os.environ.get("EMBEDDING_DEPLOYMENT", "text-embedding-3-large")
 SEARCH_ENDPOINT = os.environ.get("AZURE_SEARCH_ENDPOINT")
 INDEX = os.environ.get("AZURE_SEARCH_INDEX", "sib-osint-kb")
@@ -43,9 +47,9 @@ def _slug_id(source: str) -> str:
 
 
 def main() -> int:
-    if not PROJECT_ENDPOINT or not SEARCH_ENDPOINT:
+    if not AOAI_ENDPOINT or not SEARCH_ENDPOINT:
         print(
-            "error: AZURE_AI_PROJECT_ENDPOINT and AZURE_SEARCH_ENDPOINT must be set. "
+            "error: AZURE_OPENAI_ENDPOINT and AZURE_SEARCH_ENDPOINT must be set. "
             "Did you run Exercise 1 Step 3?",
             file=sys.stderr,
         )
@@ -56,22 +60,28 @@ def main() -> int:
         return 2
 
     cred = DefaultAzureCredential()
-    docs: list[dict] = []
+    token_provider = get_bearer_token_provider(
+        cred, "https://cognitiveservices.azure.com/.default"
+    )
+    aoai = AzureOpenAI(
+        azure_endpoint=AOAI_ENDPOINT,
+        api_version="2024-10-21",
+        azure_ad_token_provider=token_provider,
+    )
 
-    with AIProjectClient(endpoint=PROJECT_ENDPOINT, credential=cred) as project:
-        with project.get_openai_client() as client:
-            for md_path in sorted(SAMPLE_DIR.glob("*.md")):
-                text = md_path.read_text(encoding="utf-8")
-                emb = client.embeddings.create(model=EMBEDDING, input=[text]).data[0].embedding
-                assert len(emb) == 3072, f"Expected 3072-dim embedding, got {len(emb)}"
-                docs.append(
-                    {
-                        "id": _slug_id(md_path.name),
-                        "source": md_path.name,
-                        "markdown": text,
-                        "embedding": emb,
-                    }
-                )
+    docs: list[dict] = []
+    for md_path in sorted(SAMPLE_DIR.glob("*.md")):
+        text = md_path.read_text(encoding="utf-8")
+        emb = aoai.embeddings.create(model=EMBEDDING, input=[text]).data[0].embedding
+        assert len(emb) == 3072, f"Expected 3072-dim embedding, got {len(emb)}"
+        docs.append(
+            {
+                "id": _slug_id(md_path.name),
+                "source": md_path.name,
+                "markdown": text,
+                "embedding": emb,
+            }
+        )
 
     search = SearchClient(endpoint=SEARCH_ENDPOINT, index_name=INDEX, credential=cred)
     result = search.upload_documents(documents=docs)

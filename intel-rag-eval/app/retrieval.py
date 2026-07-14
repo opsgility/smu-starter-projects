@@ -20,9 +20,9 @@ from typing import Iterable
 
 from dotenv import load_dotenv
 
-from azure.ai.projects import AIProjectClient
-from azure.identity import DefaultAzureCredential
+from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 from azure.search.documents import SearchClient
+from openai import AzureOpenAI
 from azure.search.documents.indexes import SearchIndexClient
 from azure.search.documents.indexes.models import (
     HnswAlgorithmConfiguration,
@@ -47,6 +47,7 @@ load_dotenv()
 ENDPOINT = os.environ.get("AZURE_SEARCH_ENDPOINT", "")
 INDEX = os.environ.get("AZURE_SEARCH_INDEX", "sib-osint-rag")
 PROJECT_ENDPOINT = os.environ.get("AZURE_AI_PROJECT_ENDPOINT", "")
+AOAI_ENDPOINT = os.environ.get("AZURE_OPENAI_ENDPOINT", "")
 EMBEDDING_DEPLOYMENT = os.environ.get("EMBEDDING_DEPLOYMENT", "text-embedding-3-small")
 
 # text-embedding-3-small produces 1536-dim vectors. If you swap in
@@ -135,21 +136,29 @@ def _chunk(text: str, size: int = 800, overlap: int = 100) -> Iterable[str]:
 
 
 def _embed(texts: list[str]) -> list[list[float]]:
-    """Embed a batch of strings via the Foundry project's OpenAI client.
+    """Embed a batch of strings via the Azure OpenAI account endpoint.
 
     Returns one 1536-dim vector per input string. Uses `DefaultAzureCredential`
-    to authenticate against the Foundry project endpoint, so whichever Azure
-    identity is logged in must have the `Azure AI User` role on the project
-    (the lab's `AzureAIUser` credential already has this).
+    via a bearer-token provider so whichever Azure identity is logged in must
+    have `Cognitive Services OpenAI User` on the Foundry account (the lab's
+    `AzureAIUser` credential already has this).
+
+    Why not the Foundry project endpoint? The project endpoint does NOT
+    currently route embeddings requests — only chat, responses, and agents.
+    Embeddings must go direct to the account-scoped Azure OpenAI endpoint.
+    Source: https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/embeddings
     """
     if not texts:
         return []
-    with AIProjectClient(endpoint=PROJECT_ENDPOINT, credential=CRED) as project:
-        with project.get_openai_client() as client:
-            resp = client.embeddings.create(
-                model=EMBEDDING_DEPLOYMENT,
-                input=texts,
-            )
+    token_provider = get_bearer_token_provider(
+        CRED, "https://cognitiveservices.azure.com/.default"
+    )
+    aoai = AzureOpenAI(
+        azure_endpoint=AOAI_ENDPOINT,
+        api_version="2024-10-21",
+        azure_ad_token_provider=token_provider,
+    )
+    resp = aoai.embeddings.create(model=EMBEDDING_DEPLOYMENT, input=texts)
     return [item.embedding for item in resp.data]
 
 
