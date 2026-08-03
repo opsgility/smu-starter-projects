@@ -31,7 +31,7 @@ def enrich_query(user_question: str) -> str:
       "Acme kickoff date" -> "Acme project kickoff date engagement start"
 
     This is a lightweight rule-based enricher. A more sophisticated version
-    would use a cheap LLM (gpt-4o-mini) to rewrite queries.
+    would use a cheap LLM (gpt-5-mini) to rewrite queries.
     """
     q = user_question.lower()
     expansions = {

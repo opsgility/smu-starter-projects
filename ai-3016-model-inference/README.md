@@ -2,7 +2,7 @@
 
 Starter project for AI-3016 Lesson 6 — **Call the deployed model from Python**.
 
-Sample code for calling Aurora Insights' `aurora-gpt-4o-prod` deployment via the **Azure AI Inference SDK**, with Managed Identity authentication and support for both synchronous and streaming responses.
+Sample code for calling Aurora Insights' `aurora-gpt-51-prod` deployment (gpt-5.1 v2025-11-13, GA per MS Learn) via the **Azure AI Inference SDK**, with Managed Identity authentication and support for both synchronous and streaming responses.
 
 ## What you'll build
 
@@ -12,7 +12,7 @@ Sample code for calling Aurora Insights' `aurora-gpt-4o-prod` deployment via the
 ## Prerequisites
 
 - The lab environment provides Python 3.11+ pre-installed in the VS Code container.
-- Aurora's deployed `aurora-gpt-4o-prod` model from Lesson 5.
+- Aurora's deployed `aurora-gpt-51-prod` model from Lesson 5.
 - Endpoint URL and credentials will be injected as environment variables at lab start (see `.env.example`).
 
 ## Install

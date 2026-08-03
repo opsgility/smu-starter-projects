@@ -13,7 +13,7 @@ Runs the built-in Foundry evaluators (Groundedness, Relevance, Coherence, and Co
 ## Prerequisites
 
 - Aurora's `consulting-copilot-flow` deployed as an endpoint (lesson 8 + 11).
-- `aurora-gpt-4o-mini` (or another cheap deployment) available as the judge model.
+- `aurora-gpt-5-mini` (gpt-5-mini v2025-08-07, or another cheap deployment) available as the judge model.
 - Environment variables from `.env.example`.
 
 ## Install

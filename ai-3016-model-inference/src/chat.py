@@ -1,4 +1,4 @@
-"""AI-3016 Lesson 6 — call the deployed GPT-4o model from Python.
+"""AI-3016 Lesson 6 — call the deployed GPT-5.1 model from Python.
 
 Two examples:
   1. Synchronous completion — request, wait, get the full response.
