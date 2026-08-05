@@ -15,7 +15,7 @@ from copilot_agent import build_agent
 # Both paths resolve relative to the repository root (parent of src/).
 REPO_ROOT = Path(__file__).resolve().parent.parent
 INPUTS_PATH = REPO_ROOT / "data" / "golden-inputs.txt"
-OUTPUT_PATH = REPO_ROOT / "data" / "aurora-eval-golden.jsonl"
+OUTPUT_PATH = REPO_ROOT / "data" / "halcyon-eval-golden.jsonl"
 
 
 def load_inputs(path: Path) -> list[str]:

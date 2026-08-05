@@ -55,7 +55,7 @@ apl-3016-copilot/
   index.
 - `src/capture_golden.py` - reads `data/golden-inputs.txt` one prompt per
   line, runs each through the current agent, writes
-  `data/aurora-eval-golden.jsonl` in the shape the evaluation SDK expects.
+  `data/halcyon-eval-golden.jsonl` in the shape the evaluation SDK expects.
 - `src/eval_runner.py` - thin wrapper around `azure.ai.evaluation` that runs
   `RelevanceEvaluator`, `GroundednessEvaluator`, and `FluencyEvaluator` over
   the golden JSONL and prints aggregate scores.

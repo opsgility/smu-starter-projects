@@ -25,4 +25,4 @@ env/
 Thumbs.db
 
 # Generated eval artifacts
-data/aurora-eval-golden.jsonl
+data/halcyon-eval-golden.jsonl
