@@ -1,0 +1,12 @@
+# All of these are preinstalled in the python-ai VS Code container.
+# Kept here as a manifest for reference and for local development outside the lab.
+azure-ai-projects>=2.2.0
+azure-identity
+agent-framework
+agent-framework-foundry
+azure-ai-evaluation[remote]
+azure-search-documents
+azure-storage-blob
+azure-monitor-opentelemetry
+python-dotenv
+rich
