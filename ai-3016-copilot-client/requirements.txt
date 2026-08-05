@@ -1,4 +1,0 @@
-azure-ai-projects>=1.0.0b5
-azure-identity>=1.17.1
-requests>=2.32.0
-python-dotenv>=1.0.1
