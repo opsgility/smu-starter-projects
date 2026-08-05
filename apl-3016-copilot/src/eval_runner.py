@@ -20,7 +20,7 @@ from azure.ai.evaluation import (
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-GOLDEN_PATH = REPO_ROOT / "data" / "aurora-eval-golden.jsonl"
+GOLDEN_PATH = REPO_ROOT / "data" / "halcyon-eval-golden.jsonl"
 
 
 def require_env(name: str) -> str:
