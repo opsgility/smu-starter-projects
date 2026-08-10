@@ -51,21 +51,21 @@ kiosk at its Denver flagship. The merchandising team needs:
 ## Prerequisites
 
 - The lab environment has finished deploying the ARM template (Foundry
-  account + project + `gpt-4.1` model deployment, standalone Language,
+  account + project + `gpt-5.1` model deployment, standalone Language,
   Translator, and Speech accounts — all in `eastus2`).
 - VS Code Server is open at the `ai-103-text-speech` folder.
 - You are signed in to Azure: `az account show` should print your subscription.
 
 ## Getting started
 
-```bash
-# 1. Install dependencies (pre-installed in the lab VM image).
-pip install -r requirements.txt
+Every package in `requirements.txt` is preinstalled in the `python-ai` VS Code
+container the lab runs in. Do **not** run `pip install` at lab time.
 
-# 2. Copy the env template and fill it in per Exercise 1 / 2 / 3.
+```bash
+# 1. Copy the env template and fill it in per Exercise 1 / 2 / 3.
 cp .env.example .env
 
-# 3. Run the API with auto-reload.
+# 2. Run the API with auto-reload.
 uvicorn app.main:app --reload --port 8000
 ```
 

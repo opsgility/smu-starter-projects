@@ -37,7 +37,7 @@ load_dotenv()
 # --- Environment ------------------------------------------------------------
 
 PROJECT_ENDPOINT = os.environ["PROJECT_ENDPOINT"]
-MODEL = os.environ.get("MODEL_DEPLOYMENT_NAME", "gpt-4.1-mini")
+MODEL = os.environ.get("MODEL_DEPLOYMENT_NAME", "gpt-5-mini")
 SEARCH_CONN = os.environ.get("AZURE_SEARCH_CONNECTION_ID", "")
 SEARCH_INDEX = os.environ.get("AZURE_SEARCH_INDEX_NAME", "summitline-kb")
 

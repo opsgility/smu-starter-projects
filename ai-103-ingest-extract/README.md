@@ -88,7 +88,7 @@ Key resources provisioned:
 
 - **Foundry AIServices account** (hosts Content Understanding + Azure OpenAI)
 - **Foundry project**
-- **`gpt-4.1`** chat deployment
+- **`gpt-5.1`** chat deployment
 - **`text-embedding-3-large`** embedding deployment (3072 dims)
 - **Azure AI Search** service on **Basic** SKU (semantic ranker requires Basic)
 - **Storage account** with empty `ai103-source` blob container
@@ -112,11 +112,10 @@ Wait ~60 seconds after each `az role assignment create` for RBAC propagation.
 
 ## Install
 
-```bash
-python -m venv .venv
-source .venv/bin/activate        # or: .venv\Scripts\activate on Windows
-pip install -r requirements.txt
-```
+Every package in `requirements.txt` is preinstalled in the `python-ai` VS Code
+container the lab runs in. Do **not** run `pip install` at lab time. The
+`requirements.txt` is a manifest for reference and for local development
+outside the lab.
 
 ## Run the pipeline (after completing Exercises 1-3)
 

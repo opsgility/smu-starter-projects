@@ -28,7 +28,7 @@ from app.worker import make_lookup_worker, make_refund_worker
 
 # Environment-variable contract — set by .env (see .env.example).
 ENDPOINT: str = os.environ.get("PROJECT_ENDPOINT", "")
-MODEL: str = os.environ.get("MODEL_DEPLOYMENT_NAME", "gpt-4.1")
+MODEL: str = os.environ.get("MODEL_DEPLOYMENT_NAME", "gpt-5.1")
 
 
 def build() -> Tuple[AgentsClient, object, List[str]]:

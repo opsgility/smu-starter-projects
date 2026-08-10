@@ -34,7 +34,7 @@ ai-103-agent-multi/
 ## Prerequisites
 
 - The lab platform deploys the AI-103 L10 ARM template automatically: a
-  Foundry account, a child project, a `gpt-4.1` deployment, a Log Analytics
+  Foundry account, a child project, a `gpt-5.1` deployment, a Log Analytics
   workspace, and a workspace-based Application Insights component in an
   `eastus2` resource group.
 - You are signed in as the `azureaiuser` credential from the Lab Environment
@@ -53,7 +53,7 @@ export DEP=$(az deployment group list -g $RG --query "[0].name" -o tsv)
 
 cat > .env <<EOF
 PROJECT_ENDPOINT=$(az deployment group show -g $RG -n $DEP --query 'properties.outputs.projectEndpoint.value' -o tsv)
-MODEL_DEPLOYMENT_NAME=$(az deployment group show -g $RG -n $DEP --query 'properties.outputs.gpt41DeploymentName.value' -o tsv)
+MODEL_DEPLOYMENT_NAME=$(az deployment group show -g $RG -n $DEP --query 'properties.outputs.modelDeploymentName.value' -o tsv)
 APPLICATIONINSIGHTS_CONNECTION_STRING=$(az deployment group show -g $RG -n $DEP --query 'properties.outputs.appInsightsConnectionString.value' -o tsv)
 EOF
 ```

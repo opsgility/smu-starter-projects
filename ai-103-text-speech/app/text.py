@@ -5,7 +5,7 @@ Exercise 1 wires two complementary NLP patterns into the FastAPI service:
 - ``analyze(content)``    — fixed-shape NLP from the Azure AI **Language** service
                             (sentiment + confidence scores + key phrases).
 - ``extract(content)``    — schema-driven JSON extraction via the Azure OpenAI
-                            **Responses API** against a ``gpt-4.1`` deployment
+                            **Responses API** against a ``gpt-5.1`` deployment
                             in an Azure AI Foundry project.
 
 Both helpers are called from ``app/main.py``; students only fill in the

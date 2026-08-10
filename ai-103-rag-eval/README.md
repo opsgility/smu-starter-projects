@@ -32,7 +32,7 @@ lab resource group. You do **not** deploy Bicep or ARM yourself — just capture
 the outputs (Exercise 1, Step 4):
 
 - Foundry AI Services account + project
-- `gpt-4.1-mini` deployment (chat)
+- `gpt-5-mini` deployment (chat)
 - `text-embedding-3-small` deployment (1536-dim embeddings)
 - Azure AI Search (Basic SKU — vector + semantic ranker enabled)
 - Storage account with a `summitline-docs` container
@@ -41,11 +41,10 @@ the outputs (Exercise 1, Step 4):
 
 From the `ai-103-rag-eval` folder:
 
+Every package in `requirements.txt` is preinstalled in the `python-ai` VS Code
+container the lab runs in. Do **not** run `pip install` at lab time.
+
 ```bash
-python -m venv .venv
-source .venv/bin/activate        # Linux / macOS / WSL
-# .venv\Scripts\Activate.ps1     # Windows PowerShell
-pip install -r requirements.txt
 cp .env.example .env
 # edit .env with the values captured from `az deployment group show` in Ex 1
 ```

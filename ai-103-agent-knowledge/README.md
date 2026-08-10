@@ -54,7 +54,7 @@ ai-103-agent-knowledge/
 ## Prerequisites
 
 - The lab environment has started. An ARM template auto-deploys a Foundry
-  AIServices account, a child project, a `gpt-4.1-mini` deployment, and an
+  AIServices account, a child project, a `gpt-5-mini` deployment, and an
   Azure AI Search service into the pre-created resource group in `eastus2`.
 - Sign into Azure before running anything. Open the **Lab Environment** tab,
   sign into the portal in an incognito / InPrivate browser with the
@@ -64,13 +64,9 @@ ai-103-agent-knowledge/
 
 ## Setup
 
-```bash
-python -m venv .venv
-source .venv/bin/activate   # on Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-```
-
-Copy the environment template and fill it in as each exercise instructs:
+Every package in `requirements.txt` is preinstalled in the `python-ai` VS Code
+container the lab runs in. Do **not** run `pip install` at lab time. Copy the
+environment template and fill it in as each exercise instructs:
 
 ```bash
 cp .env.example .env
