@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 FOUNDRY_ENDPOINT = os.environ.get("FOUNDRY_PROJECT_ENDPOINT")
-DEPLOYMENT = os.environ.get("MODEL_DEPLOYMENT_NAME", "gpt-4o-mini")
+DEPLOYMENT = os.environ.get("MODEL_DEPLOYMENT_NAME", "gpt-5-mini")
 
 
 @lru_cache(maxsize=1)

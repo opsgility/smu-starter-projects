@@ -10,7 +10,7 @@ Starter for AI-901 Obj 1 Part II (AI Models & Configurations). Lists the deploym
 ## Env vars
 Copy `.env.example` → `.env` and fill in:
 - `FOUNDRY_PROJECT_ENDPOINT` — Foundry portal → **Project → Overview → Project endpoint** (full URL ending in `.../api/projects/<project-name>`).
-- `MODEL_DEPLOYMENT_NAME` — the deployment you'll create in the exercise (default: `gpt-4o-mini`).
+- `MODEL_DEPLOYMENT_NAME` — the deployment you'll create in the exercise (default: `gpt-5-mini`).
 
 Auth: `DefaultAzureCredential` — the lab signs you in with `az login`.
 
