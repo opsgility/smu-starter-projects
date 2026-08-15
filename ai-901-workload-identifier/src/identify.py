@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 ENDPOINT = os.environ.get("FOUNDRY_PROJECT_ENDPOINT")
-DEPLOYMENT = os.environ.get("MODEL_DEPLOYMENT_NAME", "gpt-4o-mini")
+DEPLOYMENT = os.environ.get("MODEL_DEPLOYMENT_NAME", "gpt-5-mini")
 
 SYSTEM_PROMPT = """You are an Azure AI architect. Classify the user's scenario into
 exactly one of these AI-901 workload families and suggest the primary Azure service:

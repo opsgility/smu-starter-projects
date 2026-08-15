@@ -1,7 +1,7 @@
 """Stub for deploying a model via the Foundry SDK.
 
 The exercise first walks you through creating a deployment in the portal
-(Deployments → Deploy model → Deploy base model → pick gpt-4o-mini),
+(Deployments → Deploy model → Deploy base model → pick gpt-5-mini),
 then has you replicate the same deployment here via code.
 """
 from __future__ import annotations
@@ -15,10 +15,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 ENDPOINT = os.environ.get("FOUNDRY_PROJECT_ENDPOINT")
-DEPLOYMENT_NAME = os.environ.get("MODEL_DEPLOYMENT_NAME", "gpt-4o-mini")
+DEPLOYMENT_NAME = os.environ.get("MODEL_DEPLOYMENT_NAME", "gpt-5-mini")
 
 
-def deploy_chat_model(model_name: str = "gpt-4o-mini") -> None:
+def deploy_chat_model(model_name: str = "gpt-5-mini") -> None:
     """TODO (exercise): call client.deployments.create() with the right model / sku / capacity."""
     raise NotImplementedError(
         "Exercise: call client.deployments.create() for a base chat model. "

@@ -1,4 +1,6 @@
-azure-ai-agents>=1.0.0
+agent-framework>=1.0.0
 azure-ai-projects>=1.0.0
 azure-identity>=1.17.0
+pydantic>=2.0.0
 python-dotenv>=1.0.0
+typing-extensions>=4.9.0
