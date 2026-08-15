@@ -50,17 +50,19 @@ The Summitline SKU used throughout the exercises is
 ## Setup
 
 The lab's ARM template auto-deploys the Foundry account, the project
-`summitline-chat-tools`, and a `gpt-4.1-mini` model deployment into
+`summitline-chat-tools`, and a `gpt-5-mini` model deployment into
 the pre-created resource group. Exercise 1 walks through pulling
 `projectEndpoint` and `modelDeploymentName` out of the ARM outputs.
 
 Local workflow inside the VS Code Server terminal:
 
+Every package in `requirements.txt` is preinstalled in the `python-ai` VS Code
+container the lab runs in. Do **not** run `pip install` at lab time.
+
 ```bash
 cd ai-103-chat-tools
 cp .env.example .env
 # Edit .env with the project endpoint + deployment name from ARM outputs.
-pip install -r requirements.txt
 uvicorn app.main:app --reload --port 8000
 ```
 
@@ -75,14 +77,15 @@ python test_client.py
 | Variable                     | Description                                                                                       |
 | ---------------------------- | ------------------------------------------------------------------------------------------------- |
 | `AZURE_AI_PROJECT_ENDPOINT`  | Foundry **project** URL — `https://<svc>.services.ai.azure.com/api/projects/<project-name>`.      |
-| `MODEL_DEPLOYMENT`           | Deployment name (case-sensitive). The lab's ARM template defaults to `gpt-4.1-mini`.              |
+| `MODEL_DEPLOYMENT`           | Deployment name (case-sensitive). The lab's ARM template defaults to `gpt-5-mini`.              |
 
 ## Authentication
 
 `AIProjectClient` uses `DefaultAzureCredential`, which picks up your
-`az login` session in the VS Code terminal. No API keys. If the first
-request fails with `DefaultAzureCredential failed to retrieve a token`,
-run `az login --use-device-code` and restart uvicorn.
+`az login --use-device-code` session in the VS Code terminal (the container is
+headless — always use device-code flow). No API keys. If the first request
+fails with `DefaultAzureCredential failed to retrieve a token`, re-run
+`az login --use-device-code` and restart uvicorn.
 
 ## Common gotchas (see exercise troubleshooting for more)
 

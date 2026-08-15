@@ -9,7 +9,7 @@ Environment (loaded from .env):
     AZURE_AI_PROJECT_ENDPOINT  Foundry project endpoint
                                (https://<hub>.services.ai.azure.com/api/projects/<project>)
     MODEL_DEPLOYMENTS          Comma-separated deployment names
-                               (e.g. gpt-4.1-mini,gpt-4o,gpt-4.1-nano)
+                               (e.g. gpt-5.1,gpt-5-mini,gpt-5-nano)
 """
 
 from __future__ import annotations

@@ -5,7 +5,7 @@ End-to-end FastAPI app for Summitline Outfitters, the outdoor-gear retailer you'
 | Endpoint        | What it does                                          | Touches                                          |
 | --------------- | ----------------------------------------------------- | ------------------------------------------------ |
 | `/health`       | Liveness probe                                        | —                                                |
-| `/chat`         | Stateless product / policy chat                       | AIProjectClient -> OpenAI Responses (gpt-4.1)    |
+| `/chat`         | Stateless product / policy chat                       | AIProjectClient -> OpenAI Responses (gpt-5.1)    |
 | `/rag`          | Grounded answer with citations                        | Embeddings + Azure AI Search hybrid/semantic     |
 | `/agent`        | Tool-using concierge (order lookup + KB search)       | AgentsClient 1.1.0, FunctionTool, AzureAISearch  |
 | `/vision-ask`   | Answer questions about an uploaded image              | Responses API `input_image` content              |
@@ -55,7 +55,7 @@ The capstone proves you can build all six on one Azure AI Foundry project with o
 
 The lab's ARM template pre-deploys everything for you:
 
-- Azure AI Foundry account (kind `AIServices`) with `gpt-4.1` + `text-embedding-3-large` deployments
+- Azure AI Foundry account (kind `AIServices`) with `gpt-5.1` + `text-embedding-3-large` deployments
 - Foundry project (the `projectEndpoint` for AIProjectClient / AgentsClient)
 - Azure AI Search (Basic, semantic free, vector-enabled)
 - Storage account with `summitline-docs` container
@@ -65,18 +65,18 @@ The lab's ARM template pre-deploys everything for you:
 Local tools you need (already installed in the VS Code Server lab image):
 
 - Python 3.11+
-- `az` CLI, logged in as the lab user (`az login`)
+- `az` CLI, logged in as the lab user (`az login --use-device-code` — the container is headless, always use device-code flow)
 
 ## Setup
+
+Every package in `requirements.txt` is preinstalled in the `python-ai` VS Code
+container the lab runs in. Do **not** run `pip install` at lab time.
 
 ```bash
 cd ai-103-capstone
 
 # Copy the example env file and let Exercise 1 Step 3 append real deployment values.
 cp .env.example .env
-
-# Install dependencies (the lab image already has them, but this is safe to re-run).
-pip install -r requirements.txt
 ```
 
 ## One-time search-index seed
@@ -115,7 +115,7 @@ The key is that `app/tracing.py` calls `configure_azure_monitor()` **at import t
 See the Troubleshooting section of each exercise and the lab's own guidance. The most common failures:
 
 - `ValueError: A connection string must be supplied` — `.env` not sourced; `set -a; source .env; set +a`.
-- `ClientAuthenticationError` — `az login` missing or wrong subscription.
+- `ClientAuthenticationError` — `az login --use-device-code` missing or wrong subscription.
 - `ToolHandlerNotFound` on `/agent` — `enable_auto_function_calls(toolset)` missing or called after `create_and_process`.
 - `AuthorizationPermissionMismatch` on Search — role propagation. Wait 2–5 minutes.
 - `/rag` returns empty `sources` — index empty; run `python seed_index.py`.

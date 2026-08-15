@@ -9,7 +9,7 @@ Foundry AIServices account:
 
 1. **Exercise 1 — Generate and inpaint images** with `gpt-image-1`
    (`/generate`, `/edit`).
-2. **Exercise 2 — Multimodal chat** captions and visual Q&A with `gpt-4.1`
+2. **Exercise 2 — Multimodal chat** captions and visual Q&A with `gpt-5.1`
    via the Responses API (`/caption`, `/ask`).
 3. **Exercise 3 — Structured visual analysis** with Azure AI
    Content Understanding (`/visual-analyze`).
@@ -44,20 +44,16 @@ ai-103-vision/
 
 Open a terminal in the `ai-103-vision` folder.
 
-1. Install dependencies (the lab VM's Python already has most of these — the
-   `pip install` below is idempotent):
+Every package in `requirements.txt` is preinstalled in the `python-ai` VS Code
+container the lab runs in. Do **not** run `pip install` at lab time.
 
-   ```bash
-   python -m pip install -r requirements.txt
-   ```
-
-2. Copy `.env.example` to `.env`:
+1. Copy `.env.example` to `.env`:
 
    ```bash
    cp .env.example .env
    ```
 
-3. Populate `.env` from the ARM-template deployment outputs. The first
+2. Populate `.env` from the ARM-template deployment outputs. The first
    exercise walks you through this step-by-step with `az deployment group show`
    and `sed`. You will set:
 
@@ -65,17 +61,17 @@ Open a terminal in the `ai-103-vision` folder.
    |---|---|
    | `AZURE_AI_PROJECT_ENDPOINT` | `outputs.projectEndpoint.value` |
    | `IMAGE_DEPLOYMENT` | `outputs.gptImage1DeploymentName.value` (default `gpt-image-1`) |
-   | `CHAT_DEPLOYMENT` | `outputs.gpt41DeploymentName.value` (default `gpt-4.1`) |
+   | `CHAT_DEPLOYMENT` | `outputs.modelDeploymentName.value` (default `gpt-5.1`) |
    | `FOUNDRY_ACCOUNT` | `outputs.foundryAccountName.value` |
    | `CU_ENDPOINT` | `outputs.contentUnderstandingEndpoint.value` |
    | `CU_KEY` | `outputs.aiServicesKey.value` |
    | `CU_API_VERSION` | `2024-12-01-preview` |
 
-4. Sign in to Azure (the lab's Azure AI User credential is on the Lab
-   Environment tab):
+3. Sign in to Azure (the lab's Azure AI User credential is on the Lab
+   Environment tab; the container is headless — always use device-code flow):
 
    ```bash
-   az login
+   az login --use-device-code
    ```
 
 ## Run the service

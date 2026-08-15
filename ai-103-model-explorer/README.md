@@ -7,7 +7,7 @@ You are on the platform team at **Summitline Outfitters**, a fictional outdoor-g
 
 The three Foundry model deployments, the Foundry account (hub), and the Foundry project are pre-provisioned by an ARM template that runs automatically when the lab environment starts. Your job is to finish the two probe scripts.
 
-> **Note on Phi-4.** The teaching material references Phi-4 as the representative small language model. In `eastus2` Phi-4 is only available as a serverless endpoint, so the lab substitutes `gpt-4.1-nano` — a small, low-latency OpenAI model that fills the SLM slot for every exercise.
+> **Note on Phi-4.** The teaching material references Phi-4 as the representative small language model. In `eastus2` Phi-4 is only available as a serverless endpoint, so the lab substitutes `gpt-5-nano` — a small, low-latency OpenAI model that fills the SLM slot for every exercise.
 
 ## Files
 

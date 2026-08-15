@@ -22,7 +22,7 @@ from app.functions import USER_FUNCTIONS
 # Load PROJECT_ENDPOINT + MODEL_DEPLOYMENT_NAME from .env (sits next to test_client.py).
 load_dotenv()
 
-MODEL = os.environ.get("MODEL_DEPLOYMENT_NAME", "gpt-4.1-mini")
+MODEL = os.environ.get("MODEL_DEPLOYMENT_NAME", "gpt-5-mini")
 
 INSTRUCTIONS = (
     "You are the Summitline Outfitters concierge, a helpful assistant for a "

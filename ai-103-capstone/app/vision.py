@@ -10,7 +10,7 @@ from azure.identity import DefaultAzureCredential
 from opentelemetry import trace
 
 ENDPOINT = os.environ.get("AZURE_AI_PROJECT_ENDPOINT", "")
-DEPLOYMENT = os.environ.get("MODEL_DEPLOYMENT", "gpt-4.1")
+DEPLOYMENT = os.environ.get("MODEL_DEPLOYMENT", "gpt-5.1")
 
 tracer = trace.get_tracer("summitline-capstone")
 
@@ -27,7 +27,7 @@ def _data_url(image_bytes: bytes, mime: str = "image/jpeg") -> str:
 def ask(image_bytes: bytes, question: str) -> str:
     """Ask a multimodal question about an uploaded image.
 
-    Uses the Responses API ``input_image`` content type so ``gpt-4.1`` can
+    Uses the Responses API ``input_image`` content type so ``gpt-5.1`` can
     attend to the bytes directly.
     """
     with tracer.start_as_current_span("summitline.vision.ask") as span:

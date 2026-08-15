@@ -32,7 +32,7 @@ load_dotenv()
 app = FastAPI(title="Summitline Outfitters Concierge (LEGACY key-auth)")
 
 # Exercise 2 - Step 5 Start
-_deployment = os.environ.get("AZURE_OPENAI_DEPLOYMENT", "gpt-4.1")
+_deployment = os.environ.get("AZURE_OPENAI_DEPLOYMENT", "gpt-5.1")
 _openai = AzureOpenAI(
     api_key=os.environ["AZURE_OPENAI_API_KEY"],
     azure_endpoint=os.environ["AZURE_OPENAI_ENDPOINT"],

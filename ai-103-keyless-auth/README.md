@@ -14,7 +14,7 @@ in this lab is to migrate the app to **keyless** authentication using
 works end-to-end against the pre-deployed Foundry hub.
 
 The lab environment auto-deploys the Foundry AI Services account, one
-child project, and a `gpt-4.1` deployment via ARM template. You do NOT
+child project, and a `gpt-5.1` deployment via ARM template. You do NOT
 create those resources in any exercise — you migrate the app that talks
 to them.
 
@@ -54,10 +54,10 @@ ai-103-keyless-auth/
 
 From within `ai-103-keyless-auth/`:
 
+Every package in `requirements.txt` is preinstalled in the `python-ai` VS Code
+container the lab runs in. Do **not** run `pip install` at lab time.
+
 ```bash
-python -m venv .venv
-source .venv/bin/activate   # or .venv\Scripts\activate on Windows
-pip install -r requirements.txt
 cp .env.example .env
 # populate .env from the baseline ARM deployment outputs (Ex 1 step 3)
 uvicorn app.main:app --reload --port 8000
@@ -75,6 +75,6 @@ Expected response shape: `{"reply": "..."}`
 ## Notes on the migration
 
 - After Exercise 1 completes, `grep -rin "api_key\|AZURE_OPENAI_API_KEY" app/ .env` should print nothing.
-- `DefaultAzureCredential`'s chain order is Environment → WorkloadIdentity → ManagedIdentity → SharedTokenCache/VisualStudio → AzureCli → AzurePowerShell → InteractiveBrowser. In the VS Code Server lab container the IMDS step is unavailable, so authentication falls through to `AzureCliCredential` (`az login` from Lesson 2).
+- `DefaultAzureCredential`'s chain order is Environment → WorkloadIdentity → ManagedIdentity → SharedTokenCache/VisualStudio → AzureCli → AzurePowerShell → InteractiveBrowser. In the VS Code Server lab container the IMDS step is unavailable, so authentication falls through to `AzureCliCredential` (`az login --use-device-code` from Lesson 2 — the container is headless, always use device-code flow).
 - In production (Azure Container Apps with the UAMI attached), setting `AZURE_CLIENT_ID` to the UAMI's `clientId` directs `ManagedIdentityCredential` at that specific identity — no code changes.
 - The correct built-in role for Foundry data-plane model calls is **Azure AI User** (`53ca6127-db72-4b80-b1b0-d745d6d5456d`), scoped to the AI Services account (hub). Not `Cognitive Services OpenAI User` — that's the legacy role for standalone `kind: 'OpenAI'` resources.

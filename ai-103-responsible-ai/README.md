@@ -32,7 +32,7 @@ You will build three things across three exercises:
 
 ## How to run
 
-The lab environment provisions the Foundry account, project, `gpt-4.1-mini`
+The lab environment provisions the Foundry account, project, `gpt-5-mini`
 deployment, and Content Safety account from an attached ARM template. The lab
 exercises walk you through pulling those values into `.env`.
 
@@ -41,9 +41,8 @@ exercises walk you through pulling those values into `.env`.
 cp .env.example .env
 # (then populate values from the ARM deployment outputs — see Exercise 1)
 
-# 2. Dependencies are pre-installed in the VS Code Server container.
-#    If you run locally:
-python -m pip install -r requirements.txt
+# 2. Dependencies are pre-installed in the python-ai VS Code container.
+#    Do NOT run pip install at lab time — the manifest is for local dev only.
 
 # 3. Run the FastAPI app
 uvicorn app.main:app --reload --port 8000

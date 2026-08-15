@@ -23,32 +23,30 @@ builds on the same `AgentsClient + ToolSet` foundation you wire up here.
   are parsed at runtime to build the tool JSON schemas.
 - `test_client.py` — a 3-turn smoke test that drives `converse()` and prints
   the role/text transcript.
-- `requirements.txt` — pinned SDK versions (`azure-ai-agents>=1.1.0`,
-  `azure-identity>=1.19.0`, `azure-ai-projects>=1.0.0`, `python-dotenv>=1.0.1`).
+- `requirements.txt` — reference manifest only. Every listed package
+  (`azure-ai-agents>=1.1.0`, `azure-identity>=1.19.0`, `azure-ai-projects>=1.0.0`,
+  `python-dotenv>=1.0.1`) is already preinstalled in the `python-ai` VS Code
+  container the lab runs in. Do **not** run `pip install` at lab time.
 - `.env.example` — the two environment variables the app reads. Copy to `.env`
   and fill in values from the lab's ARM deployment outputs.
 - `.gitignore` — excludes `.env`, `__pycache__/`, `.venv/`, and editor state.
 
 ## How to run
 
-The lab's ARM template (Template 21 — Foundry + project + `gpt-4.1-mini`) auto-
+The lab's ARM template (Template 21 — Foundry + project + `gpt-5-mini`) auto-
 deploys when the lab starts, so you do not provision anything yourself.
 
 1. **Sign in to Azure in the VS Code terminal**
 
    ```bash
-   az login
+   az login --use-device-code
    ```
 
-   Select the `azureaiuser` account shown on the Lab Environment tab.
+   The container is headless — always use `--use-device-code`. Follow the
+   `https://microsoft.com/devicelogin` link and select the `azureaiuser` account
+   shown on the Lab Environment tab.
 
-2. **Install dependencies**
-
-   ```bash
-   python -m pip install -r requirements.txt
-   ```
-
-3. **Capture the ARM outputs and write `.env`** (see Exercise 1 Step 4)
+2. **Capture the ARM outputs and write `.env`** (see Exercise 1 Step 4)
 
    ```bash
    RG=$(az group list --query "[0].name" -o tsv)
@@ -56,14 +54,14 @@ deploys when the lab starts, so you do not provision anything yourself.
    PROJECT_ENDPOINT=$(az deployment group show --resource-group "$RG" --name "$DEP" \
        --query "properties.outputs.projectEndpoint.value" -o tsv)
    MODEL_DEPLOYMENT_NAME=$(az deployment group show --resource-group "$RG" --name "$DEP" \
-       --query "properties.outputs.gpt41MiniDeploymentName.value" -o tsv)
+       --query "properties.outputs.modelDeploymentName.value" -o tsv)
    printf "PROJECT_ENDPOINT=%s\nMODEL_DEPLOYMENT_NAME=%s\n" \
        "$PROJECT_ENDPOINT" "$MODEL_DEPLOYMENT_NAME" > .env
    ```
 
-4. **Implement the TODOs in `app/agent.py`** (Exercises 1 and 2)
+3. **Implement the TODOs in `app/agent.py`** (Exercises 1 and 2)
 
-5. **Run the smoke test**
+4. **Run the smoke test**
 
    ```bash
    python test_client.py
@@ -71,6 +69,13 @@ deploys when the lab starts, so you do not provision anything yourself.
 
    Expected output is four user/assistant pairs — each assistant reply cites
    the tool it used (`get_weather`, `calculate`, or `lookup_inventory`).
+
+## Packages
+
+Every package in `requirements.txt` is **already preinstalled** in the
+`python-ai` VS Code Server container the lab runs in. You do **not** run
+`pip install` at lab time. The `requirements.txt` in this folder is kept as a
+manifest for reference and for local development outside the lab.
 
 ## Authentication
 
@@ -87,3 +92,5 @@ role the Agents Service needs.
 - The three sample SKUs in `app/functions.py` (`NW-SL-001`, `NW-SL-002`,
   `NW-SL-003`) match the phrasing the exercises use — keep them intact so the
   test conversation hits the inventory tool.
+- Model deployment name always comes from `MODEL_DEPLOYMENT_NAME` in `.env`
+  (populated from the ARM output). Never hardcode a model name in the source.
