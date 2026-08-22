@@ -1,0 +1,7 @@
+# Reference manifest — every package here is already installed in the python-ai container.
+# Do NOT `pip install` in the lab; this file exists so local devs + future modernizers
+# know what the code needs.
+openai>=1.60.0
+azure-identity>=1.19.0
+python-dotenv>=1.0.1
+aiohttp>=3.10.0
