@@ -1,0 +1,17 @@
+{
+  "description": "Held-out Summitline prompts used by src/compare_base_vs_finetuned.py (Exercise 7). None of these appear in gear_recommendations.jsonl — that is critical for the comparison to be meaningful.",
+  "prompts": [
+    "I want to try dawn-patrol splitboarding around Bend — what should my kit look like?",
+    "Someone in my group is new to trad and wants a starter cam set under $600.",
+    "Weather looks iffy in Portland tomorrow — should I pack the softshell or the hardshell?",
+    "I need 6 headlamps for a scout troop leaving Friday.",
+    "Do you carry any climbing shoes stiff enough for edging on granite?",
+    "What's the smallest sleeping bag you have that still handles 20 F nights?",
+    "I keep forgetting my water — recommend an insulated bottle I can toss in the pack.",
+    "Doing a family-of-4 Yosemite trip in July — bear canister and 4P tent recs?",
+    "It'll be 55 F and raining in Seattle Saturday — running shoes for a wet trail?",
+    "I'm outfitting a new gym climber head-to-toe: harness, belay, rope, chalk. Budget $400.",
+    "Any climbing helmets that pair well with the Vertic rope?",
+    "What total am I looking at for 3 Aurora 20 bags plus 3 Aurora insulated pads?"
+  ]
+}

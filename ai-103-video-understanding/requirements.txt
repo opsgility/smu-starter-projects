@@ -1,0 +1,12 @@
+# Reference manifest ONLY - every package listed here is already preinstalled
+# in the python-ai VS Code Server container. Do NOT run `pip install` at lab time.
+# This file exists so the code can be reproduced outside the lab (local dev, CI).
+
+azure-identity>=1.19.0
+azure-storage-blob>=12.24.0
+azure-search-documents>=11.5.2
+azure-ai-projects>=1.0.0
+azure-ai-agents>=1.1.0
+openai>=1.55.0
+python-dotenv>=1.0.1
+requests>=2.32.0

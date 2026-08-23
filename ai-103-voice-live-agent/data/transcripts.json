@@ -1,0 +1,17 @@
+{
+  "voice": "en-US-Aria:DragonHDLatestNeural",
+  "clips": [
+    {
+      "filename": "tent_setup_windy.wav",
+      "text": "Hi, quick question — how do I set up the Summitline Ridgeline two tent in high wind? Which pole goes in first, and do I stake it before or after raising it?"
+    },
+    {
+      "filename": "barge_in_followup.wav",
+      "text": "Actually, wait — does the Ridgeline two come in orange? A customer just asked."
+    },
+    {
+      "filename": "inventory_check.wav",
+      "text": "Do you have the Alpinist sixty liter backpack in stock right now? The SKU is A L P dash sixty dash zero one."
+    }
+  ]
+}

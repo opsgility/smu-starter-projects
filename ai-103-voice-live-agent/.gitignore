@@ -1,0 +1,6 @@
+audio/*.wav
+audio/*_reply.wav
+.env
+__pycache__/
+*.pyc
+.venv/
