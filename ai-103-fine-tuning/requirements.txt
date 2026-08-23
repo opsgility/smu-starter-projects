@@ -1,0 +1,7 @@
+# Reference manifest for local development.
+# Every package below is already preinstalled in the python-ai VS Code container
+# the lab runs in — do NOT run `pip install` at lab time.
+openai>=1.55.0
+azure-identity>=1.19.0
+azure-ai-projects>=1.0.0
+python-dotenv>=1.0.1

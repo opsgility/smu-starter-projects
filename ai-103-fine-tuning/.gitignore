@@ -1,0 +1,32 @@
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Generated artifacts — recorded during a lab run
+data/uploaded_file_id.txt
+data/finetune_job_id.txt
+data/finetuned_model_name.txt
+data/finetuned_deployment_name.txt
+data/comparison_results.json
