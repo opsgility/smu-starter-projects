@@ -1,0 +1,10 @@
+# Reference manifest only — every package is preinstalled in the python-ai lab container.
+# Do NOT run pip install inside the lab. See README "How to run" section.
+azure-ai-projects>=2.2.0
+azure-ai-evaluation>=1.0.0
+azure-identity>=1.19.0
+azure-keyvault-secrets>=4.9.0
+azure-mgmt-authorization>=4.0.0
+azure-mgmt-cognitiveservices>=13.5.0
+openai>=1.60.0
+python-dotenv>=1.0.1
