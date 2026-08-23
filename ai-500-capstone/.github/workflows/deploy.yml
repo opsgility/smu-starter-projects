@@ -1,0 +1,62 @@
+name: Deploy Ridgevault Portfolio Flow
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "ai-500-capstone/**"
+  workflow_dispatch:
+    inputs:
+      target_env:
+        description: "Which environment to deploy to (dev / test / prod)"
+        required: true
+        default: "dev"
+
+permissions:
+  id-token: write   # required for federated OIDC login to Azure
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: ACR login
+        run: az acr login --name "${{ secrets.ACR_NAME }}"
+
+      - name: Build + push image
+        working-directory: ai-500-capstone
+        run: |
+          IMAGE="${{ secrets.ACR_LOGIN_SERVER }}/portfolio-flow:${{ github.sha }}"
+          docker build -t "$IMAGE" .
+          docker push "$IMAGE"
+          echo "IMAGE=$IMAGE" >> "$GITHUB_ENV"
+
+      - name: Deploy new revision to Container Apps
+        run: |
+          az containerapp update \
+            --name "${{ secrets.CONTAINER_APP_NAME }}" \
+            --resource-group "${{ secrets.RESOURCE_GROUP }}" \
+            --image "$IMAGE" \
+            --revision-suffix "sha-${GITHUB_SHA::7}"
+
+      - name: Smoke test /healthz on the new revision
+        run: |
+          FQDN=$(az containerapp show \
+            --name "${{ secrets.CONTAINER_APP_NAME }}" \
+            --resource-group "${{ secrets.RESOURCE_GROUP }}" \
+            --query "properties.configuration.ingress.fqdn" -o tsv)
+          for i in 1 2 3 4 5; do
+            if curl -fsS "https://$FQDN/healthz"; then exit 0; fi
+            sleep 5
+          done
+          exit 1

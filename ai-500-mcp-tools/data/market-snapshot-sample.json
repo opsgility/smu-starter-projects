@@ -1,0 +1,14 @@
+[
+  {"ticker": "AAPL", "last_close": 232.15, "day_change_pct": -0.42, "avg_volume_30d": 54120000, "sector": "Information Technology", "as_of": "2026-08-22"},
+  {"ticker": "MSFT", "last_close": 485.60, "day_change_pct": 0.31, "avg_volume_30d": 19870000, "sector": "Information Technology", "as_of": "2026-08-22"},
+  {"ticker": "NVDA", "last_close": 178.42, "day_change_pct": 2.18, "avg_volume_30d": 168900000, "sector": "Information Technology", "as_of": "2026-08-22"},
+  {"ticker": "JPM",  "last_close": 246.90, "day_change_pct": -0.18, "avg_volume_30d": 10250000, "sector": "Financials", "as_of": "2026-08-22"},
+  {"ticker": "BAC",  "last_close": 46.05,  "day_change_pct": 0.09,  "avg_volume_30d": 44100000, "sector": "Financials", "as_of": "2026-08-22"},
+  {"ticker": "GS",   "last_close": 620.30, "day_change_pct": 0.55,  "avg_volume_30d": 2260000,  "sector": "Financials", "as_of": "2026-08-22"},
+  {"ticker": "JNJ",  "last_close": 175.80, "day_change_pct": -0.24, "avg_volume_30d": 7180000,  "sector": "Health Care", "as_of": "2026-08-22"},
+  {"ticker": "PFE",  "last_close": 27.55,  "day_change_pct": 0.11,  "avg_volume_30d": 42300000, "sector": "Health Care", "as_of": "2026-08-22"},
+  {"ticker": "XOM",  "last_close": 116.20, "day_change_pct": -1.05, "avg_volume_30d": 17200000, "sector": "Energy", "as_of": "2026-08-22"},
+  {"ticker": "CVX",  "last_close": 148.75, "day_change_pct": -0.82, "avg_volume_30d": 8460000,  "sector": "Energy", "as_of": "2026-08-22"},
+  {"ticker": "PG",   "last_close": 172.40, "day_change_pct": 0.04,  "avg_volume_30d": 6120000,  "sector": "Consumer Staples", "as_of": "2026-08-22"},
+  {"ticker": "KO",   "last_close": 68.90,  "day_change_pct": 0.19,  "avg_volume_30d": 13750000, "sector": "Consumer Staples", "as_of": "2026-08-22"}
+]
