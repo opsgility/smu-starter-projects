@@ -1,0 +1,5 @@
+# Manifest for reference / local dev. Every package is preinstalled in the
+# `python-ai` lab container — you do NOT need to `pip install` inside the lab.
+azure-ai-projects>=2.3.0
+azure-identity>=1.19.0
+python-dotenv>=1.0.1

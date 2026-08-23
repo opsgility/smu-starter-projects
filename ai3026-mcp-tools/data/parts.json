@@ -1,0 +1,22 @@
+[
+  {"part_number": "47B-991", "description": "Front bumper cover, mid-size sedan (2020-2024)", "unit_price": 285.00, "weight_kg": 4.2, "category": "body_panel", "supplier": "MotorLine Parts"},
+  {"part_number": "47B-992", "description": "Rear bumper cover, mid-size sedan (2020-2024)", "unit_price": 265.00, "weight_kg": 4.0, "category": "body_panel", "supplier": "MotorLine Parts"},
+  {"part_number": "89K-104", "description": "Headlight assembly, LED, driver side", "unit_price": 620.00, "weight_kg": 2.8, "category": "lighting", "supplier": "Northlight Optics"},
+  {"part_number": "89K-105", "description": "Headlight assembly, LED, passenger side", "unit_price": 620.00, "weight_kg": 2.8, "category": "lighting", "supplier": "Northlight Optics"},
+  {"part_number": "12C-441", "description": "Radiator, aluminum core, mid-size sedan", "unit_price": 340.00, "weight_kg": 6.5, "category": "cooling", "supplier": "CoolCore"},
+  {"part_number": "12C-442", "description": "Condenser, A/C, mid-size sedan", "unit_price": 280.00, "weight_kg": 3.8, "category": "cooling", "supplier": "CoolCore"},
+  {"part_number": "33D-217", "description": "Windshield, laminated, mid-size sedan", "unit_price": 410.00, "weight_kg": 15.0, "category": "glass", "supplier": "ClearPath Glass"},
+  {"part_number": "33D-218", "description": "Rear window, tempered, mid-size sedan", "unit_price": 190.00, "weight_kg": 9.5, "category": "glass", "supplier": "ClearPath Glass"},
+  {"part_number": "56M-330", "description": "Alternator, 130A, mid-size sedan", "unit_price": 385.00, "weight_kg": 5.6, "category": "electrical", "supplier": "VoltCore"},
+  {"part_number": "56M-331", "description": "Starter motor, mid-size sedan", "unit_price": 245.00, "weight_kg": 4.1, "category": "electrical", "supplier": "VoltCore"},
+  {"part_number": "77H-559", "description": "Front strut assembly, driver side", "unit_price": 320.00, "weight_kg": 6.8, "category": "suspension", "supplier": "Meridian Suspension"},
+  {"part_number": "77H-560", "description": "Front strut assembly, passenger side", "unit_price": 320.00, "weight_kg": 6.8, "category": "suspension", "supplier": "Meridian Suspension"},
+  {"part_number": "77H-561", "description": "Rear shock absorber, pair", "unit_price": 220.00, "weight_kg": 5.4, "category": "suspension", "supplier": "Meridian Suspension"},
+  {"part_number": "22P-108", "description": "Roof shingles, architectural, bundle of 33", "unit_price": 95.00, "weight_kg": 32.0, "category": "roofing", "supplier": "TopCover Materials"},
+  {"part_number": "22P-109", "description": "Roof underlayment, synthetic, 10 sq roll", "unit_price": 145.00, "weight_kg": 18.0, "category": "roofing", "supplier": "TopCover Materials"},
+  {"part_number": "44G-770", "description": "Gutter section, aluminum, 10-ft", "unit_price": 28.00, "weight_kg": 2.1, "category": "exterior", "supplier": "TopCover Materials"},
+  {"part_number": "44G-771", "description": "Downspout, aluminum, 10-ft", "unit_price": 24.00, "weight_kg": 1.9, "category": "exterior", "supplier": "TopCover Materials"},
+  {"part_number": "18W-403", "description": "Water heater, 40-gallon, natural gas", "unit_price": 785.00, "weight_kg": 55.0, "category": "plumbing", "supplier": "HydroLine Supply"},
+  {"part_number": "18W-404", "description": "Sump pump, 1/3 HP, cast iron", "unit_price": 195.00, "weight_kg": 12.0, "category": "plumbing", "supplier": "HydroLine Supply"},
+  {"part_number": "99S-201", "description": "Smoke detector, hardwired, 10-yr sealed", "unit_price": 32.00, "weight_kg": 0.3, "category": "safety", "supplier": "SafeHome"}
+]
