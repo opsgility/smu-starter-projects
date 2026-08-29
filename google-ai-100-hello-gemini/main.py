@@ -24,7 +24,7 @@ def main() -> None:
     # Hint: genai.Client(vertexai=True, project=PROJECT, location=LOCATION)
     client = None
 
-    # TODO (Part 2): call client.models.generate_content with model="gemini-3.1-flash"
+    # TODO (Part 2): call client.models.generate_content with model="gemini-3.5-flash"
     # Ask: "In one sentence, explain what the Gemini Enterprise Agent Platform is to a new developer."
     response = None
 
