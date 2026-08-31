@@ -180,6 +180,19 @@
                             "sourcePortRange": "*",
                             "destinationAddressPrefix": "*"
                         }
+                    },
+                    {
+                        "name": "default-allow-http",
+                        "properties": {
+                            "priority": 1010,
+                            "sourceAddressPrefix": "*",
+                            "protocol": "Tcp",
+                            "destinationPortRange": "80",
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*"
+                        }
                     }
                 ]
             }
