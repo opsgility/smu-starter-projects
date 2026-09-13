@@ -16,4 +16,13 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- The Tests/ subdirectory is its own test project (BrightShelf.Tests.csproj);
+         do not sweep its .cs files into this web project's compilation. -->
+    <Compile Remove="Tests/**/*.cs" />
+    <Content Remove="Tests/**" />
+    <None Remove="Tests/**" />
+    <EmbeddedResource Remove="Tests/**" />
+  </ItemGroup>
+
 </Project>
