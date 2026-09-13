@@ -27,7 +27,7 @@ def main() -> int:
         return 1
 
     token_provider = get_bearer_token_provider(
-        DefaultAzureCredential(), "https://cognitiveservices.azure.com/.default"
+        DefaultAzureCredential(), "https://ai.azure.com/.default"
     )
     client = OpenAI(
         base_url=f"{endpoint}/openai/v1",

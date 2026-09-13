@@ -36,7 +36,7 @@ def main() -> int:
         return 2
 
     project = AIProjectClient(endpoint=endpoint, credential=DefaultAzureCredential())
-    openai_client = project.get_openai_client(api_version="2025-04-01-preview")
+    openai_client = project.get_openai_client()
     resp = openai_client.chat.completions.create(
         model=model,
         messages=[{"role": "user", "content": "Say hello from Ridgevault Financial."}],

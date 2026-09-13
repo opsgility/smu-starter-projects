@@ -1,12 +1,14 @@
-"""Smoke test — confirm .env, az login, and Foundry reachability before you start the exercises."""
+"""Smoke test - confirm .env, az login, and Foundry reachability before you start the exercises."""
 import os
 import sys
 
+from dotenv import load_dotenv
 from azure.identity import DefaultAzureCredential
 from azure.ai.projects import AIProjectClient
 
 
 def main() -> int:
+    load_dotenv()
     endpoint = os.getenv("FOUNDRY_PROJECT_ENDPOINT", "")
     model = os.getenv("FOUNDRY_MODEL", "")
 
@@ -19,13 +21,14 @@ def main() -> int:
     print(f"Model:    {model}")
 
     try:
-        client = AIProjectClient(endpoint=endpoint, credential=DefaultAzureCredential())
-        chat = client.inference.get_chat_completions_client()
-        response = chat.complete(
+        project = AIProjectClient(endpoint=endpoint, credential=DefaultAzureCredential())
+        client = project.get_openai_client()
+        resp = client.chat.completions.create(
             model=model,
             messages=[{"role": "user", "content": "Reply with the single word: ready"}],
+            max_completion_tokens=32,
         )
-        reply = response.choices[0].message.content.strip()
+        reply = (resp.choices[0].message.content or "").strip()
         print(f"Foundry reply: {reply}")
         return 0
     except Exception as exc:  # noqa: BLE001

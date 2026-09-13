@@ -32,7 +32,7 @@ def main() -> int:
             endpoint=values["FOUNDRY_PROJECT_ENDPOINT"],
             credential=DefaultAzureCredential(),
         )
-        agents = list(client.agents.list_agents())
+        agents = list(client.agents.list())
         print(f"[verify_env] Foundry round-trip OK — {len(agents)} agent(s) in project.")
         return 0
     except Exception as exc:  # noqa: BLE001
