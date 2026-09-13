@@ -3,7 +3,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using TaskFlow.Api.Data;
 using TaskFlow.Api.Middleware;
 using TaskFlow.Api.Repositories;
