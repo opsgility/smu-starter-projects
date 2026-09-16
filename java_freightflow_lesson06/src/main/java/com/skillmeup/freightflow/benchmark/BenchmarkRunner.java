@@ -44,8 +44,8 @@ public class BenchmarkRunner implements CommandLineRunner {
 
         log.info("=== BENCHMARK RESULTS ===");
         log.info("Orders processed: {} / {}", successCount, orders.size());
-        log.info("Time: {:.3f}s", seconds);
-        log.info("Throughput: {:.1f} orders/sec", throughput);
+        log.info("Time: {}s", String.format("%.3f", seconds));
+        log.info("Throughput: {} orders/sec", String.format("%.1f", throughput));
         log.info("=========================");
     }
 
