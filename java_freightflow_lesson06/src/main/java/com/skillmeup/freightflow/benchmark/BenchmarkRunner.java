@@ -14,7 +14,7 @@ import java.util.List;
  * Runs on startup and measures order processing throughput.
  *
  * Throughput log:
- * - Baseline (sequential):           ~80 orders/sec
+ * - Baseline (sequential):           ~18 orders/sec
  * - After Lesson 2 (ThreadPoolExecutor): TODO: record result
  * - After Lesson 4 (CompletableFuture):  TODO: record result
  * - After Lesson 6 (HikariCP + batch):   TODO: record result
