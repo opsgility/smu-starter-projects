@@ -1,6 +1,7 @@
 package com.skillmeup.ecommerce.repository;
 
-import com.skillmeup.ecommerce.model.*;
+import com.skillmeup.ecommerce.model.Order;
+import com.skillmeup.ecommerce.model.Customer;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

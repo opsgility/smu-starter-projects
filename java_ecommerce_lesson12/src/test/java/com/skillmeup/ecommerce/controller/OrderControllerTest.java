@@ -1,6 +1,6 @@
 package com.skillmeup.ecommerce.controller;
 
-import com.skillmeup.ecommerce.model.*;
+import com.skillmeup.ecommerce.model.Order;
 import com.skillmeup.ecommerce.service.OrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;

@@ -1,6 +1,9 @@
 package com.skillmeup.ecommerce.domain;
 
-import com.skillmeup.ecommerce.model.*;
+import com.skillmeup.ecommerce.model.Order;
+import com.skillmeup.ecommerce.model.OrderItem;
+import com.skillmeup.ecommerce.model.OrderStatus;
+import com.skillmeup.ecommerce.model.Product;
 import org.junit.jupiter.api.*;
 import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.*;

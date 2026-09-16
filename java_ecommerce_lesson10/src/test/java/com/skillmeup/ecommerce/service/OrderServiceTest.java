@@ -1,6 +1,7 @@
 package com.skillmeup.ecommerce.service;
 
-import com.skillmeup.ecommerce.model.*;
+import com.skillmeup.ecommerce.model.Order;
+import com.skillmeup.ecommerce.model.Product;
 import com.skillmeup.ecommerce.repository.OrderRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
