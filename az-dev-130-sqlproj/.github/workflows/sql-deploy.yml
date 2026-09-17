@@ -1,0 +1,80 @@
+name: sql-deploy
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+      - name: Build DACPAC
+        run: dotnet build -c Release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dacpac
+          path: '**/bin/Release/**/Anchorline.Orders.dacpac'
+
+  deploy-dev:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { name: dacpac }
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: DeployReport
+        run: |
+          find . -name '*.dacpac' -exec sqlpackage \
+            /Action:DeployReport \
+            /SourceFile:{} \
+            /TargetServerName:${{ vars.DEV_SQL_SERVER }} \
+            /TargetDatabaseName:AnchorlineOrders \
+            /UniversalAuthentication:True \
+            /OutputPath:report.xml \;
+      - uses: actions/upload-artifact@v4
+        with: { name: report, path: report.xml }
+      - name: Publish to dev
+        if: github.ref == 'refs/heads/main'
+        run: |
+          find . -name '*.dacpac' -exec sqlpackage \
+            /Action:Publish \
+            /SourceFile:{} \
+            /TargetServerName:${{ vars.DEV_SQL_SERVER }} \
+            /TargetDatabaseName:AnchorlineOrders \
+            /UniversalAuthentication:True \
+            /p:BlockOnPossibleDataLoss=True \
+            /p:VerifyDeployment=True \;
+
+  deploy-prod:
+    needs: deploy-dev
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: prod   # required-reviewers gate
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { name: dacpac }
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Publish to prod
+        run: |
+          find . -name '*.dacpac' -exec sqlpackage \
+            /Action:Publish \
+            /SourceFile:{} \
+            /TargetServerName:${{ vars.PROD_SQL_SERVER }} \
+            /TargetDatabaseName:AnchorlineOrders \
+            /UniversalAuthentication:True \
+            /p:BlockOnPossibleDataLoss=True \
+            /p:VerifyDeployment=True \;
