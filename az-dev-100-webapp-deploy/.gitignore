@@ -1,0 +1,24 @@
+# Build output
+bin/
+obj/
+
+# Deploy artifacts (created by dotnet publish / zip commands in the lab exercises)
+publish/
+app.zip
+
+# Editor / OS
+.vs/
+.vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json
+*.user
+*.suo
+.DS_Store
+Thumbs.db
+
+# Local dev overrides
+appsettings.Development.local.json
+
+# Secrets (never commit .env)
+.env
+.env.local
