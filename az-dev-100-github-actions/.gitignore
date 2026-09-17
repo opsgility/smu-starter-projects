@@ -1,0 +1,15 @@
+bin/
+obj/
+publish/
+app.zip
+.vs/
+.vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json
+*.user
+*.suo
+.DS_Store
+Thumbs.db
+appsettings.Development.local.json
+.env
+.env.local
