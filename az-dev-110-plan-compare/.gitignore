@@ -1,0 +1,8 @@
+bin/
+obj/
+*.user
+.vs/
+publish/
+app.zip
+local.settings.json
+.azurite/
