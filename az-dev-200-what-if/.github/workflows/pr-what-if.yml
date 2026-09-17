@@ -1,0 +1,56 @@
+name: PR What-If
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths: [ 'main.bicep', '*.bicepparam' ]
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  what-if:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id:     ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id:     ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Run what-if
+        id: whatif
+        shell: bash
+        run: |
+          set -e
+          out=$(az deployment group what-if \
+            --resource-group "${{ vars.RESOURCE_GROUP }}" \
+            --template-file main.bicep \
+            --parameters planSku=S1 \
+            --result-format FullResourcePayloads \
+            --no-pretty-print \
+            --output json)
+          # Save as file for PR comment
+          echo "$out" | jq -r '.changes[] | "\(.changeType | ascii_upcase): \(.resourceId)"' > whatif.txt
+          echo "== What-If summary ==" >&2
+          cat whatif.txt >&2
+
+      - name: Post what-if diff as PR comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const body = "### Bicep what-if diff\n\n```\n" +
+                         fs.readFileSync('whatif.txt', 'utf8') +
+                         "\n```";
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });

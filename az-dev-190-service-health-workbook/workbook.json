@@ -1,0 +1,37 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    { "type": 1, "content": { "json": "# Anchorline Orders — Service Health\n\nA one-page workbook for the Orders API showing request rate, error rate, and p95 latency by revision. Time range is parameterized." } },
+    { "type": 9, "content": {
+        "version": "KqlParameterItem/1.0",
+        "parameters": [
+          { "id": "range", "version": "KqlParameterItem/1.0", "name": "TimeRange", "type": 4, "isRequired": true, "value": { "durationMs": 3600000 }, "typeSettings": { "selectableValues": [ { "durationMs": 900000 }, { "durationMs": 3600000 }, { "durationMs": 21600000 }, { "durationMs": 86400000 } ] } },
+          { "id": "app",   "version": "KqlParameterItem/1.0", "name": "ApiName",   "type": 1, "value": "anchorline-orders-slo" }
+        ]
+    } },
+    { "type": 3, "content": {
+      "version": "KqlItem/1.0",
+      "query": "requests | where cloud_RoleName == '{ApiName}' | summarize rps=count()/60.0 by bin(timestamp, 1m) | render timechart",
+      "timeContext": { "durationMs": "{TimeRange}" },
+      "size": 0, "title": "Requests per second"
+    } },
+    { "type": 3, "content": {
+      "version": "KqlItem/1.0",
+      "query": "requests | where cloud_RoleName == '{ApiName}' | summarize total=count(), errors=countif(success==false) by bin(timestamp, 1m) | extend errorPct = 100.0 * errors / total | project timestamp, errorPct | render timechart",
+      "timeContext": { "durationMs": "{TimeRange}" },
+      "size": 0, "title": "Error rate (%)"
+    } },
+    { "type": 3, "content": {
+      "version": "KqlItem/1.0",
+      "query": "requests | where cloud_RoleName == '{ApiName}' | summarize p95=percentile(duration, 95) by bin(timestamp, 1m) | render timechart",
+      "timeContext": { "durationMs": "{TimeRange}" },
+      "size": 0, "title": "p95 latency (ms)"
+    } },
+    { "type": 3, "content": {
+      "version": "KqlItem/1.0",
+      "query": "requests | where cloud_RoleName == '{ApiName}' | summarize count() by cloud_RoleInstance | render barchart",
+      "timeContext": { "durationMs": "{TimeRange}" },
+      "size": 0, "title": "Request count by revision (instance)"
+    } }
+  ]
+}
