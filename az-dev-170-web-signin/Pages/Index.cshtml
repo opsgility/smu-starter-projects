@@ -1,0 +1,10 @@
+@page
+@model IndexModel
+<h1>Anchorline HR</h1>
+<p>Hello @User.Identity!.Name.</p>
+<h2>Your claims</h2>
+<table>
+@foreach (var c in User.Claims) {
+  <tr><td>@c.Type</td><td>@c.Value</td></tr>
+}
+</table>
