@@ -1,0 +1,20 @@
+<policies>
+  <inbound>
+    <base />
+    <validate-jwt header-name="Authorization" require-scheme="Bearer">
+      <openid-config url="https://login.microsoftonline.com/{{tenantId}}/v2.0/.well-known/openid-configuration" />
+      <required-claims>
+        <claim name="tid" match="all">
+          <value>{{anchorTid}}</value>
+        </claim>
+      </required-claims>
+    </validate-jwt>
+    <set-header name="X-Tenant-Id" exists-action="override">
+      <value>@(context.Request.Headers.GetValueOrDefault("Authorization","")
+                .Split('.')[1])</value>
+    </set-header>
+  </inbound>
+  <backend><base /></backend>
+  <outbound><base /></outbound>
+  <on-error><base /></on-error>
+</policies>

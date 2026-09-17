@@ -1,0 +1,15 @@
+<policies>
+  <inbound><base /></inbound>
+  <backend><base /></backend>
+  <outbound>
+    <base />
+    <set-body>@{
+      var b = context.Response.Body.As<JObject>();
+      var cents = (int)b["totalCents"];
+      b.Remove("totalCents");
+      b["total"] = cents / 100.0;
+      return b.ToString();
+    }</set-body>
+  </outbound>
+  <on-error><base /></on-error>
+</policies>

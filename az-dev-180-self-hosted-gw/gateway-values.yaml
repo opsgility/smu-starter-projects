@@ -1,0 +1,13 @@
+# Values for the apim-self-hosted-gateway Helm chart.
+# Set gateway.configuration.uri + gateway.auth.key from your APIM instance.
+image:
+  repository: mcr.microsoft.com/azure-api-management/gateway
+  tag: 2.5.0
+gateway:
+  configuration:
+    uri: "https://SET_ME.configuration.azure-api.net/subscriptions/.../resourceGroups/.../providers/Microsoft.ApiManagement/service/SET_ME?api-version=2024-05-01&gatewayName=anchor-eu-gw"
+  auth:
+    key: "SET_ME_FROM_APIM_PORTAL"
+service:
+  type: LoadBalancer
+replicaCount: 2
