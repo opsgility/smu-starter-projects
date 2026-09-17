@@ -1,0 +1,28 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Anchorline direct upload</title>
+<style>body{font-family:system-ui;max-width:640px;margin:2rem auto;padding:0 1rem}input,button{padding:.5rem;font-size:1rem}pre{background:#f0f0f0;padding:1rem;overflow:auto}</style>
+<h1>Anchorline direct browser upload</h1>
+<p>Pick a file. The browser fetches a short-lived user-delegation SAS from the API, then PUTs the file directly to blob storage.</p>
+<input type="file" id="file"><br><br>
+<button id="go">Upload</button>
+<pre id="log"></pre>
+<script>
+const log = document.getElementById('log');
+function say(s){ log.textContent += s + "\n" }
+document.getElementById('go').onclick = async () => {
+    const f = document.getElementById('file').files[0];
+    if (!f) { say('pick a file first'); return }
+    say(`preparing SAS for ${f.name}...`);
+    const prep = await fetch(`/api/upload/prepare?name=${encodeURIComponent(f.name)}`, { method: 'POST' });
+    const info = await prep.json();
+    say(`SAS ready; expires ${info.expiresOn}`);
+    say(`PUT to ${info.uploadUrl.split('?')[0]}?<sas>...`);
+    const put = await fetch(info.uploadUrl, {
+        method: 'PUT',
+        headers: { 'x-ms-blob-type': 'BlockBlob' },
+        body: f
+    });
+    say(`upload status: ${put.status} ${put.statusText}`);
+};
+</script>
