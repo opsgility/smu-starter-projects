@@ -8,7 +8,14 @@
     <AssemblyName>topic-filters</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Azure.Identity" Version="1.13.2" />
-    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.18.2" />
+    <!--
+      SDK pins refreshed 2026-09-18 against Microsoft Learn current-latest package pages:
+        Azure.Identity              — https://learn.microsoft.com/dotnet/api/overview/azure/identity-readme (1.17.2)
+        Azure.Messaging.ServiceBus  — https://learn.microsoft.com/dotnet/api/overview/azure/messaging.servicebus-readme (7.20.2)
+      SB SQL-filter rule syntax used in this lab is unchanged and supported on Standard/Premium tiers.
+      Floating <major>.* pins per Microsoft's current guidance.
+    -->
+    <PackageReference Include="Azure.Identity" Version="1.*" />
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.*" />
   </ItemGroup>
 </Project>
