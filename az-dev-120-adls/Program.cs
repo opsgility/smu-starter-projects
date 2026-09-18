@@ -1,3 +1,4 @@
+using System.Text;
 using Azure.Identity;
 using Azure.Storage.Files.DataLake;
 using Azure.Storage.Files.DataLake.Models;
@@ -18,7 +19,12 @@ var account = args[0];
 var fsName = args[1];
 var command = args[2];
 
-var credential = new DefaultAzureCredential();
+// Excluding ManagedIdentityCredential: this CLI runs as the student, authenticated
+// via `az login` inside the VS Code container — there is no MI to fall back to here.
+var credential = new DefaultAzureCredential(new DefaultAzureCredentialOptions
+{
+    ExcludeManagedIdentityCredential = true
+});
 var svc = new DataLakeServiceClient(new Uri($"https://{account}.dfs.core.windows.net"), credential);
 var fs = svc.GetFileSystemClient(fsName);
 await fs.CreateIfNotExistsAsync();
@@ -55,7 +61,8 @@ static async Task Scaffold(DataLakeFileSystemClient fs)
         await dir.CreateIfNotExistsAsync();
         var file = dir.GetFileClient("sample.json");
         var body = $"{{\"tenant\":\"{tenant}\",\"date\":\"{today}\"}}";
-        await file.UploadAsync(BinaryData.FromString(body), overwrite: true);
+        using var ms = new MemoryStream(Encoding.UTF8.GetBytes(body));
+        await file.UploadAsync(ms, overwrite: true);
         Console.WriteLine($"  created tenants/{tenant}/data/{today}/sample.json");
     }
 }
@@ -95,7 +102,7 @@ static async Task Rename(DataLakeFileSystemClient fs, string from, string to)
 static async Task ListRecursive(DataLakeFileSystemClient fs, string path)
 {
     Console.WriteLine($"Recursive listing under {path}:");
-    await foreach (var item in fs.GetPathsAsync(path, recursive: true))
+    await foreach (var item in fs.GetPathsAsync(path, true, false, default))
     {
         var kind = item.IsDirectory == true ? "DIR " : "FILE";
         Console.WriteLine($"  {kind}  {item.Name}");
