@@ -27,8 +27,9 @@ app.MapGet("/whoami", async (TokenCredential credential) =>
         var context = new TokenRequestContext(new[] { "https://management.azure.com/.default" });
         var token = await credential.GetTokenAsync(context, CancellationToken.None);
         var parts = token.Token.Split('.');
-        var payload = System.Text.Encoding.UTF8.GetString(
+        var payloadJson = System.Text.Encoding.UTF8.GetString(
             Convert.FromBase64String(PadBase64(parts[1])));
+        var payload = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonElement>(payloadJson);
         return Results.Ok(new { tokenPayload = payload, expiresOn = token.ExpiresOn });
     }
     catch (Exception ex)
@@ -36,8 +37,11 @@ app.MapGet("/whoami", async (TokenCredential credential) =>
         return Results.Problem($"Token acquisition failed: {ex.Message}");
     }
 
-    static string PadBase64(string s) => s.PadRight(s.Length + (4 - s.Length % 4) % 4, '=')
-                                          .Replace('-', '+').Replace('_', '/');
+    static string PadBase64(string s)
+    {
+        s = s.Replace('-', '+').Replace('_', '/');
+        return s.PadRight(s.Length + (4 - s.Length % 4) % 4, '=');
+    }
 });
 
 app.MapGet("/blobs", async (IConfiguration config, TokenCredential credential) =>
@@ -119,6 +123,57 @@ app.MapGet("/products", async (IConfiguration config, TokenCredential credential
     catch (Exception ex)
     {
         return Results.Problem($"SQL query failed: {ex.Message}");
+    }
+});
+
+// One-shot SQL bootstrap endpoint. Guarded by SEED_ENABLED=true env var so it's disabled by default.
+// After seeding, unset SEED_ENABLED (az webapp config appsettings delete) so the endpoint returns 403.
+app.MapPost("/seed", async (IConfiguration config, TokenCredential credential) =>
+{
+    var enabled = string.Equals(config["SEED_ENABLED"], "true", StringComparison.OrdinalIgnoreCase);
+    if (!enabled)
+        return Results.StatusCode(StatusCodes.Status403Forbidden);
+
+    var sqlServer = config["Anchorline:SqlServer"];
+    var sqlDb = config["Anchorline:SqlDatabase"];
+    if (string.IsNullOrEmpty(sqlServer) || string.IsNullOrEmpty(sqlDb))
+        return Results.Problem("Anchorline:SqlServer / SqlDatabase not configured");
+
+    try
+    {
+        var connStr = $"Server=tcp:{sqlServer},1433;Database={sqlDb};Encrypt=True;TrustServerCertificate=False;";
+        await using var conn = new SqlConnection(connStr);
+        var context = new TokenRequestContext(new[] { "https://database.windows.net/.default" });
+        var token = await credential.GetTokenAsync(context, CancellationToken.None);
+        conn.AccessToken = token.Token;
+        await conn.OpenAsync();
+
+        const string ddl = @"
+IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'Products')
+BEGIN
+    CREATE TABLE dbo.Products (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        Sku NVARCHAR(50) NOT NULL,
+        Name NVARCHAR(200) NOT NULL,
+        Price DECIMAL(10,2) NOT NULL
+    );
+    INSERT INTO dbo.Products (Sku, Name, Price) VALUES
+        ('AO-TENT-2P',  'Anchorline 2-Person Tent',            249.99),
+        ('AO-PACK-45L', 'Anchorline 45L Backpack',             189.00),
+        ('AO-STOVE-WK', 'Anchorline Weekend Stove',             79.50),
+        ('AO-BAG-15F',  'Anchorline 15F Sleeping Bag',         159.00),
+        ('AO-KAYAK-10', 'Anchorline 10ft Recreational Kayak',  649.00);
+END";
+        await using var cmd = new SqlCommand(ddl, conn);
+        await cmd.ExecuteNonQueryAsync();
+
+        await using var count = new SqlCommand("SELECT COUNT(*) FROM dbo.Products", conn);
+        var rows = (int)(await count.ExecuteScalarAsync() ?? 0);
+        return Results.Ok(new { seeded = true, productCount = rows });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Seed failed: {ex.Message}");
     }
 });
 
