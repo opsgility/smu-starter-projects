@@ -8,7 +8,7 @@ param skuName string = 'P1v3'
 var planName = '${namePrefix}-plan'
 var webName = '${namePrefix}-web'
 
-resource plan 'Microsoft.Web/serverfarms@2023-12-01' = {
+resource plan 'Microsoft.Web/serverfarms@2024-11-01' = {
   name: planName
   location: location
   tags: tags
@@ -17,7 +17,7 @@ resource plan 'Microsoft.Web/serverfarms@2023-12-01' = {
   properties: { reserved: true }
 }
 
-resource web 'Microsoft.Web/sites@2023-12-01' = {
+resource web 'Microsoft.Web/sites@2024-11-01' = {
   name: webName
   location: location
   tags: tags

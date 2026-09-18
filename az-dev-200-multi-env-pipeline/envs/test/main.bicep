@@ -3,7 +3,7 @@ targetScope = 'resourceGroup'
 param location string = resourceGroup().location
 var suffix = uniqueString(resourceGroup().id, 'test')
 
-resource sa 'Microsoft.Storage/storageAccounts@2023-05-01' = {
+resource sa 'Microsoft.Storage/storageAccounts@2025-01-01' = {
   name: toLower('anchortest${substring(suffix, 0, 6)}')
   location: location
   sku: { name: 'Standard_ZRS' }

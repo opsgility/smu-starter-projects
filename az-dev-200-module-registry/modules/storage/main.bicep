@@ -22,7 +22,7 @@ param skuName string = 'Standard_LRS'
 @description('Common tags.')
 param tags object = {}
 
-resource sa 'Microsoft.Storage/storageAccounts@2023-05-01' = {
+resource sa 'Microsoft.Storage/storageAccounts@2025-01-01' = {
   name: name
   location: location
   tags: tags

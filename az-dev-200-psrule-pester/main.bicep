@@ -7,7 +7,7 @@ param location string = resourceGroup().location
 var suffix = uniqueString(resourceGroup().id)
 var storageName = toLower('anchor${substring(suffix, 0, 6)}')
 
-resource sa 'Microsoft.Storage/storageAccounts@2023-05-01' = {
+resource sa 'Microsoft.Storage/storageAccounts@2025-01-01' = {
   name: storageName
   location: location
   sku: { name: 'Standard_LRS' }

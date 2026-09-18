@@ -6,7 +6,7 @@ param tags object = {}
 
 var vnetName = '${namePrefix}-vnet'
 
-resource vnet 'Microsoft.Network/virtualNetworks@2024-01-01' = {
+resource vnet 'Microsoft.Network/virtualNetworks@2024-05-01' = {
   name: vnetName
   location: location
   tags: tags

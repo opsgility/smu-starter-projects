@@ -8,7 +8,7 @@ param sqlAdminLogin string
 var serverName = toLower('${namePrefix}-sql-${uniqueString(resourceGroup().id, namePrefix)}')
 var dbName = 'anchorline-db'
 
-resource sql 'Microsoft.Sql/servers@2023-08-01-preview' = {
+resource sql 'Microsoft.Sql/servers@2023-08-01' = {
   name: serverName
   location: location
   tags: tags
@@ -28,7 +28,7 @@ resource sql 'Microsoft.Sql/servers@2023-08-01-preview' = {
   }
 }
 
-resource db 'Microsoft.Sql/servers/databases@2023-08-01-preview' = {
+resource db 'Microsoft.Sql/servers/databases@2023-08-01' = {
   parent: sql
   name: dbName
   location: location

@@ -6,7 +6,7 @@ param tags object = {}
 var kvName = '${substring(replace(namePrefix, '-', ''), 0, min(length(replace(namePrefix, '-', '')), 12))}-kv-${uniqueString(resourceGroup().id, namePrefix)}'
 var kvNameSanitized = toLower(substring(kvName, 0, min(24, length(kvName))))
 
-resource kv 'Microsoft.KeyVault/vaults@2024-04-01-preview' = {
+resource kv 'Microsoft.KeyVault/vaults@2024-11-01' = {
   name: kvNameSanitized
   location: location
   tags: tags
