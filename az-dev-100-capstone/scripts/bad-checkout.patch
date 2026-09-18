@@ -1,0 +1,31 @@
+--- a/Program.cs
++++ b/Program.cs
+@@ -46,25 +46,10 @@
+ app.MapGet("/checkout", async () =>
+ {
+     using var activity = activitySource.StartActivity("checkout");
+-    var start = Stopwatch.GetTimestamp();
+-
+-    using (activitySource.StartActivity("inventory-lookup"))
+-    {
+-        await Task.Delay(Random.Shared.Next(100, 200));
+-    }
+-    using (activitySource.StartActivity("payment-authorize"))
+-    {
+-        await Task.Delay(Random.Shared.Next(400, 800));
+-    }
+-    using (activitySource.StartActivity("order-persist"))
+-    {
+-        await Task.Delay(Random.Shared.Next(50, 150));
+-    }
+-
+-    if (Random.Shared.NextDouble() < 0.05)
+-    {
+-        throw new InvalidOperationException("payment authorization declined");
+-    }
++    await Task.Delay(50);
++    // BUG: introduced during Exercise 4 to simulate an incident.
++    throw new InvalidOperationException("BUG: payment service unreachable");
+
+     var elapsed = Stopwatch.GetElapsedTime(start).TotalMilliseconds;
+     checkoutCounter.Add(1);
