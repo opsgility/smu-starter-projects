@@ -15,7 +15,6 @@ az-dev-100-github-actions/
   Project.csproj                # net10.0 (same as M1)
   Program.cs                    # /health + /version endpoints
   appsettings.json              # base
-  appsettings.Development.json  # dev override
   Properties/
     launchSettings.json
   .github/
@@ -50,7 +49,7 @@ curl http://localhost:5000/version
 
 ## Deploy via the workflow
 
-Push to `main` in your OWN GitHub repo (the lab creates a fresh repo in Exercise 2). The workflow triggers automatically. Watch it in the Actions tab; total run time is ~90 seconds end-to-end.
+Push to `main` in your OWN GitHub repo (the lab creates a fresh repo in Exercise 2). The workflow triggers automatically. Watch it in the Actions tab; realistic total run time is 2-3 minutes end-to-end (build + zip + upload + S1 App Service warmup + smoke retries).
 
 ## Authentication
 
