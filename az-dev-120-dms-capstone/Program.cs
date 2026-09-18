@@ -1,5 +1,6 @@
 using Azure.Identity;
 using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,7 +34,10 @@ app.MapPost("/api/upload/prepare", async (
     var expiresOn = DateTimeOffset.UtcNow.Add(validFor);
 
     var udk = await service.GetUserDelegationKeyAsync(
-        DateTimeOffset.UtcNow.AddMinutes(-5), expiresOn);
+        new BlobGetUserDelegationKeyOptions(expiresOn)
+        {
+            StartsOn = DateTimeOffset.UtcNow.AddMinutes(-5)
+        });
 
     var sasBuilder = new BlobSasBuilder
     {
