@@ -33,7 +33,7 @@ var storageName = toLower('anchor${substring(suffix, 0, 6)}')
 var planName = 'plan-${appName}'
 var webName = '${appName}-${substring(suffix, 0, 6)}'
 
-resource storage 'Microsoft.Storage/storageAccounts@2023-05-01' = {
+resource storage 'Microsoft.Storage/storageAccounts@2025-01-01' = {
   name: storageName
   location: location
   sku: {
@@ -48,7 +48,7 @@ resource storage 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   }
 }
 
-resource plan 'Microsoft.Web/serverfarms@2023-12-01' = {
+resource plan 'Microsoft.Web/serverfarms@2024-11-01' = {
   name: planName
   location: location
   sku: {
@@ -62,7 +62,7 @@ resource plan 'Microsoft.Web/serverfarms@2023-12-01' = {
   }
 }
 
-resource web 'Microsoft.Web/sites@2023-12-01' = {
+resource web 'Microsoft.Web/sites@2024-11-01' = {
   name: webName
   location: location
   tags: tags

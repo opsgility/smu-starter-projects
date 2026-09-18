@@ -28,7 +28,7 @@ var planName  = 'plan-anchor-${substring(suffix, 0, 6)}'
 var webName   = 'web-anchor-${substring(suffix, 0, 6)}'
 
 // 1. Key Vault
-resource kv 'Microsoft.KeyVault/vaults@2024-04-01-preview' = {
+resource kv 'Microsoft.KeyVault/vaults@2024-11-01' = {
   name: kvName
   location: location
   tags: tags
@@ -45,26 +45,26 @@ resource kv 'Microsoft.KeyVault/vaults@2024-04-01-preview' = {
 }
 
 // 2. Seed three secrets from @secure params
-resource secretDb 'Microsoft.KeyVault/vaults/secrets@2024-04-01-preview' = {
+resource secretDb 'Microsoft.KeyVault/vaults/secrets@2024-11-01' = {
   parent: kv
   name: 'DbConnectionString'
   properties: { value: dbConnectionString, attributes: { enabled: true } }
 }
 
-resource secretSb 'Microsoft.KeyVault/vaults/secrets@2024-04-01-preview' = {
+resource secretSb 'Microsoft.KeyVault/vaults/secrets@2024-11-01' = {
   parent: kv
   name: 'ServiceBusConnectionString'
   properties: { value: serviceBusConnectionString, attributes: { enabled: true } }
 }
 
-resource secretCog 'Microsoft.KeyVault/vaults/secrets@2024-04-01-preview' = {
+resource secretCog 'Microsoft.KeyVault/vaults/secrets@2024-11-01' = {
   parent: kv
   name: 'CognitiveServicesKey'
   properties: { value: cognitiveServicesKey, attributes: { enabled: true } }
 }
 
 // 3. App Configuration with feature flags
-resource appCfg 'Microsoft.AppConfiguration/configurationStores@2024-05-01' = {
+resource appCfg 'Microsoft.AppConfiguration/configurationStores@2024-06-01' = {
   name: appCfgName
   location: location
   tags: tags
@@ -73,7 +73,7 @@ resource appCfg 'Microsoft.AppConfiguration/configurationStores@2024-05-01' = {
   properties: { publicNetworkAccess: 'Enabled', disableLocalAuth: false }
 }
 
-resource ffPromoBanner 'Microsoft.AppConfiguration/configurationStores/keyValues@2024-05-01' = {
+resource ffPromoBanner 'Microsoft.AppConfiguration/configurationStores/keyValues@2024-06-01' = {
   parent: appCfg
   name: '.appconfig.featureflag~2FAnchorlinePromoBanner'
   properties: {
@@ -83,7 +83,7 @@ resource ffPromoBanner 'Microsoft.AppConfiguration/configurationStores/keyValues
 }
 
 // 4. Plan + Web App with Key Vault references and App Config wire-up
-resource plan 'Microsoft.Web/serverfarms@2023-12-01' = {
+resource plan 'Microsoft.Web/serverfarms@2024-11-01' = {
   name: planName
   location: location
   tags: tags
@@ -92,7 +92,7 @@ resource plan 'Microsoft.Web/serverfarms@2023-12-01' = {
   properties: { reserved: true }
 }
 
-resource web 'Microsoft.Web/sites@2023-12-01' = {
+resource web 'Microsoft.Web/sites@2024-11-01' = {
   name: webName
   location: location
   tags: tags

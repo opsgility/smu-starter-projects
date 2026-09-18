@@ -18,7 +18,7 @@ param tenantId string = subscription().tenantId
 @description('Common tags.')
 param tags object = {}
 
-resource kv 'Microsoft.KeyVault/vaults@2024-04-01-preview' = {
+resource kv 'Microsoft.KeyVault/vaults@2024-11-01' = {
   name: name
   location: location
   tags: tags

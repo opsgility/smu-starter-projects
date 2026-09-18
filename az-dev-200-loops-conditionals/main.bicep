@@ -33,7 +33,7 @@ param tags object = {
 
 var suffix = uniqueString(resourceGroup().id, env)
 
-resource storages 'Microsoft.Storage/storageAccounts@2023-05-01' = [for (sa, i) in storageAccounts: {
+resource storages 'Microsoft.Storage/storageAccounts@2025-01-01' = [for (sa, i) in storageAccounts: {
   name: toLower('anchor${sa.purpose}${substring(suffix, 0, 5)}')
   location: location
   tags: union(tags, { purpose: sa.purpose })
@@ -47,7 +47,7 @@ resource storages 'Microsoft.Storage/storageAccounts@2023-05-01' = [for (sa, i) 
 }]
 
 // Prod-only Key Vault
-resource kvProd 'Microsoft.KeyVault/vaults@2024-04-01-preview' = if (env == 'prod') {
+resource kvProd 'Microsoft.KeyVault/vaults@2024-11-01' = if (env == 'prod') {
   name: toLower('kv-anchor-${substring(suffix, 0, 8)}')
   location: location
   tags: tags
@@ -62,13 +62,13 @@ resource kvProd 'Microsoft.KeyVault/vaults@2024-04-01-preview' = if (env == 'pro
 }
 
 // Reference existing VNet — no redeploy.
-resource vnet 'Microsoft.Network/virtualNetworks@2024-01-01' existing = {
+resource vnet 'Microsoft.Network/virtualNetworks@2024-05-01' existing = {
   name: existingVnetName
   scope: resourceGroup(existingVnetRg)
 }
 
 // Inject a new subnet into the existing VNet.
-resource newSubnet 'Microsoft.Network/virtualNetworks/subnets@2024-01-01' = {
+resource newSubnet 'Microsoft.Network/virtualNetworks/subnets@2024-05-01' = {
   parent: vnet
   name: 'snet-${env}-workload'
   properties: {
