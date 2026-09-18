@@ -1,8 +1,11 @@
-# Values for the apim-self-hosted-gateway Helm chart.
-# Set gateway.configuration.uri + gateway.auth.key from your APIM instance.
+# Values for the azure-apim-gateway/azure-api-management-gateway Helm chart.
+# Per MS Learn: self-hosted gateway is supported on Developer and Premium (classic) tiers ONLY.
+# v2 tiers (Basic v2, Standard v2, Premium v2) do NOT support self-hosted gateway.
+# Source: https://learn.microsoft.com/azure/api-management/api-management-features
+# Set gateway.configuration.uri + gateway.auth.key from your APIM instance Gateways blade.
 image:
   repository: mcr.microsoft.com/azure-api-management/gateway
-  tag: 2.5.0
+  tag: "2.11.0"
 gateway:
   configuration:
     uri: "https://SET_ME.configuration.azure-api.net/subscriptions/.../resourceGroups/.../providers/Microsoft.ApiManagement/service/SET_ME?api-version=2024-05-01&gatewayName=anchor-eu-gw"
