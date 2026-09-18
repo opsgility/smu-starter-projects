@@ -8,8 +8,8 @@
     <AssemblyName>ae-app</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Azure.Identity" Version="1.13.2" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
-    <PackageReference Include="Microsoft.Data.SqlClient.AlwaysEncrypted.AzureKeyVaultProvider" Version="5.2.0" />
+    <PackageReference Include="Azure.Identity" Version="1.*" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.*" />
+    <PackageReference Include="Microsoft.Data.SqlClient.AlwaysEncrypted.AzureKeyVaultProvider" Version="6.*" />
   </ItemGroup>
 </Project>
