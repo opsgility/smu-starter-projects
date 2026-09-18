@@ -13,7 +13,7 @@ app.MapGet("/version", (IConfiguration config) => Results.Ok(new
     buildTag = config["AZ_DEV_100_BUILD_TAG"] ?? "unset",
     slotName = Environment.GetEnvironmentVariable("WEBSITE_SLOT_NAME") ?? "not-app-service",
     hostName = Environment.MachineName,
-    dotnetVersion = Environment.Version.ToString()
+    dotnetVersion = Environment.Version.ToString(3)
 }));
 
 // /burn — spin CPU for N seconds. Use to drive the CpuPercentage metric.

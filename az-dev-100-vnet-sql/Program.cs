@@ -12,7 +12,7 @@ app.MapGet("/version", (IConfiguration config) => Results.Ok(new
 {
     buildTag = config["AZ_DEV_100_BUILD_TAG"] ?? "unset",
     slotName = Environment.GetEnvironmentVariable("WEBSITE_SLOT_NAME") ?? "not-app-service",
-    dotnetVersion = Environment.Version.ToString()
+    dotnetVersion = Environment.Version.ToString(3)
 }));
 
 // /dns — resolves the SQL hostname. On private-endpoint setup this returns a private IP.

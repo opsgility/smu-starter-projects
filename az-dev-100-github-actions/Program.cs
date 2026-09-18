@@ -13,7 +13,7 @@ app.MapGet("/health", () => Results.Ok(new
 app.MapGet("/version", (IConfiguration config) => Results.Ok(new
 {
     buildTag = config["AZ_DEV_100_BUILD_TAG"] ?? "unset",
-    dotnetVersion = Environment.Version.ToString(),
+    dotnetVersion = Environment.Version.ToString(3),
     environment = app.Environment.EnvironmentName,
     commitSha = config["GITHUB_SHA"] ?? "not-set-by-workflow"
 }));
