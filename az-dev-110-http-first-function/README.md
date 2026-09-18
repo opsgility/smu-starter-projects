@@ -25,4 +25,4 @@ curl http://localhost:7071/api/hello/Michael
 
 ## Deploy to Azure
 
-The paired ARM template provisions a Consumption Function App. Zip the `bin/publish` output and deploy with `az functionapp deployment source config-zip`.
+The paired ARM template provisions a Flex Consumption Function App running .NET 10 isolated on Linux with managed identity for storage. Publish with `az functionapp deployment source config-zip` after zipping the `bin/publish` output.

@@ -11,7 +11,7 @@ Blob-triggered Function that resizes uploaded product images to 300x300 thumbnai
 
 ## Concurrency
 
-`host.json` sets `blobs.maxDegreeOfParallelism = 8` — one instance processes 8 images concurrently. Consumption scales out for more.
+`host.json` sets `blobs.maxDegreeOfParallelism = 8` — one instance processes 8 images concurrently. Flex Consumption scales out (per-instance memory + max instance count set in the ARM template) for higher throughput.
 
 ## Bulk load
 
