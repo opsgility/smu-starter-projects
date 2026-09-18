@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.AzureAppConfiguration" Version="8.*" />
+    <PackageReference Include="Microsoft.Azure.AppConfiguration.AspNetCore" Version="8.*" />
     <PackageReference Include="Microsoft.FeatureManagement" Version="4.*" />
     <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="4.*" />
     <PackageReference Include="Azure.Identity" Version="1.*" />
