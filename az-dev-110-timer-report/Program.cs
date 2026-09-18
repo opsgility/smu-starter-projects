@@ -17,7 +17,9 @@ builder.Services.AddSingleton(sp =>
     var accountUrl = config["Anchorline:StorageAccountUrl"];
     if (string.IsNullOrEmpty(accountUrl))
     {
-        return new BlobServiceClient(config["AzureWebJobsStorage"]);
+        var accountName = config["AzureWebJobsStorage__accountName"]
+            ?? throw new InvalidOperationException("Set Anchorline:StorageAccountUrl or AzureWebJobsStorage__accountName.");
+        accountUrl = $"https://{accountName}.blob.core.windows.net";
     }
     return new BlobServiceClient(new Uri(accountUrl), new DefaultAzureCredential());
 });
