@@ -8,7 +8,10 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Azure.Identity" Version="1.*" />
-    <PackageReference Include="Azure.Storage.Blobs" Version="12.*" />
+    <!-- Azure.Storage.Blobs is intentionally NOT pinned directly here: this ChangeFeed
+         preview package requires Azure.Storage.Blobs >= 12.30.0, and pinning "12.*" on
+         top of it can resolve to an older 12.29.x that mismatches (CS1705). Let the
+         ChangeFeed package's own dependency pull in a compatible Blobs version. -->
     <PackageReference Include="Azure.Storage.Blobs.ChangeFeed" Version="12.0.0-preview.*" />
   </ItemGroup>
 </Project>

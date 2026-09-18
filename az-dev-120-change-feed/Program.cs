@@ -12,7 +12,13 @@ if (args.Length < 2)
 }
 
 var account = args[0];
-var credential = new DefaultAzureCredential();
+// Excluding ManagedIdentityCredential: this CLI runs as the student, authenticated
+// via `az login` inside the VS Code container — there is no MI to fall back to here,
+// and probing for one adds a slow (and in this container, hard-failing) IMDS round trip.
+var credential = new DefaultAzureCredential(new DefaultAzureCredentialOptions
+{
+    ExcludeManagedIdentityCredential = true
+});
 var serviceUri = new Uri($"https://{account}.blob.core.windows.net");
 var blobService = new BlobServiceClient(serviceUri, credential);
 
@@ -23,7 +29,7 @@ switch (args[1])
         break;
     case "replay":
         var hours = args.Length > 2 ? int.Parse(args[2]) : 1;
-        await Replay(serviceUri, credential, hours);
+        await Replay(blobService, hours);
         break;
     default:
         Console.Error.WriteLine($"Unknown command: {args[1]}");
@@ -59,13 +65,13 @@ static async Task Churn(BlobServiceClient service, string containerName)
     Console.WriteLine("Churn done. Change feed batches every ~5 min; wait before replay.");
 }
 
-static async Task Replay(Uri serviceUri, Azure.Core.TokenCredential credential, int hours)
+static async Task Replay(BlobServiceClient service, int hours)
 {
-    var client = new ChangeFeedClient(serviceUri, credential);
+    var client = service.GetChangeFeedClient();
     var start = DateTimeOffset.UtcNow.AddHours(-hours);
     Console.WriteLine($"Replaying change feed from {start:O} ({hours}h back)...");
     var count = 0;
-    await foreach (var change in client.GetChangesAsync(start: start, end: DateTimeOffset.UtcNow))
+    await foreach (var change in client.GetChangesAsync(start, DateTimeOffset.UtcNow))
     {
         var typ = change.EventType.ToString();
         var url = change.Subject;
