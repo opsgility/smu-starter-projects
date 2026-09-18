@@ -8,6 +8,6 @@
     <AssemblyName>anchorline-jobs</AssemblyName>
     <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
     <ContainerRepository>anchorline-jobs</ContainerRepository>
-    <ContainerBaseImage>mcr.microsoft.com/dotnet/nightly/runtime:10.0-noble-chiseled</ContainerBaseImage>
+    <ContainerBaseImage>mcr.microsoft.com/dotnet/runtime:10.0-noble-chiseled</ContainerBaseImage>
   </PropertyGroup>
 </Project>

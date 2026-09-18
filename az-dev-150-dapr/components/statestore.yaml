@@ -7,10 +7,11 @@ metadata:
   value: AnchorlineDapr
 - name: collection
   value: state
-- name: masterKey
-  secretRef: cosmos-key
+# Managed-Identity auth — no master key stored anywhere.
+# The ACA app's system-assigned MI (or a user-assigned MI attached
+# to the container app) must be granted the built-in Cosmos DB Data
+# Contributor role at the account or database scope.
+- name: azureClientId
+  value: "<managed-identity-client-id>"
 scopes:
 - order-processor
-secrets:
-- name: cosmos-key
-  value: "<INJECTED AT DEPLOY TIME>"
