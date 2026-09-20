@@ -1,4 +1,0 @@
-*.json
-!bicepconfig.json
-!*.parameters.json
-main/main.json

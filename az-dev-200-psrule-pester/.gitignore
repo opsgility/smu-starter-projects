@@ -1,4 +1,0 @@
-*.json
-!*.parameters.json
-main.json
-*.sarif

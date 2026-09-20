@@ -1,4 +1,0 @@
-aiohttp
-httpx
-aiofiles
-aiosqlite

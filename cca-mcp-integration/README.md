@@ -1,1 +1,0 @@
-# DocStream - mcp integration

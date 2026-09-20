@@ -1,6 +1,0 @@
-// TaskForge latency SLO: p95 < 500ms
-requests
-| where timestamp > ago(1h)
-| where cloud_RoleName in ("taskforge-web", "taskforge-api")
-| summarize p95 = percentile(duration, 95) by bin(timestamp, 5m)
-| where p95 > 500
