@@ -1,0 +1,13 @@
+# azd project manifest for the Ridgevault portfolio-review capstone.
+# Run `azd env new dev` / `azd env new test` / `azd env new prod` to create the DTAP environments,
+# then `azd deploy` deploys the container to whichever env is active.
+name: ai-500-capstone
+metadata:
+  template: ai-500-capstone@1.0.0
+services:
+  portfolio-flow:
+    project: .
+    language: python
+    host: containerapp
+    docker:
+      path: ./Dockerfile

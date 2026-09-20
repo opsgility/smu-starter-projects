@@ -1,0 +1,11 @@
+{
+  "debug": true,
+  "database": {
+    "host": "staging-db.pyforge.internal",
+    "port": 5432,
+    "name": "pyforge_staging"
+  },
+  "logging": {
+    "level": "DEBUG"
+  }
+}

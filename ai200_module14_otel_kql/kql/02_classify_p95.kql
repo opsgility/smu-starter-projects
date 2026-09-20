@@ -1,0 +1,6 @@
+// P50/P95/P99 latency for the classify span over the last hour.
+dependencies
+| where timestamp > ago(1h)
+| where name == "classify"
+| summarize p50=percentile(duration, 50), p95=percentile(duration, 95), p99=percentile(duration, 99), count() by bin(timestamp, 5m)
+| order by timestamp asc

@@ -1,0 +1,25 @@
+{
+  "name": "claude-mcp-lesson12-streamable-http",
+  "version": "0.1.0",
+  "description": "Lesson 12 starter: convert the multi-tool MCP server from stdio to Streamable HTTP",
+  "type": "module",
+  "main": "dist/server.js",
+  "bin": {
+    "mcp-streamable-http": "dist/server.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "inspect": "npx @modelcontextprotocol/inspector node dist/server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "express": "^4.21.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.7.4",
+    "typescript": "^5.6.2"
+  }
+}

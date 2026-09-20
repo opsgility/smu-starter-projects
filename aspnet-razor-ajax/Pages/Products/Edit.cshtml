@@ -1,0 +1,38 @@
+@page "{id:int}"
+@model BrightShelf.Pages.Products.EditModel
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<h1>Edit Product</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <input type="hidden" asp-for="Product.Id" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="Product.Name" class="form-label"></label>
+                <input asp-for="Product.Name" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="Product.Category" class="form-label"></label>
+                <input asp-for="Product.Category" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="Product.Description" class="form-label"></label>
+                <textarea asp-for="Product.Description" class="form-control"></textarea>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Product.Price" class="form-label"></label>
+                <input asp-for="Product.Price" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="Product.StockQuantity" class="form-label"></label>
+                <input asp-for="Product.StockQuantity" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-page="Index" class="btn btn-secondary">Back to List</a>
+        </form>
+    </div>
+</div>

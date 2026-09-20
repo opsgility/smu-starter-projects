@@ -1,0 +1,61 @@
+# DELIBERATELY SLOW workflow — your job in the exercise is to optimize it.
+#
+# What's wrong here (each fix is a study-guide objective):
+#   1. No npm cache. Every job re-downloads the entire dependency tree.
+#   2. No concurrency group. Two pushes in quick succession run twice.
+#   3. Redundant Node setup in every job (and no node-version reuse).
+#   4. Matrix runs the same install 4x instead of caching once.
+#   5. Long-running steps without parallelism where they could be split.
+#   6. No retention policy — artifacts kept the full 90 days by default.
+#
+# After your optimization pass, expect the wall-clock time to drop ~60–80%.
+
+name: Slow Build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ '18', '20', '22' ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          # NOTE: no `cache: 'npm'` — every run rebuilds node_modules from scratch
+      - run: npm install
+      - run: npm test
+      - run: sleep 10  # placeholder for a slow integration step
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install
+      - run: npx eslint . || true
+      - run: npx prettier --check . || true
+
+  build:
+    needs: [ test, lint ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: dist/
+          # NOTE: no retention-days — defaults to 90 even for throwaway artifacts

@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Anchorline.MessagingCompare</RootNamespace>
+    <AssemblyName>messaging-compare</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <!--
+      SDK pins refreshed 2026-09-18 against Microsoft Learn current-latest package pages:
+        Azure.Identity                        — https://learn.microsoft.com/dotnet/api/overview/azure/identity-readme (1.17.2 current stable)
+        Azure.Messaging.ServiceBus            — https://learn.microsoft.com/dotnet/api/overview/azure/messaging.servicebus-readme (7.20.2 current stable)
+        Azure.Messaging.EventGrid             — https://learn.microsoft.com/dotnet/api/overview/azure/messaging.eventgrid-readme (5.0.0 current stable major; was pinned at 4.24.0)
+        Azure.Messaging.EventGrid.Namespaces  — https://learn.microsoft.com/dotnet/api/overview/azure/messaging.eventgrid.namespaces-readme (1.1.0 current stable — required by lab M6L12 pull-delivery)
+        Azure.Messaging.EventHubs             — https://learn.microsoft.com/dotnet/api/overview/azure/messaging.eventhubs-readme (5.12.x line)
+        Azure.Messaging.EventHubs.Processor   — https://learn.microsoft.com/dotnet/api/overview/azure/messaging.eventhubs.processor-readme (5.12.2 — required by lab M7L14 EventProcessorClient)
+        Azure.Storage.Blobs                   — https://learn.microsoft.com/dotnet/api/overview/azure/storage.blobs-readme (12.29.2 — needed for the EventProcessor checkpoint blob container)
+        Confluent.Kafka                       — required by lab M8L16 Kafka protocol producer/consumer; MS Learn: https://learn.microsoft.com/azure/event-hubs/apache-kafka-configurations
+      Retirement note: the legacy Microsoft.Azure.ServiceBus package is retired 2026-09-30
+      (https://learn.microsoft.com/azure/service-bus-messaging/service-bus-messaging-exceptions).
+      Only the modern Azure.Messaging.ServiceBus is used above.
+      Floating <major>.* pins per Microsoft's current best-practice-take-latest-stable-patch guidance.
+    -->
+    <PackageReference Include="Azure.Identity" Version="1.*" />
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.*" />
+    <PackageReference Include="Azure.Messaging.EventGrid" Version="5.*" />
+    <PackageReference Include="Azure.Messaging.EventGrid.Namespaces" Version="1.*" />
+    <PackageReference Include="Azure.Messaging.EventHubs" Version="5.*" />
+    <PackageReference Include="Azure.Messaging.EventHubs.Processor" Version="5.*" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.*" />
+    <PackageReference Include="Confluent.Kafka" Version="2.*" />
+  </ItemGroup>
+</Project>

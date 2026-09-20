@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+sqlalchemy
+httpx
+line-profiler
+memory-profiler
+redis
+prometheus-client
+structlog
+python-json-logger

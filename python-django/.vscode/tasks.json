@@ -1,0 +1,33 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Django",
+            "type": "shell",
+            "command": "python3 manage.py runserver 0.0.0.0:8000",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Tests",
+            "type": "shell",
+            "command": "python3 manage.py test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Make Migrations",
+            "type": "shell",
+            "command": "python3 manage.py makemigrations",
+            "problemMatcher": []
+        },
+        {
+            "label": "Migrate",
+            "type": "shell",
+            "command": "python3 manage.py migrate",
+            "problemMatcher": []
+        }
+    ]
+}

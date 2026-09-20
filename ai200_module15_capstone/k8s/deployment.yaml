@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: northwind-api
+  labels:
+    app: northwind-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: northwind-api
+  template:
+    metadata:
+      labels:
+        app: northwind-api
+    spec:
+      containers:
+        - name: northwind-api
+          image: ${IMAGE}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+              name: http
+          env:
+            - name: COSMOS_ENDPOINT
+              valueFrom:
+                secretKeyRef: { name: northwind-api, key: COSMOS_ENDPOINT }
+            - name: COSMOS_KEY
+              valueFrom:
+                secretKeyRef: { name: northwind-api, key: COSMOS_KEY }
+            - name: SERVICEBUS_NAMESPACE
+              valueFrom:
+                secretKeyRef: { name: northwind-api, key: SERVICEBUS_NAMESPACE }
+            - name: KEY_VAULT_URL
+              valueFrom:
+                secretKeyRef: { name: northwind-api, key: KEY_VAULT_URL }
+            - name: AZURE_OPENAI_ENDPOINT
+              valueFrom:
+                secretKeyRef: { name: northwind-api, key: AZURE_OPENAI_ENDPOINT }
+            - name: AZURE_OPENAI_KEY
+              valueFrom:
+                secretKeyRef: { name: northwind-api, key: AZURE_OPENAI_KEY }
+            - name: AZURE_OPENAI_EMBED_DEPLOYMENT
+              valueFrom:
+                secretKeyRef: { name: northwind-api, key: AZURE_OPENAI_EMBED_DEPLOYMENT }
+            - name: AZURE_OPENAI_CHAT_DEPLOYMENT
+              valueFrom:
+                secretKeyRef: { name: northwind-api, key: AZURE_OPENAI_CHAT_DEPLOYMENT }
+            - name: APPLICATIONINSIGHTS_CONNECTION_STRING
+              valueFrom:
+                secretKeyRef: { name: northwind-api, key: APPLICATIONINSIGHTS_CONNECTION_STRING }
+          readinessProbe:
+            httpGet: { path: /healthz, port: 8000 }
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet: { path: /healthz, port: 8000 }
+            initialDelaySeconds: 20
+            periodSeconds: 30
+            failureThreshold: 5
+          resources:
+            requests: { cpu: "100m", memory: "256Mi" }
+            limits:   { cpu: "500m", memory: "512Mi" }

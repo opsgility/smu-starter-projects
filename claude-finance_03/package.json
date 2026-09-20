@@ -1,0 +1,40 @@
+{
+  "name": "retirescope",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "tsx lib/db/seed.ts"
+  },
+  "dependencies": {
+    "next": "^16.2.5",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.5.5",
+    "lucide-react": "^0.468.0",
+    "drizzle-orm": "^0.36.4",
+    "pg": "^8.13.1",
+    "dotenv": "^16.4.5",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.0",
+    "@types/node": "^22.10.0",
+    "@types/pg": "^8.11.10",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "drizzle-kit": "^0.28.1",
+    "tailwindcss": "^4.2.0",
+    "tsx": "^4.19.2",
+    "typescript": "^6.0.2"
+  }
+}

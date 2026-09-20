@@ -1,0 +1,8 @@
+{
+  "name": "security-demo",
+  "version": "1.0.0",
+  "description": "Starter project for GH-200 Security Best Practices exercise.",
+  "scripts": {
+    "test": "node test.js"
+  }
+}

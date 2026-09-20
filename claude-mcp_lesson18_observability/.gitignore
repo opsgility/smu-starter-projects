@@ -1,0 +1,11 @@
+node_modules/
+dist/
+*.log
+.env
+.env.local
+*.db
+*.db-journal
+auth-server/node_modules/
+auth-server/dist/
+mock-api/node_modules/
+mock-api/dist/

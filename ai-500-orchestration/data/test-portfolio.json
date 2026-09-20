@@ -1,0 +1,17 @@
+{
+  "account_id": "RVF-2087441",
+  "advisor": "Priya Nair",
+  "client_alias": "Halcyon Family Trust",
+  "as_of": "2026-08-22T21:00:00Z",
+  "prior_close_date": "2026-08-21",
+  "total_market_value_usd": 4820500.00,
+  "holdings": [
+    { "ticker": "NVDA",   "sector": "Technology",    "shares": 1200, "prior_close": 148.10, "last_price": 154.20, "market_value_usd": 185040.00 },
+    { "ticker": "MSFT",   "sector": "Technology",    "shares": 2400, "prior_close": 512.50, "last_price": 516.85, "market_value_usd": 1240440.00 },
+    { "ticker": "JPM",    "sector": "Financials",    "shares": 3100, "prior_close":  248.30, "last_price": 244.10, "market_value_usd":  756710.00 },
+    { "ticker": "XOM",    "sector": "Energy",        "shares": 4200, "prior_close":  118.05, "last_price": 115.30, "market_value_usd":  484260.00 },
+    { "ticker": "TLT",    "sector": "Fixed Income",  "shares": 5000, "prior_close":   92.40, "last_price":  92.75, "market_value_usd":  463750.00 },
+    { "ticker": "ACME.Q", "sector": "Consumer Discretionary", "shares": 1500, "prior_close": 32.00, "last_price": 34.90, "market_value_usd":  52350.00 }
+  ],
+  "notes": "ACME.Q added to the Ridgevault restricted list 2026-07-15 pending SEC inquiry — retained here on purpose so the compliance officer must flag it."
+}

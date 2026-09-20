@@ -1,0 +1,23 @@
+{
+  "name": "claude-mcp-lesson06-multi-tool",
+  "version": "0.1.0",
+  "description": "Lesson 6 starter: multi-tool MCP server (greet + fetch_url + format_json + calculate)",
+  "type": "module",
+  "main": "dist/server.js",
+  "bin": {
+    "mcp-multi-tool": "dist/server.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "inspect": "npx @modelcontextprotocol/inspector node dist/server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.4",
+    "typescript": "^5.6.2"
+  }
+}

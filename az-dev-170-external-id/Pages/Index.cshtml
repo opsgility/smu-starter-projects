@@ -1,0 +1,4 @@
+@page
+<h1>Anchorline Outdoors Store</h1>
+<p>Welcome, @(User.Identity!.Name ?? "guest").</p>
+<p>Preferred boat class: @(User.FindFirst("extension_PreferredBoatClass")?.Value ?? "n/a")</p>

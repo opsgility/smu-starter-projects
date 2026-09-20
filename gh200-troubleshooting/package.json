@@ -1,0 +1,8 @@
+{
+  "name": "consume-actions-demo",
+  "version": "1.0.0",
+  "description": "Starter project for GH-200 Consuming and Troubleshooting Workflows exercise.",
+  "scripts": {
+    "test": "node test.js"
+  }
+}

@@ -1,0 +1,16 @@
+CogniFlow Product FAQ
+
+Q: What is CogniFlow?
+A: CogniFlow is a SaaS platform that adds AI-powered features to business applications, including document analysis, intelligent search, and automated data extraction.
+
+Q: What AI models does CogniFlow use?
+A: CogniFlow uses Azure OpenAI GPT-4o for text generation, text-embedding-3-small for semantic search, and Azure AI Document Intelligence for document processing.
+
+Q: How does CogniFlow handle data privacy?
+A: All data is processed within your Azure tenant. CogniFlow uses Azure Key Vault for secrets management and managed identities for service-to-service authentication. No data is sent to external services.
+
+Q: What file formats does CogniFlow support?
+A: CogniFlow supports PDF, DOCX, TXT, CSV, JSON, and HTML files for document analysis. Images (PNG, JPG) are supported via Azure AI Vision integration.
+
+Q: How is CogniFlow priced?
+A: CogniFlow uses consumption-based pricing tied to Azure OpenAI token usage. Base platform fee is $99/month plus per-token costs for AI operations.

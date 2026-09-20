@@ -1,0 +1,52 @@
+name: Deploy Foundry stack
+
+on:
+  # TODO (Exercise 3 Step 8): Add a `push` trigger on branches [main] with paths
+  #   - "infra/**"
+  #   - ".github/workflows/deploy.yml"
+  workflow_dispatch:
+
+# TODO (Exercise 3 Step 8): Add workflow-level permissions so azure/login@v2
+# can request an OIDC token:
+#   permissions:
+#     id-token: write
+#     contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # TODO (Exercise 3 Step 8): Sign in to Azure using OIDC federated credentials.
+      # Use azure/login@v2 with:
+      #   client-id:       ${{ secrets.AZURE_CLIENT_ID }}
+      #   tenant-id:       ${{ secrets.AZURE_TENANT_ID }}
+      #   subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      #
+      # Prerequisites (Exercise 3 Steps 2-6):
+      #   - `az ad app create` + `az ad sp create` for the app registration
+      #   - `az role assignment create` (Contributor on the RG)
+      #   - `az ad app federated-credential create` with
+      #         subject: repo:<org>/<repo>:ref:refs/heads/main
+      #   - GitHub repo secrets: AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID
+      #   - GitHub repo variable: RG (pre-created resource group name)
+
+      # TODO (Exercise 3 Step 8): Validate the Bicep
+      #   run: az bicep build --file infra/main.bicep
+
+      # TODO (Exercise 3 Step 8): Deploy
+      #   az deployment group create
+      #     --resource-group "${{ vars.RG }}"
+      #     --name "ai103-infra-${{ github.run_id }}"
+      #     --template-file infra/main.bicep
+      #     --parameters infra/main.parameters.json
+      #     --parameters location=eastus2
+      #     --output none
+
+      # TODO (Exercise 3 Step 8): Show outputs
+      #   az deployment group show
+      #     --resource-group "${{ vars.RG }}"
+      #     --name "ai103-infra-${{ github.run_id }}"
+      #     --query properties.outputs
+      #     -o jsonc

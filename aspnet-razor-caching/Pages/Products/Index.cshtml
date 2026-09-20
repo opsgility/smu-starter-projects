@@ -1,0 +1,43 @@
+@page
+@model BrightShelf.Pages.Products.IndexModel
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h1>Products</h1>
+
+<div class="alert alert-info">
+    <strong>Load time:</strong> @Model.LoadTimeMs ms
+    @* No caching yet - every request hits the slow database query *@
+    @* Students will add [ResponseCache] or OutputCache to speed this up *@
+</div>
+
+<p><a asp-page="Details" asp-route-id="1" class="btn btn-outline-primary">View First Product (also slow)</a></p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td><span class="badge bg-secondary">@product.Category</span></td>
+                <td>@product.Description</td>
+                <td>@product.Price.ToString("C")</td>
+                <td>@product.StockQuantity</td>
+                <td>
+                    <a asp-page="Details" asp-route-id="@product.Id" class="btn btn-sm btn-info">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

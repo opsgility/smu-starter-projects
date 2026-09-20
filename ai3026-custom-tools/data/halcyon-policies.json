@@ -1,0 +1,75 @@
+[
+  {
+    "policy_number": "HAL-UMB-GOLD-000123",
+    "product": "Halcyon Umbrella Gold",
+    "deductible": 2500,
+    "coverage_limits": {
+      "property": 500000,
+      "liability": 2000000,
+      "personal_injury": 250000
+    },
+    "riders": ["water_damage", "identity_theft"],
+    "active": true
+  },
+  {
+    "policy_number": "HAL-AUTO-SIL-000456",
+    "product": "Halcyon Auto Silver",
+    "deductible": 500,
+    "coverage_limits": {
+      "collision": 40000,
+      "liability_bodily_injury": 100000,
+      "liability_property": 50000
+    },
+    "riders": ["roadside_assistance"],
+    "active": true
+  },
+  {
+    "policy_number": "HAL-PROP-BAS-000789",
+    "product": "Halcyon Property Basic",
+    "deductible": 1500,
+    "coverage_limits": {
+      "dwelling": 250000,
+      "personal_property": 100000,
+      "loss_of_use": 40000
+    },
+    "riders": [],
+    "active": true
+  },
+  {
+    "policy_number": "HAL-UMB-PLAT-001111",
+    "product": "Halcyon Umbrella Platinum",
+    "deductible": 5000,
+    "coverage_limits": {
+      "property": 2000000,
+      "liability": 5000000,
+      "personal_injury": 1000000
+    },
+    "riders": ["water_damage", "identity_theft", "cyber", "art_collection"],
+    "active": true
+  },
+  {
+    "policy_number": "HAL-AUTO-GOLD-002222",
+    "product": "Halcyon Auto Gold",
+    "deductible": 250,
+    "coverage_limits": {
+      "collision": 80000,
+      "liability_bodily_injury": 300000,
+      "liability_property": 200000
+    },
+    "riders": ["roadside_assistance", "rental_car", "gap_coverage"],
+    "active": true
+  },
+  {
+    "policy_number": "HAL-PROP-PREM-003333",
+    "product": "Halcyon Property Premium",
+    "deductible": 1000,
+    "coverage_limits": {
+      "dwelling": 750000,
+      "personal_property": 300000,
+      "loss_of_use": 100000,
+      "detached_structures": 75000
+    },
+    "riders": ["water_damage", "earthquake"],
+    "active": true
+  }
+]

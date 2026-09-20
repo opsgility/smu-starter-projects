@@ -1,0 +1,41 @@
+@page
+@model BrightShelf.Pages.Weather.IndexModel
+@{
+    ViewData["Title"] = "Weather Forecast";
+}
+
+<h1>Weather Forecast</h1>
+
+<p class="text-muted">
+    Data loaded from the mock API endpoint at <code>/api/weather</code>.
+    Students will refactor this to use a typed HttpClient service.
+</p>
+
+@if (Model.Forecasts.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp (C)</th>
+                <th>Temp (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in Model.Forecasts)
+            {
+                <tr>
+                    <td>@forecast.Date</td>
+                    <td>@forecast.TemperatureC</td>
+                    <td>@forecast.TemperatureF</td>
+                    <td>@forecast.Summary</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning">No weather data available.</div>
+}

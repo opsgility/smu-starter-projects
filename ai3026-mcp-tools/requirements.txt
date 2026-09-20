@@ -1,0 +1,6 @@
+# Manifest for reference — all preinstalled in the `python-ai` container.
+azure-ai-projects>=2.3.0
+azure-identity>=1.19.0
+python-dotenv>=1.0.1
+mcp>=1.14.0
+fastmcp>=2.14.0

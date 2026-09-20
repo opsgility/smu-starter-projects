@@ -1,0 +1,28 @@
+# Local environment
+.env
+.env.local
+pipeline/.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Build artefacts
+dist/
+build/

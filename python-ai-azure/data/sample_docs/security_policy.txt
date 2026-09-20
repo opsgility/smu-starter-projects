@@ -1,0 +1,9 @@
+CogniFlow Security Policy
+
+1. Authentication: All API calls require Bearer token authentication via Azure AD.
+2. Authorization: Role-based access control (RBAC) with three levels: Reader, Contributor, Admin.
+3. Data Encryption: All data encrypted at rest (AES-256) and in transit (TLS 1.3).
+4. Audit Logging: All document access and AI operations are logged to Azure Monitor.
+5. Data Retention: Documents are retained for 90 days unless explicitly deleted. Embeddings are retained as long as the source document exists.
+6. Compliance: SOC 2 Type II certified. GDPR compliant with data processing agreements available.
+7. Network Security: VNet integration available for enterprise deployments. Private endpoints for all Azure services.

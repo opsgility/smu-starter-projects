@@ -1,0 +1,28 @@
+# TODO Exercise 1: Complete this docker-compose.yml to wire all three services together.
+# Each service should:
+#   - Build from its local Dockerfile
+#   - Expose the correct port
+#   - Set SPRING_DATASOURCE_URL for any database connections
+#   - Use depends_on to declare service startup order
+version: '3.8'
+services:
+  product-service:
+    build: ./product-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:h2:mem:productdb
+
+  order-service:
+    build: ./order-service
+    ports:
+      - "8082:8082"
+    environment:
+      - PRODUCT_SERVICE_URL=http://product-service:8081/api/products
+    # TODO: add depends_on: product-service
+
+  notification-service:
+    build: ./notification-service
+    ports:
+      - "8083:8083"
+    # TODO: add polling configuration and depends_on

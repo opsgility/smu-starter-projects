@@ -1,0 +1,34 @@
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Local sample video downloads (may be large; kept out of git)
+sample-videos/*.mp4
+sample-videos/*.mov
+sample-videos/*.mkv
+
+# Local analyzer / index run artifacts
+data/analyzer_result_*.json
+data/index_upload_*.json

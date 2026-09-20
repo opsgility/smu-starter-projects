@@ -1,0 +1,21 @@
+{
+  "name": "claude-mcp-lesson14-oauth-authserver",
+  "version": "0.1.0",
+  "description": "Lesson 14 stub authorization server — issues JWTs for the OAuth resource server",
+  "type": "module",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "jose": "^5.9.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.7.4",
+    "typescript": "^5.6.2"
+  }
+}

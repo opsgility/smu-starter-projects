@@ -1,0 +1,8 @@
+{
+  "name": "governance-demo",
+  "version": "1.0.0",
+  "description": "Starter project for GH-200 Enterprise Governance and Runners exercise.",
+  "scripts": {
+    "test": "node test.js"
+  }
+}

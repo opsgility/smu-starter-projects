@@ -1,0 +1,29 @@
+@page "{id:int}"
+@model BrightShelf.Pages.Products.EditModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BrightShelf - Edit Product</title>
+</head>
+<body>
+    <h1>Edit Product</h1>
+    <form method="post">
+        <input type="hidden" asp-for="Product.Id" />
+        <div>
+            <label asp-for="Product.Name">Name</label>
+            <input asp-for="Product.Name" />
+        </div>
+        <div>
+            <label asp-for="Product.Price">Price</label>
+            <input asp-for="Product.Price" />
+        </div>
+        <div>
+            <label asp-for="Product.Description">Description</label>
+            <textarea asp-for="Product.Description"></textarea>
+        </div>
+        <button type="submit">Save</button>
+    </form>
+    <p><a asp-page="Index">Back to List</a></p>
+</body>
+</html>

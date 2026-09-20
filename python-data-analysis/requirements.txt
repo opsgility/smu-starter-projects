@@ -1,0 +1,5 @@
+# All pre-installed in the container - listed for reference
+pandas
+numpy
+matplotlib
+openpyxl

@@ -1,0 +1,16 @@
+version: v1.1.0
+# Multi-step ACR Task: build, smoke-test, push.
+# Used in Step 8 of the lab via `az acr task create`.
+steps:
+  - id: build
+    build: -t {{.Run.Registry}}/shipment-classifier:{{.Run.ID}} -t {{.Run.Registry}}/shipment-classifier:latest -f Dockerfile .
+  - id: smoke-test
+    cmd: >-
+      {{.Run.Registry}}/shipment-classifier:{{.Run.ID}}
+      python -c "from app.main import simple_rules; assert simple_rules('package soaked from rain') == 'water-damage'; print('OK')"
+    when: ["build"]
+  - id: push
+    push:
+      - "{{.Run.Registry}}/shipment-classifier:{{.Run.ID}}"
+      - "{{.Run.Registry}}/shipment-classifier:latest"
+    when: ["smoke-test"]

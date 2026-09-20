@@ -1,0 +1,36 @@
+@page
+@model BrightShelf.Pages.Products.IndexModel
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h1>Products</h1>
+
+<p><a asp-page="Create" class="btn btn-primary">Create New</a></p>
+
+<div class="row">
+    @foreach (var product in Model.Products)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                @if (!string.IsNullOrEmpty(product.ImagePath))
+                {
+                    <img src="@product.ImagePath" class="card-img-top" alt="@product.Name" style="height: 200px; object-fit: cover;" />
+                }
+                else
+                {
+                    <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <span>No Image</span>
+                    </div>
+                }
+                <div class="card-body">
+                    <h5 class="card-title">@product.Name</h5>
+                    <p class="card-text">@product.Description</p>
+                    <p class="card-text"><strong>@product.Price.ToString("C")</strong></p>
+                    <a asp-page="Edit" asp-route-id="@product.Id" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-page="Delete" asp-route-id="@product.Id" class="btn btn-sm btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

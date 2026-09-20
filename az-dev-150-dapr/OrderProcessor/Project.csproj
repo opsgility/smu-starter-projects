@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
+    <ContainerRepository>anchorline-order-processor-dapr</ContainerRepository>
+    <ContainerBaseImage>mcr.microsoft.com/dotnet/nightly/aspnet:10.0-noble-chiseled</ContainerBaseImage>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Dapr.AspNetCore" Version="1.14.0" />
+  </ItemGroup>
+</Project>

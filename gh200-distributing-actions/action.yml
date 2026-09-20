@@ -1,0 +1,26 @@
+name: 'Release Notes Generator'
+description: 'Generates a Markdown release notes summary from the latest commits.'
+author: 'gh200-distributing-actions'
+branding:
+  icon: 'tag'
+  color: 'purple'
+
+inputs:
+  commits:
+    description: 'Number of recent commits to include'
+    required: false
+    default: '10'
+  heading:
+    description: 'Release notes section heading'
+    required: false
+    default: 'Changes'
+
+outputs:
+  notes:
+    description: 'Generated release notes (Markdown)'
+  commit-count:
+    description: 'Number of commits actually included'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

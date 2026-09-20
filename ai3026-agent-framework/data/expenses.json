@@ -1,0 +1,48 @@
+[
+  {
+    "adjuster_id": "ADJ-0142",
+    "date": "2026-08-18",
+    "description": "Mileage — St Louis MO to Springfield MO, on-site inspection for claim CLM-2026-091501",
+    "amount": 148.74,
+    "category_declared": "mileage",
+    "miles": 222,
+    "receipt_present": false,
+    "notes": ""
+  },
+  {
+    "adjuster_id": "ADJ-0142",
+    "date": "2026-08-18",
+    "description": "Dinner with policyholder, Springfield MO",
+    "amount": 82.15,
+    "category_declared": "meals",
+    "receipt_present": true,
+    "notes": "Working meal, took over 3 hours; over per-diem due to extended discussion of coverage limits."
+  },
+  {
+    "adjuster_id": "ADJ-0142",
+    "date": "2026-08-18",
+    "description": "Hotel — Hampton Inn Springfield MO",
+    "amount": 189.00,
+    "category_declared": "lodging",
+    "receipt_present": true,
+    "notes": ""
+  },
+  {
+    "adjuster_id": "ADJ-0207",
+    "date": "2026-08-19",
+    "description": "Emergency water-damage remediation deposit at insured's property, claim CLM-2026-091504",
+    "amount": 750.00,
+    "category_declared": "other",
+    "receipt_present": true,
+    "notes": "ServiceMaster invoice, deposit required to prevent mold escalation."
+  },
+  {
+    "adjuster_id": "ADJ-0207",
+    "date": "2026-08-19",
+    "description": "Coffee shop meeting with body-shop manager",
+    "amount": 14.50,
+    "category_declared": "meals",
+    "receipt_present": false,
+    "notes": ""
+  }
+]

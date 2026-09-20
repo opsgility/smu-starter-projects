@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  teamtrackr:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Data Source=/data/teamtrackr.db
+      - Jwt__Key=YourSuperSecretKeyThatIsAtLeast32CharactersLong!
+      - Jwt__Issuer=TeamTrackr
+      - Jwt__Audience=TeamTrackr
+    volumes:
+      - teamtrackr-data:/data
+      - teamtrackr-uploads:/app/uploads
+
+volumes:
+  teamtrackr-data:
+  teamtrackr-uploads:

@@ -1,0 +1,9 @@
+{
+  "name": "contexts-demo",
+  "version": "1.0.0",
+  "description": "Starter project for GH-200 Contexts, Expressions, and Advanced YAML exercise.",
+  "scripts": {
+    "test": "node tests/test.js",
+    "build": "echo 'Build complete'"
+  }
+}

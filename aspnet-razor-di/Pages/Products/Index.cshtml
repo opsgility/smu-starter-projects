@@ -1,0 +1,39 @@
+@page
+@model BrightShelf.Pages.Products.IndexModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BrightShelf - Products</title>
+</head>
+<body>
+    <h1>Products</h1>
+    <p><a asp-page="Create">Add New Product</a></p>
+    <table border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.Products)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.Price.ToString("C")</td>
+                    <td>@product.Description</td>
+                    <td>@product.Category?.Name</td>
+                    <td>
+                        <a asp-page="Edit" asp-route-id="@product.Id">Edit</a> |
+                        <a asp-page="Delete" asp-route-id="@product.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

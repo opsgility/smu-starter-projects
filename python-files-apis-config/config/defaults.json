@@ -1,0 +1,20 @@
+{
+  "app_name": "PyForge Toolkit",
+  "version": "1.0.0",
+  "debug": false,
+  "database": {
+    "host": "localhost",
+    "port": 5432,
+    "name": "pyforge_dev"
+  },
+  "logging": {
+    "level": "INFO",
+    "file": "app.log",
+    "max_size_mb": 10
+  },
+  "features": {
+    "dark_mode": true,
+    "notifications": true,
+    "auto_save": false
+  }
+}

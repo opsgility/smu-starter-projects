@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "InspectAI",
+    "slug": "inspectai",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "inspectai",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.skillmeup.inspectai"
+    },
+    "android": {
+      "edgeToEdgeEnabled": true,
+      "package": "com.skillmeup.inspectai"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-splash-screen"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

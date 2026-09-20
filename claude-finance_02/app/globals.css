@@ -1,0 +1,30 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Brand */
+  --color-rs-primary: oklch(0.62 0.18 264);
+  --color-rs-primary-fg: oklch(0.98 0 0);
+  --color-rs-accent: oklch(0.78 0.16 162);
+  --color-rs-warning: oklch(0.78 0.18 70);
+  --color-rs-danger: oklch(0.65 0.22 25);
+
+  /* Surface (dark mode default) */
+  --color-rs-bg: oklch(0.16 0.02 264);
+  --color-rs-surface: oklch(0.21 0.02 264);
+  --color-rs-card: oklch(0.25 0.02 264);
+  --color-rs-border: oklch(0.32 0.02 264);
+
+  /* Text */
+  --color-rs-fg: oklch(0.96 0 0);
+  --color-rs-fg-muted: oklch(0.72 0 0);
+  --color-rs-fg-dim: oklch(0.55 0 0);
+
+  /* Type */
+  --font-display: 'Geist', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* Tabular figures: every dollar amount lines up by digit */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}

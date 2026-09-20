@@ -1,0 +1,44 @@
+{
+  "description": "Summitline Outfitters product-demo video analyzer (pro-mode). Extends prebuilt-videoAnalyzer with a domain fieldSchema so every analyzed segment carries structured product + presenter data that we can index into AI Search downstream.",
+  "baseAnalyzerId": "prebuilt-videoAnalyzer",
+  "config": {
+    "returnDetails": true,
+    "locales": ["en-US"],
+    "enableSegment": true
+  },
+  "fieldSchema": {
+    "fields": {
+      "products_demonstrated": {
+        "type": "array",
+        "description": "List of Summitline product names visibly demonstrated in this segment. Use the exact marketing name if shown on-screen or spoken (for example, 'Alpine Trekker 45L Pack', 'Ridgeline Softshell Jacket', 'Cascade 3-Season Tent').",
+        "method": "generate",
+        "items": {
+          "type": "string"
+        }
+      },
+      "key_features_shown": {
+        "type": "array",
+        "description": "Concrete product features the presenter physically demonstrates or points out in this segment (for example, 'load-lifter strap', 'pit-zip vents', 'color-coded tent-pole hubs'). Skip vague marketing adjectives like 'high quality'.",
+        "method": "generate",
+        "items": {
+          "type": "string"
+        }
+      },
+      "scene_summary": {
+        "type": "string",
+        "description": "One-to-three sentence natural-language summary of what happens in this segment. Include the environment (indoor studio, outdoor trail, windy field), the presenter's action, and the product being shown. Keep it factual - no marketing language.",
+        "method": "generate"
+      },
+      "presenter_quality": {
+        "type": "string",
+        "description": "Short qualitative note on delivery: 'clear', 'rushed', 'off-camera', 'audio-issues', 'strong'. Pick the closest single label for this segment.",
+        "method": "generate"
+      },
+      "duration_seconds": {
+        "type": "number",
+        "description": "Length of this segment in seconds, rounded to one decimal place.",
+        "method": "generate"
+      }
+    }
+  }
+}

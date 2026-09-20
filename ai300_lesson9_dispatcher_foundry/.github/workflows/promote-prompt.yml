@@ -1,0 +1,151 @@
+name: promote-prompt
+
+# Fires on any PR that touches a versioned prompt under prompts/. Runs the
+# candidate prompt through gpt-5.1 against the three golden dispatch scenarios
+# in data/promote-scenarios.jsonl and posts the routing verdict + pass/fail
+# summary back on the PR as a comment.
+#
+# This is a "does the new prompt still route correctly?" gate — not a
+# deployment. Merging the PR triggers deploy-dispatcher.yml.
+
+on:
+  pull_request:
+    paths:
+      - "ai300_lesson9_dispatcher_foundry/prompts/**"
+      - "ai300_lesson9_dispatcher_foundry/data/promote-scenarios.jsonl"
+
+permissions:
+  contents: read
+  pull-requests: write
+  id-token: write   # for OIDC to Azure
+
+jobs:
+  score-candidate-prompt:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ai300_lesson9_dispatcher_foundry
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install runtime deps
+        run: pip install -r requirements.txt
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Determine candidate prompt file
+        id: prompt
+        run: |
+          # Pick the most-recently-changed prompt file in this PR.
+          changed=$(git diff --name-only origin/${{ github.base_ref }}...HEAD \
+            -- 'prompts/*.md' | tail -n1)
+          if [ -z "$changed" ]; then
+            changed="prompts/dispatcher_v1.md"
+          fi
+          echo "file=$changed" >> "$GITHUB_OUTPUT"
+          echo "Candidate prompt: $changed"
+
+      - name: Score candidate against golden scenarios
+        id: score
+        env:
+          AZURE_FOUNDRY_ENDPOINT: ${{ secrets.AZURE_FOUNDRY_ENDPOINT }}
+          AZURE_FOUNDRY_PROJECT: dispatcher
+          CHAT_DEPLOYMENT: gpt-5.1
+          CANDIDATE_PROMPT: ${{ steps.prompt.outputs.file }}
+        run: |
+          python - <<'PY'
+          import json, os, pathlib, sys
+          from azure.ai.projects import AIProjectClient
+          from azure.identity import DefaultAzureCredential
+
+          endpoint = os.environ["AZURE_FOUNDRY_ENDPOINT"].rstrip("/")
+          project  = os.environ["AZURE_FOUNDRY_PROJECT"]
+          model    = os.environ["CHAT_DEPLOYMENT"]
+          prompt_path = pathlib.Path(os.environ["CANDIDATE_PROMPT"])
+
+          text = prompt_path.read_text(encoding="utf-8")
+          _, _, body = text.partition("---\n")
+          _, _, body = body.partition("---\n")
+          system_msg = body.strip()
+
+          client = AIProjectClient(
+              endpoint=f"{endpoint}/api/projects/{project}",
+              credential=DefaultAzureCredential(),
+          )
+          chat = client.inference.get_chat_completions_client()
+
+          results = []
+          passed = 0
+          with open("data/promote-scenarios.jsonl", encoding="utf-8") as f:
+              for raw in f:
+                  raw = raw.strip()
+                  if not raw:
+                      continue
+                  s = json.loads(raw)
+                  resp = chat.complete(
+                      model=model,
+                      messages=[
+                          {"role": "system", "content": system_msg},
+                          {"role": "user",   "content": s["message"]},
+                      ],
+                      temperature=0.2,
+                      response_format={"type": "json_object"},
+                  )
+                  try:
+                      payload = json.loads(resp.choices[0].message.content or "{}")
+                  except json.JSONDecodeError:
+                      payload = {}
+                  actual = str(payload.get("queue", "")).strip().upper()
+                  ok = actual == s["expected_queue"]
+                  passed += int(ok)
+                  results.append({
+                      "id":       s["id"],
+                      "expected": s["expected_queue"],
+                      "actual":   actual or "<invalid>",
+                      "ok":       ok,
+                      "reason":   payload.get("reason", ""),
+                  })
+
+          verdict = "PASS" if passed == len(results) else "FAIL"
+          lines = [
+              f"### promote-prompt: **{verdict}** ({passed}/{len(results)})",
+              f"- prompt: `{prompt_path}`",
+              f"- model:  `{model}`",
+              "",
+              "| scenario | expected | actual | ok | reason |",
+              "|---|---|---|---|---|",
+          ]
+          for r in results:
+              tick = ":white_check_mark:" if r["ok"] else ":x:"
+              lines.append(
+                  f"| {r['id']} | {r['expected']} | {r['actual']} | {tick} | {r['reason']} |"
+              )
+          pathlib.Path("promote-comment.md").write_text("\n".join(lines), encoding="utf-8")
+          if verdict == "FAIL":
+              sys.exit(1)
+          PY
+
+      - name: Comment on PR
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = 'ai300_lesson9_dispatcher_foundry/promote-comment.md';
+            if (!fs.existsSync(path)) return;
+            const body = fs.readFileSync(path, 'utf8');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              issue_number: context.issue.number,
+              body,
+            });

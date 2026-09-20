@@ -1,0 +1,4 @@
+psycopg[binary]==3.2.3
+pgvector==0.3.6
+openai==1.60.0
+azure-identity==1.19.0

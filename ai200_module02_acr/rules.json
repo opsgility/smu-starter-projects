@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "northwind.rules.v1",
+  "rulesetId": "shipment-classifier-rules",
+  "version": "1.0.0",
+  "description": "Keyword-to-label rules for the Northwind shipment classifier. Pushed to ACR as an OCI artifact alongside the container image so model and rules are versioned together.",
+  "rules": [
+    {
+      "label": "water-damage",
+      "keywords": ["water", "soaked", "wet", "rain", "flood"]
+    },
+    {
+      "label": "crush-damage",
+      "keywords": ["crushed", "crush", "smashed", "broken", "dent"]
+    },
+    {
+      "label": "missing-item",
+      "keywords": ["missing", "lost", "stolen", "not found"]
+    },
+    {
+      "label": "delayed",
+      "keywords": ["late", "delayed", "delay", "stuck"]
+    },
+    {
+      "label": "temperature-excursion",
+      "keywords": ["frozen", "thawed", "warm", "spoiled", "temperature"]
+    }
+  ],
+  "default_label": "unknown"
+}

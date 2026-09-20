@@ -1,0 +1,56 @@
+{
+  "claim_id": "CLM-2026-091502",
+  "reported_at": "2026-08-19T14:22:00Z",
+  "policyholder": {
+    "name": "Sam Fujita",
+    "policy_number": "HAL-AUTO-SIL-000456",
+    "product": "Halcyon Auto Silver",
+    "phone": "+1-555-0142",
+    "email": "sam.fujita.fictional@example.com"
+  },
+  "policy": {
+    "product_code": "HAL-AUTO-SIL",
+    "deductible": 500,
+    "coverage_limits": {
+      "collision": 40000,
+      "liability_bodily_injury": 100000,
+      "liability_property": 50000,
+      "uninsured_motorist_bi": 100000,
+      "medpay": 5000
+    },
+    "active_riders": ["roadside_assistance", "rental_reimbursement"],
+    "in_force_since": "2024-06-01",
+    "excluded_scenarios": [
+      "racing",
+      "rideshare_use",
+      "mechanical_breakdown",
+      "unpermitted_driver"
+    ]
+  },
+  "incident": {
+    "date": "2026-08-18T17:14:00-05:00",
+    "location": {
+      "city": "Springfield",
+      "state": "MO",
+      "highway": "I-44",
+      "milepost": 79.2
+    },
+    "type": "collision",
+    "at_fault_indicator": "not_at_fault",
+    "damage_description": "Rear-ended in stop-and-go traffic. Rear bumper cover crumpled, trunk lid misaligned, left rear taillight lens shattered, minor damage to rear quarter panel below the taillight. Airbags did not deploy. Vehicle drivable but pulls slightly left under braking. Reporting driver Sam Fujita uninjured; passenger declined medical evaluation on scene.",
+    "photo_urls": [
+      "https://halcyon-claims.example/CLM-2026-091502/photo-01.jpg",
+      "https://halcyon-claims.example/CLM-2026-091502/photo-02.jpg",
+      "https://halcyon-claims.example/CLM-2026-091502/photo-03.jpg"
+    ],
+    "police_report_number": "SPD-2026-104477",
+    "other_party": {
+      "name_provided": true,
+      "insurance_provided": true,
+      "insurance_carrier": "Meridian Mutual",
+      "policy_number_provided": true
+    }
+  },
+  "adjuster_assigned": null,
+  "prior_claims_last_36_months": 0
+}

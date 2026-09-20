@@ -1,0 +1,10 @@
+fastapi>=0.115
+uvicorn[standard]>=0.30
+python-dotenv>=1.0
+python-multipart>=0.0.9
+requests>=2.32
+azure-identity>=1.17
+azure-ai-projects>=1.0.0
+azure-ai-textanalytics>=5.3
+azure-cognitiveservices-speech>=1.46
+openai>=1.54

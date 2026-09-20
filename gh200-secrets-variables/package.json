@@ -1,0 +1,8 @@
+{
+  "name": "secrets-vars-demo",
+  "version": "1.0.0",
+  "description": "Starter project for GH-200 Secrets, Variables, and Enterprise Management exercise.",
+  "scripts": {
+    "test": "node test.js"
+  }
+}

@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Anchorline.SbSessions</RootNamespace>
+    <AssemblyName>sb-sessions</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <!--
+      SDK pins refreshed 2026-09-18 against Microsoft Learn current-latest package pages:
+        Azure.Identity              — https://learn.microsoft.com/dotnet/api/overview/azure/identity-readme (1.17.2 current stable)
+        Azure.Messaging.ServiceBus  — https://learn.microsoft.com/dotnet/api/overview/azure/messaging.servicebus-readme (7.20.2 current stable)
+      Retirement note: the legacy Microsoft.Azure.ServiceBus SDK is retired 2026-09-30
+      (https://learn.microsoft.com/azure/service-bus-messaging/service-bus-messaging-exceptions);
+      only the modern Azure.Messaging.ServiceBus below is supported.
+      Floating <major>.* pins per Microsoft's current guidance.
+    -->
+    <PackageReference Include="Azure.Identity" Version="1.*" />
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.*" />
+  </ItemGroup>
+</Project>

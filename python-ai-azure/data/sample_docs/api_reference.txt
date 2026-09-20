@@ -1,0 +1,20 @@
+CogniFlow API Reference
+
+POST /api/documents/analyze
+- Upload a document for AI analysis
+- Body: multipart/form-data with file attachment
+- Returns: structured analysis with extracted entities, summary, and key findings
+
+POST /api/search
+- Semantic search across indexed documents
+- Body: {"query": "search text", "top_k": 5, "filters": {}}
+- Returns: ranked results with relevance scores and source citations
+
+POST /api/chat
+- Multi-turn conversation with document context
+- Body: {"messages": [...], "document_ids": ["doc1", "doc2"]}
+- Returns: AI response grounded in specified documents with citations
+
+GET /api/documents/{id}/embeddings
+- Get the embedding vectors for a document's chunks
+- Returns: array of {chunk_text, embedding_vector, metadata}

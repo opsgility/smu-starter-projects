@@ -1,0 +1,8 @@
+# Reference manifest — every package is preinstalled in the python-ai lab container.
+# Do NOT run `pip install`. This file lets local devs reproduce the environment.
+openai>=1.54.0
+azure-identity>=1.19.0
+azure-search-documents>=11.5.2
+azure-storage-blob>=12.23.0
+python-dotenv>=1.0.1
+tiktoken>=0.8.0

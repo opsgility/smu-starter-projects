@@ -1,0 +1,41 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch API",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/Project.Api/bin/Debug/net8.0/Project.Api.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Project.Api",
+            "console": "integratedTerminal",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:5000"
+            }
+        },
+        {
+            "name": "Launch Web App",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/Project.Web/bin/Debug/net8.0/Project.Web.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Project.Web",
+            "console": "integratedTerminal",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:5001"
+            }
+        }
+    ],
+    "compounds": [
+        {
+            "name": "API + Web App",
+            "configurations": ["Launch API", "Launch Web App"]
+        }
+    ]
+}

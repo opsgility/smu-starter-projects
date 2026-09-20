@@ -1,0 +1,23 @@
+{
+  "name": "claude-mcp-lesson10-advanced-caps",
+  "version": "0.1.0",
+  "description": "Lesson 10 starter: resources/prompts server with TODO scaffolds for sampling, roots, and elicitation",
+  "type": "module",
+  "main": "dist/server.js",
+  "bin": {
+    "mcp-advanced-caps": "dist/server.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "inspect": "npx @modelcontextprotocol/inspector node dist/server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.4",
+    "typescript": "^5.6.2"
+  }
+}

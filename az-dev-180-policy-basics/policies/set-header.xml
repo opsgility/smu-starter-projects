@@ -1,0 +1,11 @@
+<policies>
+  <inbound>
+    <base />
+    <set-header name="X-Anchorline-Corr" exists-action="skip">
+      <value>@(context.RequestId.ToString())</value>
+    </set-header>
+  </inbound>
+  <backend><base /></backend>
+  <outbound><base /></outbound>
+  <on-error><base /></on-error>
+</policies>

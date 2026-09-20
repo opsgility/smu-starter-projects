@@ -1,0 +1,17 @@
+{
+  "name": "apex-telemetry-api",
+  "version": "1.0.0",
+  "description": "Apex Drone Delivery telemetry API — sample service for the GH-200 capstone.",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "echo 'Lint OK (placeholder)'",
+    "test": "node tests/test.js",
+    "build": "node scripts/build.js"
+  },
+  "dependencies": {
+    "express": "^4.19.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

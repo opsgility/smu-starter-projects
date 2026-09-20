@@ -1,0 +1,9 @@
+<policies>
+  <inbound>
+    <base />
+    <rate-limit-by-key calls="100" renewal-period="1"
+                       counter-key="@(context.Subscription?.Id ?? "anonymous")" />
+    <quota-by-key calls="100000" renewal-period="2592000"
+                  counter-key="@(context.Subscription?.Id ?? "anonymous")" />
+  </inbound>
+</policies>

@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.env
+static/generated/*.png
+static/generated/audio/*.mp3
+!static/generated/.gitkeep
+!static/generated/audio/.gitkeep

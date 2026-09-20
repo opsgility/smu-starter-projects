@@ -1,0 +1,6 @@
+# Manifest for reference — all preinstalled in the `python-ai` container.
+agent-framework>=1.0.0
+agent-framework-foundry>=1.0.0
+azure-identity>=1.19.0
+python-dotenv>=1.0.1
+aiohttp>=3.10.0

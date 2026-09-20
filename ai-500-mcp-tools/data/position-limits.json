@@ -1,0 +1,23 @@
+{
+  "issuers": [
+    {"issuer": "Apple Inc.",                      "limit_usd": 2000000},
+    {"issuer": "Microsoft Corporation",           "limit_usd": 2000000},
+    {"issuer": "NVIDIA Corporation",              "limit_usd": 1500000},
+    {"issuer": "JPMorgan Chase & Co.",            "limit_usd": 1800000},
+    {"issuer": "Bank of America Corp.",           "limit_usd": 1200000},
+    {"issuer": "Goldman Sachs Group",             "limit_usd": 1200000},
+    {"issuer": "Johnson & Johnson",               "limit_usd": 1500000},
+    {"issuer": "Pfizer Inc.",                     "limit_usd": 900000},
+    {"issuer": "Exxon Mobil Corporation",         "limit_usd": 1000000},
+    {"issuer": "Chevron Corporation",             "limit_usd": 1000000},
+    {"issuer": "Procter & Gamble Co.",            "limit_usd": 1200000},
+    {"issuer": "The Coca-Cola Company",           "limit_usd": 900000}
+  ],
+  "sectors": [
+    {"sector": "Information Technology", "limit_usd": 6000000},
+    {"sector": "Financials",             "limit_usd": 5000000},
+    {"sector": "Health Care",            "limit_usd": 4000000},
+    {"sector": "Energy",                 "limit_usd": 3000000},
+    {"sector": "Consumer Staples",       "limit_usd": 3000000}
+  ]
+}
