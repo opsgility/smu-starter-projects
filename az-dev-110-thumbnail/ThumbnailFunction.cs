@@ -19,7 +19,7 @@ public class ThumbnailFunction
     [Function("GenerateThumbnail")]
     [BlobOutput("product-thumbnails/{name}.jpg")]
     public byte[] Run(
-        [BlobTrigger("product-uploads/{name}")] byte[] originalImage,
+        [BlobTrigger("product-uploads/{name}", Source = BlobTriggerSource.EventGrid)] byte[] originalImage,
         string name)
     {
         _log.LogInformation("GenerateThumbnail {Name}: input size {Size} bytes", name, originalImage.Length);
