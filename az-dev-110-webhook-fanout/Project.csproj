@@ -16,6 +16,10 @@
     <PackageReference Include="Microsoft.Azure.Functions.Worker.ApplicationInsights" Version="2.*" />
     <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" Version="2.*" />
     <PackageReference Include="Azure.Identity" Version="1.17.*" />
+    <!-- Cosmos SDK 3.46.x's build-time check requires an explicit
+         Newtonsoft.Json PackageReference OR AzureCosmosDisableNewtonsoftJsonCheck=true.
+         See https://github.com/Azure/azure-cosmos-dotnet-v3/issues/4525. -->
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.46.*" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.23.*" />
     <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.18.*" />
