@@ -16,8 +16,5 @@
       "batchSize": 8,
       "maxDequeueCount": 5
     }
-  },
-  "extensionBundle": {
-    "version": "[4.0.0, 5.0.0)"
   }
 }
