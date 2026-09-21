@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-# Measure cold-start latency by hitting an endpoint after known idle windows.
+# Measure cold-start latency by hitting the Hello function after known idle windows.
+# Each sample uses a unique probe suffix (/api/hello/probeN) so any front-door
+# response caching cannot mask a cold start.
 # Usage: ./scripts/coldstart.sh <base-url> <function-key> [samples] [idle-minutes]
 
 set -euo pipefail
@@ -14,13 +16,14 @@ echo
 
 for i in $(seq 1 "$SAMPLES"); do
     START=$(date +%s.%N)
-    curl -s -o /tmp/resp.json -w "%{http_code}" "$URL/api/ping?code=$KEY" >/tmp/status
+    curl -s -o /tmp/resp.json -w "%{http_code}" -H "x-functions-key: $KEY" "$URL/api/hello/probe$i" >/tmp/status
     END=$(date +%s.%N)
     STATUS=$(cat /tmp/status)
     ELAPSED_MS=$(echo "($END - $START) * 1000" | bc | cut -d. -f1)
-    PROC_AGE=$(jq -r '.processAge // "n/a"' /tmp/resp.json 2>/dev/null || echo "n/a")
+    PROC_AGE=$(jq -r '.processAgeSeconds // "n/a"' /tmp/resp.json 2>/dev/null || echo "n/a")
     HOST=$(jq -r '.hostname // "n/a"' /tmp/resp.json 2>/dev/null || echo "n/a")
-    echo "sample $i: HTTP $STATUS elapsed=${ELAPSED_MS}ms processAge=${PROC_AGE}s host=$HOST"
+    PLAN=$(jq -r '.planLabel // "n/a"' /tmp/resp.json 2>/dev/null || echo "n/a")
+    echo "sample $i: HTTP $STATUS elapsed=${ELAPSED_MS}ms processAge=${PROC_AGE}s host=$HOST plan=$PLAN"
     if [ "$i" -lt "$SAMPLES" ]; then
         echo "  ...idling ${IDLE_MIN} min to allow cold-start on next sample..."
         sleep $((IDLE_MIN * 60))
