@@ -63,7 +63,7 @@ public class OrderPipelineOrchestrator
     public async Task<string> Run([OrchestrationTrigger] TaskOrchestrationContext ctx)
     {
         var order = ctx.GetInput<OrderRequest>()!;
-        var validated = await ctx.CallActivityAsync<bool>(nameof(ValidateActivity), order);
+        var validated = await ctx.CallActivityAsync<bool>(nameof(OrderPipelineActivities.ValidateActivity), order);
         if (!validated) return "Invalid";
         var record = new OrderRecord
         {
@@ -76,7 +76,7 @@ public class OrderPipelineOrchestrator
             ProcessedAt = ctx.CurrentUtcDateTime.ToString("o"),
             OrchestrationInstanceId = ctx.InstanceId
         };
-        await ctx.CallActivityAsync(nameof(WriteToCosmosActivity), record);
+        await ctx.CallActivityAsync(nameof(OrderPipelineActivities.WriteToCosmosActivity), record);
         return "Confirmed";
     }
 }
