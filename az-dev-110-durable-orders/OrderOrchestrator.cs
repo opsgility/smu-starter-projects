@@ -67,11 +67,11 @@ public class OrderOrchestrator
         var log = ctx.CreateReplaySafeLogger<OrderOrchestrator>();
 
         log.LogInformation("Validating stock for {OrderId}", order.OrderId);
-        var inStock = await ctx.CallActivityAsync<bool>(nameof(ValidateStockActivity), order);
+        var inStock = await ctx.CallActivityAsync<bool>(nameof(OrderActivities.ValidateStockActivity), order);
         if (!inStock) return new OrderResult(order.OrderId, "OutOfStock", "no inventory");
 
         log.LogInformation("Charging card for {OrderId}", order.OrderId);
-        var charged = await ctx.CallActivityAsync<bool>(nameof(ChargeCardActivity), order);
+        var charged = await ctx.CallActivityAsync<bool>(nameof(OrderActivities.ChargeCardActivity), order);
         if (!charged) return new OrderResult(order.OrderId, "PaymentFailed", "card declined");
 
         if (order.Total > 10_000m)
@@ -95,9 +95,9 @@ public class OrderOrchestrator
         log.LogInformation("Fanning out fulfillment for {OrderId}", order.OrderId);
         var fanOut = new[]
         {
-            ctx.CallActivityAsync(nameof(NotifyWarehouseActivity), order),
-            ctx.CallActivityAsync(nameof(BookShippingActivity), order),
-            ctx.CallActivityAsync(nameof(SendEmailActivity), order)
+            ctx.CallActivityAsync(nameof(OrderActivities.NotifyWarehouseActivity), order),
+            ctx.CallActivityAsync(nameof(OrderActivities.BookShippingActivity), order),
+            ctx.CallActivityAsync(nameof(OrderActivities.SendEmailActivity), order)
         };
         await Task.WhenAll(fanOut);
 
