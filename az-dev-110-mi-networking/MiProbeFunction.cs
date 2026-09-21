@@ -4,6 +4,7 @@ using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Anchorline.Functions.MiNetworking;
@@ -13,13 +14,20 @@ public class MiProbeFunction
     private readonly BlobServiceClient _blobs;
     private readonly SecretClient _kv;
     private readonly TokenCredential _credential;
+    private readonly IConfiguration _config;
     private readonly ILogger<MiProbeFunction> _log;
 
-    public MiProbeFunction(BlobServiceClient blobs, SecretClient kv, TokenCredential credential, ILogger<MiProbeFunction> log)
+    public MiProbeFunction(
+        BlobServiceClient blobs,
+        SecretClient kv,
+        TokenCredential credential,
+        IConfiguration config,
+        ILogger<MiProbeFunction> log)
     {
         _blobs = blobs;
         _kv = kv;
         _credential = credential;
+        _config = config;
         _log = log;
     }
 
@@ -49,15 +57,15 @@ public class MiProbeFunction
     {
         try
         {
-            var container = _blobs.GetBlobContainerClient("anchorline-uploads");
-            await container.CreateIfNotExistsAsync();
+            var containerName = _config["DEMO_BLOBS_CONTAINER"] ?? "demo-blobs";
+            var container = _blobs.GetBlobContainerClient(containerName);
             var names = new List<string>();
             await foreach (var blob in container.GetBlobsAsync())
             {
                 names.Add(blob.Name);
                 if (names.Count >= 20) break;
             }
-            return new OkObjectResult(new { container = "anchorline-uploads", count = names.Count, names });
+            return new OkObjectResult(new { container = containerName, count = names.Count, names });
         }
         catch (Exception ex)
         {
@@ -68,11 +76,11 @@ public class MiProbeFunction
 
     [Function("GetSecret")]
     public async Task<IActionResult> GetSecret(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "secret/{name}")] HttpRequest req,
-        string name)
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "secret")] HttpRequest req)
     {
         try
         {
+            var name = _config["DEMO_SECRET_NAME"] ?? "anchorline-demo-secret";
             var secret = await _kv.GetSecretAsync(name);
             var v = secret.Value.Value;
             var masked = v.Length > 8 ? v.Substring(0, 4) + "..." + v.Substring(v.Length - 4) : "****";

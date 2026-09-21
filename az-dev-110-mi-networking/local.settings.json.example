@@ -3,7 +3,9 @@
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-    "Anchorline:StorageBlobUri": "https://<acct>.blob.core.windows.net",
-    "Anchorline:KeyVaultUri": "https://<kv>.vault.azure.net"
+    "AzureWebJobsStorage__accountName": "<storage-account-name>",
+    "KEY_VAULT_URI": "https://<kv>.vault.azure.net",
+    "DEMO_SECRET_NAME": "anchorline-demo-secret",
+    "DEMO_BLOBS_CONTAINER": "demo-blobs"
   }
 }
