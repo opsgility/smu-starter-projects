@@ -80,7 +80,7 @@ public class OrderOrchestrator
             using var cts = new CancellationTokenSource();
             var approvalTask = ctx.WaitForExternalEvent<bool>("ApprovalReceived", TimeSpan.FromDays(3), cts.Token);
             var timeoutTask = ctx.CreateTimer(ctx.CurrentUtcDateTime.AddDays(3), CancellationToken.None);
-            var winner = await Task.WhenAny(approvalTask.AsTask(), timeoutTask);
+            var winner = await Task.WhenAny(approvalTask, timeoutTask);
             if (winner == timeoutTask)
             {
                 return new OrderResult(order.OrderId, "TimedOut", "no manager approval in 3 days");
