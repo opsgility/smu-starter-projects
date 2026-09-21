@@ -4,7 +4,7 @@ Anchorline's nightly inventory reconciliation report — TimerTrigger writing to
 
 ## Schedule
 
-The cron expression is read from the `NightlyReportSchedule` app setting via `%NightlyReportSchedule%` template.
+The cron expression is read from the `TIMER_SCHEDULE` app setting via `%TIMER_SCHEDULE%` template.
 
 - Local dev: `*/30 * * * * *` (every 30 seconds) for rapid iteration.
 - Production: `0 0 2 * * *` (02:00 UTC daily).

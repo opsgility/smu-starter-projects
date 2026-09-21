@@ -19,7 +19,7 @@ public class NightlyReportFunction
 
     [Function("NightlyReport")]
     public async Task Run(
-        [TimerTrigger("%NightlyReportSchedule%", RunOnStartup = false)] TimerInfo timer)
+        [TimerTrigger("%TIMER_SCHEDULE%", RunOnStartup = false)] TimerInfo timer)
     {
         _log.LogInformation("NightlyReport fired at {Now}. IsPastDue={IsPastDue}. Next={Next}",
             DateTimeOffset.UtcNow, timer.IsPastDue, timer.ScheduleStatus?.Next);
