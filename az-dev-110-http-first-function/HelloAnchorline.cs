@@ -20,12 +20,13 @@ public class HelloAnchorline
         HttpRequest req,
         string? name)
     {
-        _logger.LogInformation("HelloAnchorline invoked with name={Name}", name);
         var who = string.IsNullOrEmpty(name) ? "adventurer" : name;
-        return new OkObjectResult(new
+        _logger.LogInformation("HelloAnchorline invoked with name={Name}", who);
+        return new ContentResult
         {
-            greeting = $"Anchorline says hi, {who}!",
-            timestamp = DateTimeOffset.UtcNow
-        });
+            Content = $"Hello, {who}. Anchorline Outdoors welcomes you.",
+            ContentType = "text/plain",
+            StatusCode = 200
+        };
     }
 }

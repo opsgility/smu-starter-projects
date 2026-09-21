@@ -1,5 +1,7 @@
 using System.Diagnostics.Metrics;
+using Azure.Identity;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
+using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,5 +23,14 @@ builder.Services.AddOpenTelemetry()
 
 builder.Services.AddSingleton(new Meter("Anchorline.Capstone", "1.0.0"));
 builder.Services.AddSingleton(new System.Diagnostics.ActivitySource("Anchorline.Capstone"));
+
+// Cosmos client — RBAC-only (COSMOS_ENDPOINT app setting, no key). Uses the Function
+// App's system-assigned managed identity via DefaultAzureCredential.
+builder.Services.AddSingleton(sp =>
+{
+    var endpoint = Environment.GetEnvironmentVariable("COSMOS_ENDPOINT")
+        ?? throw new InvalidOperationException("COSMOS_ENDPOINT app setting is required");
+    return new CosmosClient(endpoint, new DefaultAzureCredential());
+});
 
 builder.Build().Run();

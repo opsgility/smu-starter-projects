@@ -3,6 +3,8 @@
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-    "CosmosConnection": "AccountEndpoint=<...>;AccountKey=<...>;"
+    "COSMOS_ENDPOINT": "https://<your-cosmos-account>.documents.azure.com:443/",
+    "COSMOS_DATABASE": "Anchorline",
+    "COSMOS_CONTAINER": "Orders"
   }
 }

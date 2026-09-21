@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.DurableTask;
 using Microsoft.DurableTask.Client;
@@ -30,19 +31,27 @@ public class CapstoneApi
         _ordersReceived = meter.CreateCounter<int>("anchorline.capstone.orders_received");
     }
 
-    [Function("IntakeOrder")]
-    public async Task<IActionResult> Intake(
+    [Function("StartOrder")]
+    public async Task<IActionResult> StartOrder(
         [HttpTrigger(AuthorizationLevel.Function, "post", Route = "orders")] HttpRequest req,
         [DurableClient] DurableTaskClient client,
         ILogger<CapstoneApi> log)
     {
-        var order = await System.Text.Json.JsonSerializer.DeserializeAsync<OrderRequest>(req.Body);
+        var order = await System.Text.Json.JsonSerializer.DeserializeAsync<OrderRequest>(
+            req.Body,
+            new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         if (order is null) return new BadRequestObjectResult("invalid body");
 
         _ordersReceived.Add(1);
         var instanceId = await client.ScheduleNewOrchestrationInstanceAsync(nameof(OrderPipelineOrchestrator), order);
-        log.LogInformation("Intake order {OrderId} → orchestration {Id}", order.OrderId, instanceId);
-        return new AcceptedResult($"/api/orders/{instanceId}", new { instanceId, orderId = order.OrderId });
+        log.LogInformation("StartOrder {OrderId} -> orchestration {Id}", order.OrderId, instanceId);
+        var statusUri = $"{req.Scheme}://{req.Host}/api/orders/{instanceId}";
+        return new AcceptedResult(statusUri, new
+        {
+            instanceId,
+            orderId = order.OrderId,
+            statusQueryGetUri = statusUri
+        });
     }
 
     [Function("GetOrderStatus")]
@@ -87,13 +96,23 @@ public class OrderPipelineActivities
     private readonly Counter<int> _cosmosWrites;
     private readonly ActivitySource _activitySource;
     private readonly ILogger<OrderPipelineActivities> _log;
+    private readonly CosmosClient _cosmos;
+    private readonly string _databaseName;
+    private readonly string _containerName;
 
-    public OrderPipelineActivities(Meter meter, ActivitySource activitySource, ILogger<OrderPipelineActivities> log)
+    public OrderPipelineActivities(
+        Meter meter,
+        ActivitySource activitySource,
+        ILogger<OrderPipelineActivities> log,
+        CosmosClient cosmos)
     {
         _validationLatency = meter.CreateHistogram<double>("anchorline.capstone.validation_ms");
         _cosmosWrites = meter.CreateCounter<int>("anchorline.capstone.cosmos_writes");
         _activitySource = activitySource;
         _log = log;
+        _cosmos = cosmos;
+        _databaseName = Environment.GetEnvironmentVariable("COSMOS_DATABASE") ?? "Anchorline";
+        _containerName = Environment.GetEnvironmentVariable("COSMOS_CONTAINER") ?? "Orders";
     }
 
     [Function(nameof(ValidateActivity))]
@@ -109,14 +128,11 @@ public class OrderPipelineActivities
     }
 
     [Function(nameof(WriteToCosmosActivity))]
-    [CosmosDBOutput(
-        databaseName: "Anchorline",
-        containerName: "Orders",
-        Connection = "CosmosConnection",
-        CreateIfNotExists = false)]
-    public OrderRecord WriteToCosmosActivity([ActivityTrigger] OrderRecord record)
+    public async Task<OrderRecord> WriteToCosmosActivity([ActivityTrigger] OrderRecord record)
     {
         using var activity = _activitySource.StartActivity("cosmos-write");
+        var container = _cosmos.GetContainer(_databaseName, _containerName);
+        await container.UpsertItemAsync(record, new PartitionKey(record.id));
         _cosmosWrites.Add(1);
         _log.LogInformation("Cosmos write {Id}", record.id);
         return record;

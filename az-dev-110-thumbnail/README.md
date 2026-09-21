@@ -5,9 +5,15 @@ Blob-triggered Function that resizes uploaded product images to 300x300 thumbnai
 ## Flow
 
 1. Customer uploads to `product-uploads/<name>` (any image format ImageSharp reads).
-2. `ThumbnailFunction` fires (blob trigger, default polling — see teaching lesson for Event Grid source).
-3. Function resizes to max 300x300 preserving aspect, encodes as JPEG.
+2. Event Grid delivers `Microsoft.Storage.BlobCreated` to the Function App's blob-extension webhook (Flex Consumption requires Event Grid — polling blob triggers are not supported on FC1).
+3. `GenerateThumbnail` fires, resizes to max 300x300 preserving aspect, encodes as JPEG.
 4. Output binding writes to `product-thumbnails/<name>.jpg`.
+
+## Bindings + storage connection
+
+The trigger + output use the default `AzureWebJobsStorage` connection. In Azure the ARM template sets `AzureWebJobsStorage__accountName` (identity-based — the Function App's system-assigned managed identity holds `Storage Blob Data Owner` on the account). No connection string is used or needed.
+
+Locally, `local.settings.json` points `AzureWebJobsStorage` at the Storage Emulator (or an Azurite instance).
 
 ## Concurrency
 
