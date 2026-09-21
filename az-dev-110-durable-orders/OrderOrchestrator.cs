@@ -1,9 +1,10 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.DurableTask;
 using Microsoft.DurableTask.Client;
 using Microsoft.Extensions.Logging;
+using System.Net;
+using System.Text.Json;
 
 namespace Anchorline.Functions.DurableOrders;
 
@@ -13,48 +14,64 @@ public record OrderResult(string OrderId, string Status, string? Reason);
 public class OrderApi
 {
     [Function("StartOrderProcess")]
-    public async Task<IActionResult> Start(
-        [HttpTrigger(AuthorizationLevel.Function, "post", Route = "orders")] HttpRequest req,
+    public async Task<HttpResponseData> Start(
+        [HttpTrigger(AuthorizationLevel.Function, "post", Route = "orders")] HttpRequestData req,
         [DurableClient] DurableTaskClient client,
-        ILogger<OrderApi> log)
+        FunctionContext ctx)
     {
-        var order = await System.Text.Json.JsonSerializer.DeserializeAsync<Order>(req.Body);
-        if (order is null) return new BadRequestObjectResult("invalid body");
+        var log = ctx.GetLogger<OrderApi>();
+        var opts = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        var order = await JsonSerializer.DeserializeAsync<Order>(req.Body, opts);
+        if (order is null)
+        {
+            var bad = req.CreateResponse(HttpStatusCode.BadRequest);
+            await bad.WriteStringAsync("invalid body");
+            return bad;
+        }
 
         var instanceId = await client.ScheduleNewOrchestrationInstanceAsync(nameof(OrderOrchestrator), order);
         log.LogInformation("Started orchestration {InstanceId} for order {OrderId}", instanceId, order.OrderId);
-        return new OkObjectResult(new { instanceId, orderId = order.OrderId });
+        return await client.CreateCheckStatusResponseAsync(req, instanceId);
     }
 
     [Function("GetOrderStatus")]
-    public async Task<IActionResult> Status(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "orders/{instanceId}")] HttpRequest req,
+    public async Task<HttpResponseData> Status(
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "orders/{instanceId}")] HttpRequestData req,
         string instanceId,
         [DurableClient] DurableTaskClient client)
     {
         var metadata = await client.GetInstanceAsync(instanceId, getInputsAndOutputs: true);
-        if (metadata is null) return new NotFoundObjectResult(new { instanceId });
-        return new OkObjectResult(new
+        if (metadata is null)
+        {
+            var nf = req.CreateResponse(HttpStatusCode.NotFound);
+            await nf.WriteAsJsonAsync(new { instanceId });
+            return nf;
+        }
+        var ok = req.CreateResponse(HttpStatusCode.OK);
+        await ok.WriteAsJsonAsync(new
         {
             instanceId,
-            metadata.RuntimeStatus,
+            runtimeStatus = metadata.RuntimeStatus.ToString(),
             createdAt = metadata.CreatedAt,
             lastUpdatedAt = metadata.LastUpdatedAt,
             input = metadata.SerializedInput,
             output = metadata.SerializedOutput
         });
+        return ok;
     }
 
     [Function("ApproveOrder")]
-    public async Task<IActionResult> Approve(
-        [HttpTrigger(AuthorizationLevel.Function, "post", Route = "orders/{instanceId}/approve")] HttpRequest req,
+    public async Task<HttpResponseData> Approve(
+        [HttpTrigger(AuthorizationLevel.Function, "post", Route = "orders/{instanceId}/approve")] HttpRequestData req,
         string instanceId,
         [DurableClient] DurableTaskClient client)
     {
         var body = await new StreamReader(req.Body).ReadToEndAsync();
         var approved = body.Contains("true", StringComparison.OrdinalIgnoreCase);
         await client.RaiseEventAsync(instanceId, "ApprovalReceived", approved);
-        return new OkObjectResult(new { instanceId, sentApproval = approved });
+        var ok = req.CreateResponse(HttpStatusCode.OK);
+        await ok.WriteAsJsonAsync(new { instanceId, sentApproval = approved });
+        return ok;
     }
 }
 

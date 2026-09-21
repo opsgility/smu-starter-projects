@@ -1,9 +1,10 @@
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Text.Json;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.DurableTask;
 using Microsoft.DurableTask.Client;
 using Microsoft.Extensions.Logging;
@@ -32,37 +33,56 @@ public class CapstoneApi
     }
 
     [Function("StartOrder")]
-    public async Task<IActionResult> StartOrder(
-        [HttpTrigger(AuthorizationLevel.Function, "post", Route = "orders")] HttpRequest req,
+    public async Task<HttpResponseData> StartOrder(
+        [HttpTrigger(AuthorizationLevel.Function, "post", Route = "orders")] HttpRequestData req,
         [DurableClient] DurableTaskClient client,
-        ILogger<CapstoneApi> log)
+        FunctionContext ctx)
     {
-        var order = await System.Text.Json.JsonSerializer.DeserializeAsync<OrderRequest>(
-            req.Body,
-            new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        if (order is null) return new BadRequestObjectResult("invalid body");
-
+        var log = ctx.GetLogger<CapstoneApi>();
+        var opts = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        var order = await JsonSerializer.DeserializeAsync<OrderRequest>(req.Body, opts);
+        if (order is null)
+        {
+            var bad = req.CreateResponse(HttpStatusCode.BadRequest);
+            await bad.WriteStringAsync("invalid body");
+            return bad;
+        }
         _ordersReceived.Add(1);
         var instanceId = await client.ScheduleNewOrchestrationInstanceAsync(nameof(OrderPipelineOrchestrator), order);
         log.LogInformation("StartOrder {OrderId} -> orchestration {Id}", order.OrderId, instanceId);
-        var statusUri = $"{req.Scheme}://{req.Host}/api/orders/{instanceId}";
-        return new AcceptedResult(statusUri, new
+        var statusUri = $"{req.Url.GetLeftPart(UriPartial.Authority)}/api/orders/{instanceId}";
+        var resp = req.CreateResponse(HttpStatusCode.Accepted);
+        resp.Headers.Add("Location", statusUri);
+        await resp.WriteAsJsonAsync(new
         {
             instanceId,
             orderId = order.OrderId,
             statusQueryGetUri = statusUri
         });
+        return resp;
     }
 
     [Function("GetOrderStatus")]
-    public async Task<IActionResult> Status(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "orders/{instanceId}")] HttpRequest req,
+    public async Task<HttpResponseData> Status(
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "orders/{instanceId}")] HttpRequestData req,
         string instanceId,
         [DurableClient] DurableTaskClient client)
     {
         var m = await client.GetInstanceAsync(instanceId, getInputsAndOutputs: true);
-        if (m is null) return new NotFoundResult();
-        return new OkObjectResult(new { instanceId, m.RuntimeStatus, m.CreatedAt, m.LastUpdatedAt, output = m.SerializedOutput });
+        if (m is null)
+        {
+            return req.CreateResponse(HttpStatusCode.NotFound);
+        }
+        var ok = req.CreateResponse(HttpStatusCode.OK);
+        await ok.WriteAsJsonAsync(new
+        {
+            instanceId,
+            runtimeStatus = m.RuntimeStatus.ToString(),
+            m.CreatedAt,
+            m.LastUpdatedAt,
+            output = m.SerializedOutput
+        });
+        return ok;
     }
 }
 
