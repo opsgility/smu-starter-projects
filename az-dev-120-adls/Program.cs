@@ -55,7 +55,7 @@ static async Task Scaffold(DataLakeFileSystemClient fs)
         await dir.CreateIfNotExistsAsync();
         var file = dir.GetFileClient("sample.json");
         var body = $"{{\"tenant\":\"{tenant}\",\"date\":\"{today}\"}}";
-        await file.UploadAsync(BinaryData.FromString(body), overwrite: true);
+        await file.UploadAsync(BinaryData.FromString(body).ToStream(), overwrite: true);
         Console.WriteLine($"  created tenants/{tenant}/data/{today}/sample.json");
     }
 }
@@ -95,7 +95,7 @@ static async Task Rename(DataLakeFileSystemClient fs, string from, string to)
 static async Task ListRecursive(DataLakeFileSystemClient fs, string path)
 {
     Console.WriteLine($"Recursive listing under {path}:");
-    await foreach (var item in fs.GetPathsAsync(path, recursive: true))
+    await foreach (var item in fs.GetPathsAsync(path: path, recursive: true, userPrincipalName: false))
     {
         var kind = item.IsDirectory == true ? "DIR " : "FILE";
         Console.WriteLine($"  {kind}  {item.Name}");
