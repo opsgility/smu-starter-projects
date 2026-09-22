@@ -95,7 +95,7 @@ static async Task Rename(DataLakeFileSystemClient fs, string from, string to)
 static async Task ListRecursive(DataLakeFileSystemClient fs, string path)
 {
     Console.WriteLine($"Recursive listing under {path}:");
-    await foreach (var item in fs.GetPathsAsync(path: path, recursive: true, userPrincipalName: false))
+    await foreach (var item in fs.GetPathsAsync(path: path, recursive: true, userPrincipalName: false, cancellationToken: default))
     {
         var kind = item.IsDirectory == true ? "DIR " : "FILE";
         Console.WriteLine($"  {kind}  {item.Name}");
