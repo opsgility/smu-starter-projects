@@ -1,0 +1,6 @@
+# Local secrets and ephemeral outputs
+*.local
+.env
+*.tfstate
+deploy-*.log
+REFLECTION.md

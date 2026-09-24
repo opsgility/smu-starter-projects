@@ -1,0 +1,50 @@
+<#
+.SYNOPSIS
+  Deploys the Nimbus Freight 3-tier IaaS fleet with Azure PowerShell.
+
+.PARAMETER SqlAdminPassword
+  Password for the SQL VM admin account. SecureString.
+
+.EXAMPLE
+  Connect-AzAccount -UseDeviceAuthentication
+  .\Deploy-NimbusFreight.ps1 -SqlAdminPassword (Read-Host -AsSecureString "SQL admin pw")
+
+.DESCRIPTION
+Produces:
+  nimbus-freight-vnet (VNet) + web/app/data/agw subnets
+  nimbus-freight-app-nsg
+  nimbus-freight-web-vmss (Standard_B2s x 3, zone-redundant, nginx cloud-init)
+  app-vm-z1, app-vm-z2, app-vm-z3 (zonal Standard_B2s app VMs)
+  sql-vm (Standard_D2s_v3, registered as SQL VM with PAYG + Full mgmt + system MI)
+  nimbus-freight-agw (App Gateway v2 with WAF, wired to VMSS backend)
+  nimbus-freight-rsv-<VaultSuffix> (Recovery Services vault), DefaultPolicy protecting sql-vm
+#>
+param(
+  [Parameter(Mandatory)][SecureString]$SqlAdminPassword,
+  [string]$ResourceGroupName = 'nimbus-freight-rg',
+  [string]$Location           = 'eastus2',
+  [string]$VNetName           = 'nimbus-freight-vnet',
+  [int]   $VaultSuffix        = (Get-Random -Maximum 9999)
+)
+
+$ErrorActionPreference = 'Stop'
+Set-StrictMode -Version Latest
+
+Write-Host "Deploying Nimbus Freight: RG=$ResourceGroupName Location=$Location VNet=$VNetName Suffix=$VaultSuffix" -ForegroundColor Cyan
+
+$rg  = $ResourceGroupName
+$loc = $Location
+
+# === Paste 1-Network.ps1 body below ===
+
+# === Paste 2-WebVmss.ps1 body below ===
+
+# === Paste 3-AppVms.ps1 body below ===
+
+# === Paste 4-SqlVm.ps1 body below ===
+
+# === Paste 5-AppGateway.ps1 body below ===
+
+# === Paste 6-Backup.ps1 body below ===
+
+Write-Host "Deploy complete" -ForegroundColor Green

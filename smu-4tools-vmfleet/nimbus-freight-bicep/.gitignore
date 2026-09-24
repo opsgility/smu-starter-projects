@@ -1,0 +1,14 @@
+# Real secrets file - never commit
+main.parameters.json
+
+# Decompiled artifacts
+main.decompiled.bicep
+*.json.decompiled
+
+# Local outputs
+*.local
+.env
+
+# Reflection + verdict notes
+VERDICT.md
+REFLECTION*.md
