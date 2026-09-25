@@ -1,0 +1,22 @@
+# Local secrets — never commit
+.env
+.env.local
+*.credentials.json
+*.pfx
+*.pem
+
+# PowerShell caches / transcripts
+*.log
+transcript-*.txt
+PSReadLine/
+*.psm1.cache
+
+# PSScriptAnalyzer output
+*.psScriptAnalyzerResults.json
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
