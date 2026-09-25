@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+# azd project skeleton for AZ-ADMIN-200 lab-02-azd-bootstrap.
+# Student fills in the infra + services blocks during the lab.
+name: az-admin-200-lz
+metadata:
+  template: az-admin-200@0.0.1
+# infra:
+#   provider: bicep
+#   path: infra
+#   module: main
+# services: {}
