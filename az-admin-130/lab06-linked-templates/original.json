@@ -1,0 +1,96 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "namePrefix": {
+      "type": "string",
+      "metadata": { "description": "Prefix for every resource name — e.g. 'ridge01'." }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": { "description": "Deployment region." }
+    },
+    "vnetAddressSpace": {
+      "type": "string",
+      "defaultValue": "10.30.0.0/16"
+    },
+    "storageSku": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [ "Standard_LRS", "Standard_GRS", "Standard_ZRS", "Premium_LRS" ]
+    }
+  },
+  "variables": {
+    "vnetName": "[concat(parameters('namePrefix'), '-vnet')]",
+    "storageName": "[toLower(concat(parameters('namePrefix'), uniqueString(resourceGroup().id)))]",
+    "commonTags": {
+      "workload": "meter-processor",
+      "iac": "arm",
+      "environment": "shared",
+      "course": "SMU-ARM-FUND"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2024-01-01",
+      "name": "[variables('vnetName')]",
+      "location": "[parameters('location')]",
+      "tags": "[variables('commonTags')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [ "[parameters('vnetAddressSpace')]" ]
+        },
+        "subnets": [
+          {
+            "name": "default",
+            "properties": {
+              "addressPrefix": "10.30.1.0/24"
+            }
+          },
+          {
+            "name": "workload",
+            "properties": {
+              "addressPrefix": "10.30.2.0/24"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2024-01-01",
+      "name": "[variables('storageName')]",
+      "location": "[parameters('location')]",
+      "tags": "[variables('commonTags')]",
+      "sku": {
+        "name": "[parameters('storageSku')]"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "allowBlobPublicAccess": false,
+        "minimumTlsVersion": "TLS1_2",
+        "supportsHttpsTrafficOnly": true,
+        "networkAcls": {
+          "defaultAction": "Allow",
+          "bypass": "AzureServices"
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "vnetId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]"
+    },
+    "storageId": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
+    },
+    "primaryBlobEndpoint": {
+      "type": "string",
+      "value": "[reference(variables('storageName')).primaryEndpoints.blob]"
+    }
+  }
+}
