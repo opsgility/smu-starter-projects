@@ -1,0 +1,64 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location":         { "type": "string", "defaultValue": "eastus2" },
+    "vnetName":         { "type": "string", "defaultValue": "nimbus-freight-vnet" },
+    "appNsgName":       { "type": "string", "defaultValue": "nimbus-freight-app-nsg" },
+    "webVmssName":      { "type": "string", "defaultValue": "nimbus-freight-web-vmss" },
+    "adminUsername":    { "type": "string", "defaultValue": "azureuser" },
+    "adminPassword":    { "type": "securestring" },
+    "sqlAdminUsername": { "type": "string", "defaultValue": "sqladmin" },
+    "sqlAdminPassword": { "type": "securestring" },
+    "vaultSuffix":      { "type": "string", "defaultValue": "[uniqueString(resourceGroup().id)]" }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2024-05-01",
+      "name": "[parameters('appNsgName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "securityRules": [
+          {
+            "name": "Allow-Web-to-App-8080",
+            "properties": {
+              "priority": 100,
+              "access": "Allow",
+              "direction": "Inbound",
+              "protocol": "Tcp",
+              "sourceAddressPrefix": "10.20.1.0/24",
+              "sourcePortRange": "*",
+              "destinationAddressPrefix": "*",
+              "destinationPortRange": "8080"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2024-05-01",
+      "name": "[parameters('vnetName')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('appNsgName'))]"
+      ],
+      "properties": {
+        "addressSpace": { "addressPrefixes": [ "10.20.0.0/16" ] },
+        "subnets": [
+          { "name": "web-subnet",  "properties": { "addressPrefix": "10.20.1.0/24" } },
+          { "name": "app-subnet",  "properties": {
+              "addressPrefix": "10.20.2.0/24",
+              "networkSecurityGroup": { "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('appNsgName'))]" }
+          } },
+          { "name": "data-subnet", "properties": { "addressPrefix": "10.20.3.0/24" } },
+          { "name": "agw-subnet",  "properties": { "addressPrefix": "10.20.10.0/24" } }
+        ]
+      }
+    }
+  ],
+  "outputs": {
+    "vnetName": { "type": "string", "value": "[parameters('vnetName')]" }
+  }
+}

@@ -1,0 +1,16 @@
+#cloud-config
+package_upgrade: false
+packages:
+  - nginx
+write_files:
+  - path: /var/www/html/index.html
+    permissions: '0644'
+    content: |
+      <html><body><h1>Nimbus Freight — order tracking</h1><p>web tier instance ready</p></body></html>
+  - path: /var/www/html/healthz
+    permissions: '0644'
+    content: |
+      ok
+runcmd:
+  - systemctl enable nginx
+  - systemctl start nginx

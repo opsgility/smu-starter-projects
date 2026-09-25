@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# deploy-nimbus-freight.sh — build the Nimbus Freight 3-tier IaaS fleet with Azure CLI.
+#
+# Produces:
+#   nimbus-freight-vnet (VNet) + web/app/data/agw subnets
+#   nimbus-freight-app-nsg
+#   nimbus-freight-web-vmss (VMSS, Standard_B2s x 3, zone-redundant, nginx cloud-init)
+#   app-vm-z1, app-vm-z2, app-vm-z3 (zonal Standard_B2s app VMs)
+#   sql-vm (Standard_D2s_v3, registered as SQL VM with PAYG + Full mgmt)
+#   nimbus-freight-agw (Application Gateway v2 with WAF, wired to VMSS backend)
+#   nimbus-freight-rsv-<random> (Recovery Services vault), DefaultPolicy protecting sql-vm
+#
+# Prereqs:
+#   az login --use-device-code
+#   RG must already exist (Contributor at RG scope).
+
+set -euo pipefail
+
+RG=${RG:-nimbus-freight-rg}
+LOC=${LOC:-eastus2}
+VNET=${VNET:-nimbus-freight-vnet}
+SUFFIX=${SUFFIX:-$RANDOM}
+SQL_ADMIN_PW=${SQL_ADMIN_PW:?"set SQL_ADMIN_PW before running"}
+
+echo "Deploying Nimbus Freight: RG=$RG LOC=$LOC VNET=$VNET SUFFIX=$SUFFIX"
+
+# === Paste 1-network.sh body below ===
+
+# === Paste 2-web-vmss.sh body below ===
+
+# === Paste 3-app-vms.sh body below ===
+
+# === Paste 4-sql-vm.sh body below ===
+
+# === Paste 5-app-gateway.sh body below ===
+
+# === Paste 6-backup.sh body below ===
+
+echo "Deploy complete: fleet URL = http://$(az network public-ip show -g $RG -n nimbus-freight-agw-pip --query ipAddress -o tsv)/"
