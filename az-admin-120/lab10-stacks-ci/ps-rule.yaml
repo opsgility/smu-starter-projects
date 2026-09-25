@@ -1,0 +1,27 @@
+# PSRule configuration for SMU-BICEP-FUND Lab 10.
+#
+# Canonical shape from the PSRule for Azure quickstart:
+#   https://azure.github.io/PSRule.Rules.Azure/quickstarts/test-bicep-with-github/
+#
+# `Azure.Default` is the module's default baseline and is applied automatically
+# when the module is included below — no explicit `binding` block required.
+#
+# `AZURE_BICEP_FILE_EXPANSION` tells PSRule to compile .bicep and .bicepparam
+# files during evaluation, so `Invoke-PSRule -InputPath .` picks up the
+# workload defined in main.bicep directly (no `bicep build` step needed).
+
+requires:
+  PSRule.Rules.Azure: '>=1.34.0'
+
+include:
+  module:
+    - PSRule.Rules.Azure
+
+input:
+  pathIgnore:
+    - '**'
+    - '!**/*.bicep'
+    - '!**/*.bicepparam'
+
+configuration:
+  AZURE_BICEP_FILE_EXPANSION: true
