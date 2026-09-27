@@ -7,9 +7,9 @@ import anthropic
 load_dotenv()
 client = anthropic.Anthropic()
 
-# Padded to ~2400 tokens. Haiku's prompt-cache minimum is 2048 tokens — a
-# smaller cached prefix silently returns 0/0 for cache_creation/read.
-SYSTEM = """You are the Orion support triager. """ * 400
+# Padded to ~4800 tokens. Haiku 4.5's prompt-cache minimum is 4096 tokens —
+# a smaller cached prefix silently returns 0/0 for cache_creation/read.
+SYSTEM = """You are the Orion support triager. """ * 800
 
 TICKETS = [
     "Login broken",

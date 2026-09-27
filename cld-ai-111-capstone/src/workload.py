@@ -11,11 +11,13 @@ import anthropic
 load_dotenv()
 client = anthropic.Anthropic()
 
-# Padded to ~3000 tokens. Haiku's prompt-cache minimum is 2048 (Sonnet is 1024) —
-# a smaller cached prefix silently returns 0/0 for cache_creation/read.
+# Padded to ~6000 tokens. Haiku 4.5's prompt-cache minimum is 4096 tokens
+# (Sonnet is 1024). Smaller cached prefixes silently return 0/0 for
+# cache_creation/read on Haiku. Live-lab measurements confirmed a ~2800-token
+# prefix still returned 0/0; * 160 lands safely above the 4096 floor.
 SYSTEM_PROMPT = ("You are the Orion ticket triager. Classify each ticket as "
                  "bug/billing/feature/howto. Then rate urgency 1-5. "
-                 "Reply as: LABEL,URGENCY. Nothing else. ") * 80
+                 "Reply as: LABEL,URGENCY. Nothing else. ") * 160
 
 TICKETS = ["Login broken", "Export CSV please", "Refund my Aug charge",
            "Feature: dark mode", "API 500 error", "Password reset", "Slow load",
