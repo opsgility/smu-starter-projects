@@ -1,0 +1,12 @@
+[
+  {"q":"What's the SLA for a Sev-1?","must_contain":["15-min","4-hour"]},
+  {"q":"Can I refund a Starter customer after 20 days?","must_contain":["Starter","14"]},
+  {"q":"What's the max credit a support engineer can approve alone?","must_contain":["200"]},
+  {"q":"Where does EU customer data reside?","must_contain":["eu-west-1"]},
+  {"q":"How long is the auth token valid?","must_contain":["24"]},
+  {"q":"How can I get the SOC 2 report?","must_contain":["compliance portal"]},
+  {"q":"What's the default data retention?","must_contain":["90 days"]},
+  {"q":"What's the API rate limit?","must_contain":["60"]},
+  {"q":"What's a Sev-2 SLA?","must_contain":["1-hour","24-hour"]},
+  {"q":"Do we offer HIPAA BAA?","must_contain":["Enterprise"]}
+]
