@@ -1,0 +1,25 @@
+# Three test prompts for the CLD-AI-101 L7 model-comparison benchmark.
+# Prompts are separated by lines that start with `===`. Lines that start
+# with `#` are treated as comments and stripped.
+#
+# The three prompts are chosen to stress different capability dimensions:
+#   Prompt 1 — light classification (Haiku's territory).
+#   Prompt 2 — grounded summarization with a long input (Sonnet's territory).
+#   Prompt 3 — multi-step reasoning across a policy (Opus's territory).
+# The benchmark output should show clearly that the cheapest model doing
+# well on Prompt 1 does not necessarily do well on Prompt 3.
+===
+You are a support-triage helper for Orion Analytics. Classify the following customer feedback comment into exactly one category — Billing, Technical, Feature Request, or Other — and reply with just the single category name, nothing else.
+
+Comment: "Great tool overall but the export-to-Excel button on the ingest dashboard has been broken for two weeks. I have to screenshot the table now which is not acceptable for our monthly board pack."
+===
+Summarize the following Orion Analytics customer email in one paragraph for the on-call engineer. Preserve who the customer is, what they are asking for, and the deadline they name. Do not invent details.
+
+Email:
+"Hi team — Sarah Kwan from Meridian Ventures here. We onboarded onto your ingest pipeline last month and it has been mostly great, but our Snowflake connector has been dropping about 3% of rows in the overnight batch since Monday. Not a large percentage but enough that our BI dashboards are showing yesterday's numbers as always slightly lower than the source system, which is starting to cause friction with our CFO. We are open to a call this week — the sooner the better — but if we can just get a written diagnosis and a target fix date by Friday that would be sufficient. Our BI team is also asking whether the outage back on the 12th could be causing residual issues; happy to share our internal timeline of that day if useful. Thanks — Sarah."
+===
+Orion Analytics has an internal policy that a client can request an export of ALL of their raw ingested data at any time, but only under two conditions: (a) the client's account must have been active for at least 90 days, AND (b) the data must be filtered to exclude any records tagged "regulated-pii" unless the client has separately signed our Restricted Data Access addendum. There is a third exception: for clients on the Enterprise tier only, the 90-day requirement is waived.
+
+A request just came in from Nova Retail. Nova has been an Orion customer for 62 days. Their contract is on the Growth tier (not Enterprise). Their raw data contains records tagged "regulated-pii" and they have not signed the Restricted Data Access addendum. Nova is asking for a full export of everything.
+
+Walk through, step by step, whether we can honor the request as stated. If not, name the specific parts of the request we can and cannot fulfill and what Nova would need to do to unblock the parts we cannot.
