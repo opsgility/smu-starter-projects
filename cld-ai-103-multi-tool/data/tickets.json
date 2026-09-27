@@ -1,0 +1,23 @@
+{
+  "acme-corp": [
+    {"id": "T-9001", "date": "2026-09-25", "summary": "API 502 during peak load", "resolved": true},
+    {"id": "T-9000", "date": "2026-09-18", "summary": "Dashboard slow in EU region", "resolved": true},
+    {"id": "T-8999", "date": "2026-09-10", "summary": "Add SSO team assignment", "resolved": true}
+  ],
+  "widget-inc": [
+    {"id": "T-7002", "date": "2026-06-01", "summary": "Payment failed", "resolved": false},
+    {"id": "T-7001", "date": "2026-05-28", "summary": "Downgrade request", "resolved": true}
+  ],
+  "beta-labs": [
+    {"id": "T-8501", "date": "2026-09-27", "summary": "Ingest pipeline stalled", "resolved": false},
+    {"id": "T-8500", "date": "2026-09-26", "summary": "Report export produces empty file", "resolved": false},
+    {"id": "T-8499", "date": "2026-09-25", "summary": "Auth timeout on API", "resolved": false},
+    {"id": "T-8498", "date": "2026-09-24", "summary": "Rate limit hit", "resolved": true}
+  ],
+  "quantum-data": [
+    {"id": "T-7801", "date": "2026-08-15", "summary": "Data export request pre-cancellation", "resolved": true}
+  ],
+  "orbit-metrics": [
+    {"id": "T-8801", "date": "2026-09-26", "summary": "Custom report shows stale data", "resolved": false}
+  ]
+}
