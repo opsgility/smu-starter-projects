@@ -46,7 +46,12 @@ def main() -> int:
         return 1
 
     latency_ms = int((time.perf_counter() - t0) * 1000)
-    text = resp.content[0].text.strip()
+    # resp.content is a list of typed blocks. Adaptive-thinking models
+    # (Opus 5.5, sometimes Fable 5.1) may emit a `ThinkingBlock` FIRST,
+    # so filter for the text block explicitly instead of assuming [0] is
+    # the text — otherwise a swap to those models will crash with
+    # `AttributeError: 'ThinkingBlock' object has no attribute 'text'`.
+    text = next((b.text for b in resp.content if b.type == "text"), "").strip()
     tokens_in = resp.usage.input_tokens
     tokens_out = resp.usage.output_tokens
 

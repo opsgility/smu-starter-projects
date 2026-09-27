@@ -66,7 +66,12 @@ def run_one(client: anthropic.Anthropic, model: str, prompt: str) -> dict:
     )
     latency_ms = int((time.perf_counter() - t0) * 1000)
 
-    text = response.content[0].text
+    # response.content is a list of typed blocks. Adaptive-thinking models
+    # (Opus 5.5 always, Fable 5.1 sometimes) may emit a ThinkingBlock
+    # first — the actual reply lives in the text block. This benchmark
+    # iterates all three tiers (Haiku 4.5 / Sonnet 5 / Opus 5.5), so
+    # without this filter the loop crashes the moment it hits Opus.
+    text = next((b.text for b in response.content if b.type == "text"), "")
     tokens_in = response.usage.input_tokens
     tokens_out = response.usage.output_tokens
     cost = compute_cost_usd(model, tokens_in, tokens_out)

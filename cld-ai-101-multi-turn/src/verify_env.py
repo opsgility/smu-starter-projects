@@ -40,8 +40,11 @@ def main() -> int:
         return 1
 
     latency_ms = int((time.perf_counter() - t0) * 1000)
+    # Adaptive-thinking models (Opus 5.5, sometimes Fable 5.1) may emit a
+    # `ThinkingBlock` first — filter for the text block explicitly.
+    text = next((b.text for b in resp.content if b.type == "text"), "").strip()
     print(f"verify_env: OK — {model} responded in {latency_ms} ms")
-    print(f"  response: {resp.content[0].text.strip()!r}")
+    print(f"  response: {text!r}")
     print(f"  usage:    input={resp.usage.input_tokens}, output={resp.usage.output_tokens}")
     return 0
 
