@@ -22,12 +22,13 @@ cld-ai-101-first-call/
 
 ## How to run
 
-The lab container already ships the `anthropic` Python SDK preinstalled and the `ANTHROPIC_API_KEY` environment variable wired through the Claude API proxy at container start. You do NOT need to run `pip install` or bring your own Anthropic key.
+The lab container already ships the `anthropic` Python SDK preinstalled and the `ANTHROPIC_API_KEY` + `ANTHROPIC_BASE_URL` environment variables wired through the Claude API proxy at container start. You do NOT need to run `pip install`, bring your own Anthropic key, or create a `.env` file.
 
-1. Open the integrated terminal in VS Code (**Terminal → New Terminal**).
-2. Copy the env file: `cp .env.example .env`. Nothing needs editing — `ANTHROPIC_API_KEY` is already injected as a real value by the proxy, and `ANTHROPIC_MODEL` defaults to `claude-sonnet-5`.
-3. Smoke-test the environment: `python src/verify_env.py`. You should see `verify_env: OK — claude-sonnet-5 responded in Xs`.
-4. Follow the exercises in the right-hand pane. They will point you at `src/first_call.py` and `src/inspect_response.py` in order.
+1. Open the integrated terminal in VS Code (**Terminal → New Terminal**). It opens at the workspace root — this starter's files (`src/`, `.env.example`, `requirements.txt`, etc.) are already there. You do NOT need to `cd` into a subfolder.
+2. Smoke-test the environment: `python src/verify_env.py`. You should see `verify_env: OK — claude-sonnet-5 responded in Xs`.
+3. Follow the exercises in the right-hand pane. They will point you at `src/first_call.py` and `src/inspect_response.py` in order.
+
+> **Only if running locally against your own Anthropic account** (outside the SkillMeUp lab): `cp .env.example .env`, paste your key from `https://platform.claude.com/settings/keys`, and run as normal. Inside the lab container that step is unnecessary — the proxy already exported the env vars.
 
 ## Authentication
 

@@ -22,12 +22,13 @@ cld-ai-101-multi-turn/
 
 ## How to run
 
-Same container contract as L3 — `anthropic` SDK preinstalled, `ANTHROPIC_API_KEY` injected by the proxy at container start. No `pip install`, no signup.
+Same container contract as L3 — `anthropic` SDK preinstalled, `ANTHROPIC_API_KEY` + `ANTHROPIC_BASE_URL` exported into the container's shell by the proxy at container start. No `pip install`, no signup, no `.env` file to create.
 
-1. Open a terminal (**Terminal → New Terminal**).
-2. `cp .env.example .env`. Nothing to fill in — the API key is already injected.
-3. Smoke-test: `python src/verify_env.py` → expect `verify_env: OK`.
-4. Follow the exercises. `repl.py` first, then `streaming.py`.
+1. Open a terminal (**Terminal → New Terminal**). It opens at the workspace root, where this starter's files already live. No `cd` into a subfolder needed.
+2. Smoke-test: `python src/verify_env.py` → expect `verify_env: OK`.
+3. Follow the exercises. `repl.py` first, then `streaming.py`.
+
+> **Only if running locally against your own Anthropic account**: `cp .env.example .env`, paste your key, and run as normal. Inside the lab the env is already ready.
 
 ## Authentication
 
