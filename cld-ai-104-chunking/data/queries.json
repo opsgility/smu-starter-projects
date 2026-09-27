@@ -1,0 +1,8 @@
+[
+  {"q":"What's the SLA for a Sev-1 outage?","expected_substring":"15-minute initial response"},
+  {"q":"When do I need CSM approval for a credit?","expected_substring":"$200 and $1000 require a CSM"},
+  {"q":"Where does EU customer data live?","expected_substring":"eu-west-1"},
+  {"q":"Who decides when to update the status page?","expected_substring":"incident commander"},
+  {"q":"How soon after a Sev-1 do we need a PIR?","expected_substring":"48 hours"},
+  {"q":"What refund applies to a consumer within 30 days?","expected_substring":"full refund within 30 days"}
+]
