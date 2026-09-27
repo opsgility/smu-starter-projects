@@ -1,0 +1,12 @@
+[
+  {"input":"Dashboard down 40min", "gold":{"category":"Technical","urgency":"urgent"}},
+  {"input":"Charged twice Sept renewal", "gold":{"category":"Billing","urgency":"normal"}},
+  {"input":"Row-level perms please", "gold":{"category":"Feature Request","urgency":"low"}},
+  {"input":"429 errors blocking overnight batch", "gold":{"category":"Technical","urgency":"urgent"}},
+  {"input":"Thanks for the fix, product's great", "gold":{"category":"Other","urgency":"low"}},
+  {"input":"Please add 3 more seats", "gold":{"category":"Billing","urgency":"normal"}},
+  {"input":"SSO integration blocker for our security review", "gold":{"category":"Feature Request","urgency":"normal"}},
+  {"input":"suspended account refund request", "gold":{"category":"Billing","urgency":"normal"}},
+  {"input":"Scheduler UTC timezone bug", "gold":{"category":"Technical","urgency":"normal"}},
+  {"input":"SOC 2 report request from auditor, need by Fri", "gold":{"category":"Other","urgency":"urgent"}}
+]
