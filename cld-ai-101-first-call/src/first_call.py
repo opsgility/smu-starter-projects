@@ -39,9 +39,13 @@ def main() -> None:
             "real client.messages.create(...) call, then re-run."
         )
 
-    # The response body is a list of content blocks. For a simple text call
-    # like this one there is exactly one block, of type 'text'.
-    print(response.content[0].text)
+    # The response body is a LIST of content blocks. Most calls return a
+    # single text block, but adaptive-thinking models (Opus 5.5, sometimes
+    # Fable 5.1) can emit a `ThinkingBlock` FIRST — so `response.content[0]`
+    # is not always the text. Filter for the first block whose type is
+    # "text" to be safe across all models:
+    text = next((b.text for b in response.content if b.type == "text"), "")
+    print(text)
 
 
 if __name__ == "__main__":

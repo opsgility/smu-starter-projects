@@ -61,7 +61,10 @@ def main() -> None:
             print("(TODOs 2 and 3 still stubbed — fill them in and retry.)", file=sys.stderr)
             break
 
-        assistant_text = response.content[0].text
+        # Adaptive-thinking models (Opus 5.5, sometimes Fable 5.1) may emit a
+        # ThinkingBlock first — filter for the text block explicitly so a
+        # model swap via ANTHROPIC_MODEL doesn't crash mid-conversation.
+        assistant_text = next((b.text for b in response.content if b.type == "text"), "")
         print(f"claude: {assistant_text}\n")
 
         # TODO 4: append Claude's reply to `messages` so the next turn sees

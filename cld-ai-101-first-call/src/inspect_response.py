@@ -33,8 +33,19 @@ def main() -> None:
         ],
     )
 
-    # TODO 1: print the model's text output. It lives at
-    # response.content[0].text (the first content block, which is a text block).
+    # TODO 1: print the model's text output. `response.content` is a LIST
+    # of typed blocks. For Haiku 4.5 and Sonnet 5 (on a simple prompt), the
+    # list has one block of type "text" — so `response.content[0].text`
+    # works. But adaptive-thinking models (Opus 5.5, sometimes Fable 5.1)
+    # may emit a `ThinkingBlock` first — then `content[0]` is the thinking
+    # block and `.text` raises AttributeError.
+    #
+    # The safe pattern (works for every current Claude model) is:
+    #   text = next((b.text for b in response.content if b.type == "text"), "")
+    #   print(text)
+    #
+    # You'll swap models in Exercise 5 — the safe pattern above prevents
+    # a crash when you point ANTHROPIC_MODEL at claude-opus-5-5.
     print("=== response text ===")
     # print(...)  <-- your line here
 

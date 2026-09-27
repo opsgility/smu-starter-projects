@@ -61,9 +61,13 @@ def main() -> None:
         #       final = stream.get_final_message()
         #
         # After the `with` block, `final` is the assembled Message object —
-        # use final.content[0].text to grab the whole assistant reply and
+        # filter for the text block (adaptive-thinking models like Opus 5.5
+        # may prepend a ThinkingBlock) to grab the whole assistant reply and
         # append it to `messages` (TODO 2), and inspect final.stop_reason
-        # and final.usage to see what happened (TODO 3).
+        # and final.usage to see what happened (TODO 3). Note: streaming's
+        # `stream.text_stream` above ALREADY filters to only text deltas, so
+        # what you see printed live is text-only; the ThinkingBlock only
+        # shows up in `final.content` for post-hoc inspection.
         final = None  # <-- replace with real streaming call
 
         if final is None:
@@ -71,7 +75,7 @@ def main() -> None:
                   file=sys.stderr)
             break
 
-        assistant_text = final.content[0].text
+        assistant_text = next((b.text for b in final.content if b.type == "text"), "")
         print()  # newline after the streamed text
 
         # TODO 2: append the assistant's reply to `messages`.
