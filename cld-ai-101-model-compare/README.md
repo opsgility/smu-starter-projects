@@ -24,11 +24,13 @@ cld-ai-101-model-compare/
 
 ## How to run
 
-Same container contract as L3 / L5 — `anthropic` preinstalled, `ANTHROPIC_API_KEY` injected by proxy.
+Same container contract as L3 / L5 — `anthropic` preinstalled, `ANTHROPIC_API_KEY` + `ANTHROPIC_BASE_URL` already exported into the container's shell by the proxy at container start.
 
-1. `cp .env.example .env` — nothing to edit.
+1. Open a terminal — it opens at the workspace root, where this starter's files already live. No `cd` into a subfolder needed; no `.env` file to create.
 2. `python src/verify_env.py` — expect `verify_env: OK`.
 3. Follow the exercises in the right-hand pane.
+
+> **Only if running locally against your own Anthropic account**: `cp .env.example .env`, paste your key, and run as normal. Inside the lab the env is already ready.
 
 ## Authentication
 
