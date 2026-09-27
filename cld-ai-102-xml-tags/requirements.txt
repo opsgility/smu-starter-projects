@@ -1,0 +1,9 @@
+# Manifest ONLY — every package listed here is already preinstalled in the
+# vscode-python-ai container variant this lab runs on. Do NOT run
+# `pip install -r requirements.txt` inside the lab container.
+#
+# The list exists so you can reproduce the environment locally if you want
+# to run this starter against your own Anthropic account.
+
+anthropic
+python-dotenv
