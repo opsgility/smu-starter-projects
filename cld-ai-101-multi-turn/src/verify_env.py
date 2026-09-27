@@ -1,0 +1,50 @@
+"""Smoke test — confirms the lab environment is wired up correctly.
+
+Reads ANTHROPIC_API_KEY and ANTHROPIC_MODEL from the environment (or .env),
+issues a single 12-token round-trip to Claude, and exits 0 on success.
+
+Run: `python src/verify_env.py`
+"""
+
+import os
+import sys
+import time
+
+from dotenv import load_dotenv
+import anthropic
+
+
+def main() -> int:
+    load_dotenv()
+
+    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    model = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-5")
+
+    if not api_key or api_key.startswith("<"):
+        print(
+            "verify_env: FAIL — ANTHROPIC_API_KEY is not set (or still the placeholder).",
+            file=sys.stderr,
+        )
+        return 1
+
+    client = anthropic.Anthropic()
+    t0 = time.perf_counter()
+    try:
+        resp = client.messages.create(
+            model=model,
+            max_tokens=12,
+            messages=[{"role": "user", "content": "Say the word ready and nothing else."}],
+        )
+    except anthropic.APIError as e:
+        print(f"verify_env: FAIL — Anthropic API error: {e}", file=sys.stderr)
+        return 1
+
+    latency_ms = int((time.perf_counter() - t0) * 1000)
+    print(f"verify_env: OK — {model} responded in {latency_ms} ms")
+    print(f"  response: {resp.content[0].text.strip()!r}")
+    print(f"  usage:    input={resp.usage.input_tokens}, output={resp.usage.output_tokens}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
