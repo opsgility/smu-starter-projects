@@ -1,0 +1,7 @@
+{
+  "acme-corp":     {"tier": "Enterprise", "status": "active",     "csm": "Priya"},
+  "widget-inc":    {"tier": "Starter",    "status": "suspended",  "csm": null},
+  "beta-labs":     {"tier": "Pro",        "status": "active",     "csm": "Marcus"},
+  "quantum-data":  {"tier": "Pro",        "status": "cancelled",  "csm": "Nia"},
+  "orbit-metrics": {"tier": "Enterprise", "status": "active",     "csm": "Priya"}
+}

@@ -1,0 +1,7 @@
+{
+  "acme-corp":     [{"id":"T-1","summary":"API 502 during peak","resolved":true},{"id":"T-2","summary":"Dashboard slow","resolved":true}],
+  "widget-inc":    [{"id":"T-3","summary":"Payment failed","resolved":false}],
+  "beta-labs":     [{"id":"T-4","summary":"Ingest stall","resolved":false},{"id":"T-5","summary":"Export empty","resolved":false},{"id":"T-6","summary":"Auth timeout","resolved":false}],
+  "quantum-data":  [{"id":"T-7","summary":"Data export request","resolved":true}],
+  "orbit-metrics": [{"id":"T-8","summary":"Stale report data","resolved":false}]
+}
