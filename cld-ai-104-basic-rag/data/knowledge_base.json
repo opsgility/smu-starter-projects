@@ -1,0 +1,14 @@
+[
+  {"id":"sla-1","source":"runbook.md","text":"Severity-1 (Sev-1) outage SLA: 15-minute initial response, 4-hour resolution target. Escalation manager must be paged at the 2-hour mark if resolution is not on track."},
+  {"id":"sla-2","source":"runbook.md","text":"Severity-2 SLA: 1-hour response, 24-hour resolution. Applies to features affecting some users but not preventing core workflow. Escalation optional."},
+  {"id":"sla-3","source":"runbook.md","text":"Severity-3 SLA: 4-hour response, 72-hour resolution. Applies to minor bugs, cosmetic issues, and non-blocking feature requests."},
+  {"id":"refund-1","source":"policy.md","text":"Refund policy: full refund available within 30 days of initial subscription. After 30 days, prorated refund on remaining subscription time. No refund on cancelled or suspended accounts."},
+  {"id":"refund-2","source":"policy.md","text":"Goodwill credits (not refunds): may be applied by any support engineer up to $200 per incident for platform-caused outages. Credits above $200 require CSM or manager approval."},
+  {"id":"refund-3","source":"policy.md","text":"Refund exceptions: enterprise contracts have custom refund terms defined in the MSA. Always check the customer's contract before processing an enterprise refund."},
+  {"id":"api-1","source":"api-docs.md","text":"POST /v2/analytics accepts a JSON body with query, filters, and pagination fields. Returns aggregated results in <100ms p95 under normal load. 429 rate limit: 60 requests/second per API key."},
+  {"id":"api-2","source":"api-docs.md","text":"GET /v2/customers/{id} returns customer profile including tier, status, CSM assignment, contract dates. Requires read scope. Returns 404 for unknown customer_id."},
+  {"id":"api-3","source":"api-docs.md","text":"Auth: all API endpoints require Bearer token in Authorization header. Tokens obtained via POST /v2/auth/token with client credentials. Tokens expire after 24 hours."},
+  {"id":"compliance-1","source":"compliance-memo-q3.md","text":"Q3 compliance update: all customer PII must remain in-region (EU customers in eu-west-1, US customers in us-east-1). Cross-region data transfer requires signed DPA and legal review."},
+  {"id":"compliance-2","source":"compliance-memo-q3.md","text":"SOC 2 Type 2 report: Orion's current SOC 2 report is available on request via the compliance portal. Contact legal@orion.example.com for the signed copy."},
+  {"id":"compliance-3","source":"compliance-memo-q3.md","text":"Data retention: customer analytics data retained 90 days by default. Enterprise contracts can extend to 2 years with custom pricing. Deletion on request within 30 days."}
+]
