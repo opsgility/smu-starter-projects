@@ -1,0 +1,5 @@
+anthropic
+python-dotenv
+# sentence-transformers is optional — the embedder.py falls back to a stub
+# if it's not installed.
+sentence-transformers

@@ -1,0 +1,14 @@
+[
+  {"id":"sla-1","source":"runbook.md","text":"Severity-1 (Sev-1) outage SLA: 15-minute initial response, 4-hour resolution target."},
+  {"id":"sla-2","source":"runbook.md","text":"Severity-2 SLA: 1-hour response, 24-hour resolution."},
+  {"id":"sla-3","source":"runbook.md","text":"Severity-3 SLA: 4-hour response, 72-hour resolution."},
+  {"id":"refund-1","source":"policy.md","text":"Refund policy: full refund available within 30 days of initial subscription."},
+  {"id":"refund-2","source":"policy.md","text":"Goodwill credits: may be applied up to $200 per incident for platform-caused outages."},
+  {"id":"refund-3","source":"policy.md","text":"Refund exceptions: enterprise contracts have custom refund terms defined in the MSA."},
+  {"id":"api-1","source":"api-docs.md","text":"POST /v2/analytics accepts JSON body with query, filters, pagination. Rate limit: 60 requests/second."},
+  {"id":"api-2","source":"api-docs.md","text":"GET /v2/customers/{id} returns customer profile including tier, status, CSM assignment."},
+  {"id":"api-3","source":"api-docs.md","text":"Auth: all endpoints require Bearer token via Authorization header."},
+  {"id":"compliance-1","source":"compliance-memo-q3.md","text":"Q3 compliance: customer PII must remain in-region (EU customers in eu-west-1)."},
+  {"id":"compliance-2","source":"compliance-memo-q3.md","text":"SOC 2 Type 2 report: available on request via compliance portal."},
+  {"id":"compliance-3","source":"compliance-memo-q3.md","text":"Data retention: 90 days default; enterprise contracts can extend to 2 years."}
+]
