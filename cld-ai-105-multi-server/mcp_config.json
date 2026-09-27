@@ -1,0 +1,6 @@
+{
+  "servers": {
+    "orion":   {"module": "mock_servers", "class": "OrionServer"},
+    "weather": {"module": "mock_servers", "class": "WeatherServer"}
+  }
+}
