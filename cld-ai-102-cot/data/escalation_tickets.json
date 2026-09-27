@@ -1,0 +1,17 @@
+[
+  {"id": "E-3001", "text": "Getting 502 errors on /v2/analytics since this morning's deploy. Blocking our on-call.", "expected": "NoEscalate", "why": "pure technical outage, no compliance triggers"},
+  {"id": "E-3002", "text": "One of our data engineers noticed that the last export CSV contained rows from another customer's tenant. This is a GDPR concern.", "expected": "Escalate", "why": "data leak + explicit GDPR mention"},
+  {"id": "E-3003", "text": "Charged twice for September renewal. Please refund the duplicate.", "expected": "NoEscalate", "why": "billing, no compliance triggers"},
+  {"id": "E-3004", "text": "We think an unauthorized user accessed our admin panel yesterday between 4-5pm — the audit log shows a login from an IP we don't recognize.", "expected": "Escalate", "why": "explicit unauthorized access / security incident"},
+  {"id": "E-3005", "text": "Feature request: it would be nice if the export dropdown remembered the last format.", "expected": "NoEscalate", "why": "feature ask, no triggers"},
+  {"id": "E-3006", "text": "Our SOC 2 auditor is asking for a copy of your subprocessor list — where can I find that?", "expected": "Escalate", "why": "explicit SOC 2 mention + auditor context"},
+  {"id": "E-3007", "text": "The scheduled report went out at 4am UTC instead of 8am. Cron config seems off.", "expected": "NoEscalate", "why": "technical config issue, no triggers"},
+  {"id": "E-3008", "text": "During today's outage we lost 4 hours of ingested events — they never made it into the warehouse. Is there any way to recover them?", "expected": "Escalate", "why": "explicit data loss report"},
+  {"id": "E-3009", "text": "Curious — does your platform support HIPAA-covered workloads? We're evaluating for a healthcare client.", "expected": "Escalate", "why": "HIPAA mention (regulatory) — should route to compliance/sales-eng"},
+  {"id": "E-3010", "text": "Please add more granular row-level permissions on shared reports.", "expected": "NoEscalate", "why": "feature request"},
+  {"id": "E-3011", "text": "The dashboard has been slow for two days. Also, one of our analysts mentioned the login page loads over http instead of https on their laptop — is that expected?", "expected": "Escalate", "why": "http-instead-of-https = security exposure trigger; the slow-dashboard part is a distraction"},
+  {"id": "E-3012", "text": "Cancelling my subscription at end of cycle. Please confirm receipt.", "expected": "NoEscalate", "why": "billing"},
+  {"id": "E-3013", "text": "We're seeing PII showing up in the report exports that shouldn't be there per our data-processing agreement. Can you investigate?", "expected": "Escalate", "why": "PII in exports = privacy/data-loss trigger + regulatory context"},
+  {"id": "E-3014", "text": "The API rate limit hit us at 429 during our overnight batch. Any way to increase our quota?", "expected": "NoEscalate", "why": "operational, no triggers"},
+  {"id": "E-3015", "text": "Our PCI compliance officer needs to know how you handle cardholder data in transit. Please provide details.", "expected": "Escalate", "why": "PCI mention + compliance context"}
+]
