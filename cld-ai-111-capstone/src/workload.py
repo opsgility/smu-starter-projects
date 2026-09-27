@@ -11,13 +11,15 @@ import anthropic
 load_dotenv()
 client = anthropic.Anthropic()
 
+# Padded to ~3000 tokens. Haiku's prompt-cache minimum is 2048 (Sonnet is 1024) —
+# a smaller cached prefix silently returns 0/0 for cache_creation/read.
 SYSTEM_PROMPT = ("You are the Orion ticket triager. Classify each ticket as "
                  "bug/billing/feature/howto. Then rate urgency 1-5. "
-                 "Reply as: LABEL,URGENCY. Nothing else. ") * 40  # ~1500 tokens
+                 "Reply as: LABEL,URGENCY. Nothing else. ") * 80
 
 TICKETS = ["Login broken", "Export CSV please", "Refund my Aug charge",
            "Feature: dark mode", "API 500 error", "Password reset", "Slow load",
-           "Trial ended", "Missing data", "SSO broken"] * 10  # 100 tickets
+           "Trial ended", "Missing data", "SSO broken"] * 2  # 20 tickets by default; scale up in the exercise
 
 
 def call_haiku_cached(ticket):
