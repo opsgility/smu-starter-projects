@@ -28,12 +28,15 @@ Feature Request, or Other, and suggest one specific next step.
 {ticket_text}"""
 
 
+# Realistic-fragile regex: accepts "Category:" / "Classification:" / "Class:" —
+# matches Claude's common phrasings for zero-shot classification but still
+# misses conversational replies like "This is a technical issue."
 CATEGORY_REGEX = re.compile(
-    r"Category\s*:\s*([A-Za-z ]+?)(?:[\.\n]|$)",
+    r"(?:Category|Classification|Class)\s*[:\-]\s*\*{0,2}([A-Za-z ]+?)\*{0,2}(?:[\.\n\r]|$)",
     re.IGNORECASE,
 )
 NEXT_STEP_REGEX = re.compile(
-    r"Next\s*Step\s*:\s*(.+?)(?:\n|$)",
+    r"(?:Next\s*Step|Suggested\s*Next\s*Step|Recommendation|Action)\s*[:\-]\s*\*{0,2}(.+?)\*{0,2}(?:\n|$)",
     re.IGNORECASE,
 )
 
