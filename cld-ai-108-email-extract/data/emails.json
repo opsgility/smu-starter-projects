@@ -1,0 +1,7 @@
+[
+  {"id":"E1","text":"From: priya@acme.example.com\nSubject: URGENT: dashboard down\n\nOur main dashboard has been down for 20 minutes. Need response ASAP. Called earlier, no answer."},
+  {"id":"E2","text":"From: sam@widget.example.com\nSubject: Renewal\n\nJust confirming our annual renewal will process Oct 1. Please send updated invoice by Sept 28."},
+  {"id":"E3","text":"From: marcus@beta.example.com\nSubject: Feature request\n\nWould love row-level permissions on shared reports. Not urgent — Q1 timing fine."},
+  {"id":"E4","text":"From: nia@quantum.example.com\nSubject: Cancellation\n\nCancelling our Pro plan effective end of cycle. Would consider staying if Fabric integration ships."},
+  {"id":"E5","text":"From: legal@orion.example.com\nSubject: SOC 2 request\n\nCustomer 'orbit-metrics' requested our current SOC 2 report. Their auditor needs it by Fri."}
+]
