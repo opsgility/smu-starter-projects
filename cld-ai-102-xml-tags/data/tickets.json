@@ -1,0 +1,52 @@
+[
+  {
+    "id": "T-1001",
+    "text": "My dashboard has been stuck on the loading spinner for the last 40 minutes. Refreshing doesn't help. Can someone check what's going on with the ingest pipeline?",
+    "expected_category": "Technical"
+  },
+  {
+    "id": "T-1002",
+    "text": "I was charged twice for the September Pro seat renewal — see attached statement. Please issue a refund for the duplicate charge.",
+    "expected_category": "Billing"
+  },
+  {
+    "id": "T-1003",
+    "text": "It would be really useful if the report export dropdown remembered the last format we chose. Right now it defaults back to CSV every time and my analysts keep re-picking Parquet.",
+    "expected_category": "Feature Request"
+  },
+  {
+    "id": "T-1004",
+    "text": "We're seeing intermittent 502 errors when hitting the /v2/analytics endpoint from our own client library. Roughly 1 in 20 requests. Started around 10:15 EST today.",
+    "expected_category": "Technical"
+  },
+  {
+    "id": "T-1005",
+    "text": "How do I add three more users to my team account this quarter? The Add Member button in Admin says my seat count is at the plan limit.",
+    "expected_category": "Billing"
+  },
+  {
+    "id": "T-1006",
+    "text": "Would there be any way to add row-level permissions on the shared reports? Our compliance team wants to make sure the Finance segment analysts don't see rows tagged HR.",
+    "expected_category": "Feature Request"
+  },
+  {
+    "id": "T-1007",
+    "text": "Just checking in — we haven't heard back on the enterprise SSO integration question from last week. Any update?",
+    "expected_category": "Other"
+  },
+  {
+    "id": "T-1008",
+    "text": "The scheduled email digest has been going out at 4am UTC instead of the 8am UTC I configured. This started this Monday. Cron job seems wrong.",
+    "expected_category": "Technical"
+  },
+  {
+    "id": "T-1009",
+    "text": "Cancelling my subscription effective end of billing cycle. Please confirm receipt and refund any pro-rated amount if applicable.",
+    "expected_category": "Billing"
+  },
+  {
+    "id": "T-1010",
+    "text": "Can the Slack notification channel be renamed on the fly? Right now once you set the channel name in the integration you have to recreate the whole integration to change it.",
+    "expected_category": "Feature Request"
+  }
+]
