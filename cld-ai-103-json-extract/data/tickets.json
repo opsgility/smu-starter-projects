@@ -1,0 +1,17 @@
+[
+  {"id": "E-5001", "text": "acme-corp saw 502s on /v2/analytics starting 10:15 EST. Need $200 credit."},
+  {"id": "E-5002", "text": "widget-inc requested refund on double charge from Sept 3. Suspended account."},
+  {"id": "E-5003", "text": "beta-labs — dashboard slow for 2 days. Also login page loads over http on some laptops."},
+  {"id": "E-5004", "text": "quantum-data cancelled last month, asking how to reactivate. Wants a demo of new Vision features."},
+  {"id": "E-5005", "text": "orbit-metrics: scheduled report going out at 4am UTC instead of 8am. Please investigate ASAP."},
+  {"id": "E-5006", "text": "acme-corp again — SSO login broken after this morning's deploy. Blocking 30 users."},
+  {"id": "E-5007", "text": "Feature request from beta-labs: row-level permissions for the Compliance workspace."},
+  {"id": "E-5008", "text": "widget-inc: still no refund confirmation from the Sept 3 duplicate charge. Escalating."},
+  {"id": "E-5009", "text": "orbit-metrics needs invoice for October, and asked about auto-billing on the 1st."},
+  {"id": "E-5010", "text": "acme-corp: thanks for the quick fix on the 502s. Team's back on track."},
+  {"id": "E-5011", "text": "beta-labs cancelling. Says pricing tier doesn't fit — wants annual discount on Pro."},
+  {"id": "E-5012", "text": "quantum-data: PII appeared in one of our exports that shouldn't have. GDPR concern."},
+  {"id": "E-5013", "text": "orbit-metrics: 429 rate limits on /v2/analytics pushing us into overage. Fix or refund."},
+  {"id": "E-5014", "text": "widget-inc asked about product roadmap for Q1 2027 during renewal call."},
+  {"id": "E-5015", "text": "acme-corp requesting SOC 2 audit letter for their compliance team."}
+]
