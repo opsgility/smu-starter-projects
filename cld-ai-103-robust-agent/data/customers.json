@@ -1,0 +1,5 @@
+{
+  "acme-corp":  {"tier": "Enterprise", "status": "active"},
+  "widget-inc": {"tier": "Starter",    "status": "suspended"},
+  "beta-labs":  {"tier": "Pro",        "status": "active"}
+}
