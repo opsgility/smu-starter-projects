@@ -1,0 +1,14 @@
+[
+  {"id":"sla-1","text":"Severity-1 outage SLA: 15-minute response, 4-hour resolution. Escalation manager paged at 2-hour mark."},
+  {"id":"sla-2","text":"Severity-2 SLA: 1-hour response, 24-hour resolution."},
+  {"id":"refund-1","text":"Refund policy: full refund within 30 days of subscription. Prorated after 30 days."},
+  {"id":"refund-2","text":"Goodwill credits up to $200 per incident for platform-caused outages."},
+  {"id":"api-1","text":"POST /v2/analytics: JSON body with query and filters. Rate limit 60 req/sec."},
+  {"id":"api-2","text":"GET /v2/customers/{id}: returns tier, status, CSM. 404 for unknown ID."},
+  {"id":"api-3","text":"Auth: Bearer token via Authorization header. Tokens expire after 24 hours."},
+  {"id":"compliance-1","text":"PII data residency: EU customers in eu-west-1, US customers in us-east-1."},
+  {"id":"compliance-2","text":"SOC 2 Type 2 report available on request via compliance portal."},
+  {"id":"error-1","text":"Error code MK-5501 indicates malformed query parameters. Check the request body for typos."},
+  {"id":"error-2","text":"Error code MK-5502 indicates a rate limit exceeded. Back off and retry with jitter."},
+  {"id":"error-3","text":"Error code MK-5503 indicates an invalid customer_id. Verify the id exists via GET /v2/customers/{id}."}
+]

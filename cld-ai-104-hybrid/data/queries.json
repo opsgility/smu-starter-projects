@@ -1,0 +1,12 @@
+[
+  {"q":"money back","expected":"refund-1","type":"synonym"},
+  {"q":"credit for outage","expected":"refund-2","type":"synonym"},
+  {"q":"MK-5501 error","expected":"error-1","type":"exact_code"},
+  {"q":"what does MK-5502 mean","expected":"error-2","type":"exact_code"},
+  {"q":"MK-5503","expected":"error-3","type":"exact_code"},
+  {"q":"how urgent for major incidents","expected":"sla-1","type":"synonym"},
+  {"q":"European data residency","expected":"compliance-1","type":"synonym"},
+  {"q":"POST /v2/analytics rate limit","expected":"api-1","type":"exact_term"},
+  {"q":"authentication header","expected":"api-3","type":"exact_term"},
+  {"q":"where is SOC 2 report","expected":"compliance-2","type":"exact_term"}
+]
