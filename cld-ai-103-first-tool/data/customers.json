@@ -1,0 +1,6 @@
+{
+  "acme-corp":     {"tier": "Enterprise", "open_incidents": 0, "status": "active",     "next_renewal": "2027-03-15"},
+  "widget-inc":    {"tier": "Starter",    "open_incidents": 0, "status": "suspended",  "next_renewal": null},
+  "beta-labs":     {"tier": "Pro",        "open_incidents": 3, "status": "active",     "next_renewal": "2026-11-02"},
+  "quantum-data":  {"tier": "Pro",        "open_incidents": 0, "status": "cancelled",  "next_renewal": null}
+}
