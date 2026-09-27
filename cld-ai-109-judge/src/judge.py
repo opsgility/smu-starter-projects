@@ -25,7 +25,7 @@ QUESTION = "My dashboard has been down for 40 minutes. What can you do?"
 
 def judge(client, model, answer: str, criterion: str) -> dict:
     prompt = f"Question: {QUESTION}\n\nAnswer:\n{answer}\n\nCriterion: {criterion}\n\nDoes the answer satisfy the criterion?"
-    resp = client.messages.create(model=model, max_tokens=400, temperature=0,
+    resp = client.messages.create(model=model, max_tokens=400,
         tools=[SCHEMA], tool_choice={"type":"tool","name":"submit_verdict"},
         messages=[{"role":"user","content": prompt}])
     return dict(next(b.input for b in resp.content if b.type == "tool_use"))

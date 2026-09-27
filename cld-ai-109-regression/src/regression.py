@@ -18,7 +18,7 @@ PROMPT_B = "You are Orion's assistant."  # deliberately less specific
 def run(client, model, prompt, bank):
     passed = 0; results = {}
     for c in bank:
-        r = client.messages.create(model=model, max_tokens=300, temperature=0,
+        r = client.messages.create(model=model, max_tokens=300,
             system=prompt, messages=[{"role":"user","content":c["input"]}])
         text = next((b.text for b in r.content if b.type == "text"), "")
         ok = all(s.lower() in text.lower() for s in c.get("must_contain", []))

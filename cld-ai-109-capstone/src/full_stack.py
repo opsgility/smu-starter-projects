@@ -19,7 +19,7 @@ def run(client, model):
     for c in BANK:
         trace_id = str(uuid.uuid4())[:8]
         t0 = time.perf_counter()
-        r = client.messages.create(model=model, max_tokens=300, temperature=0,
+        r = client.messages.create(model=model, max_tokens=300,
             system="Orion support assistant.",
             messages=[{"role":"user","content":c["input"]}])
         latency_ms = int((time.perf_counter() - t0) * 1000)
