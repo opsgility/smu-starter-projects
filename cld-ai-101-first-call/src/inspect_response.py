@@ -21,7 +21,10 @@ def main() -> None:
 
     response = client.messages.create(
         model=model,
-        max_tokens=200,
+        # 500 gives headroom for a 3-sentence answer AND for adaptive-thinking
+        # models (Opus 5.5 always, Fable 5.1 sometimes) — thinking tokens
+        # count against max_tokens too, so 200 would truncate Opus 5.5 mid-reply.
+        max_tokens=500,
         messages=[
             {
                 "role": "user",
