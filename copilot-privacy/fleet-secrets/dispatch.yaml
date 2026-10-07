@@ -1,0 +1,9 @@
+# FleetBoard dispatch broker credentials — INTENTIONALLY SENSITIVE FOR CONTENT-EXCLUSION TRAINING
+# This file demonstrates the kind of secret-sensitive artefact Michael excludes from Copilot.
+# Not a real credential; replace before deploying.
+broker_api_url: https://dispatch.fleetboard.internal.example/v1
+broker_token: fb-dsp-REPLACE-ME-WITH-ROTATING-TOKEN
+broker_region: us-west-2
+retry_policy:
+  max_attempts: 5
+  backoff_ms: 500
