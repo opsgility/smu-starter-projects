@@ -1,8 +1,11 @@
 {
   "name": "triggers-demo",
   "version": "1.0.0",
-  "description": "Starter project for GH-200 Workflow Triggers and Events exercise.",
+  "description": "Starter project for GH-200 Workflow Foundations exercises. Minimal Node service with lint/test/build scripts the Actions workflows can hook into.",
+  "main": "src/app.js",
   "scripts": {
-    "test": "echo 'Tests pass'"
+    "lint": "echo 'Lint OK (placeholder — replace with eslint when a .eslintrc is added)'",
+    "test": "echo 'Tests pass'",
+    "build": "echo 'Build complete (placeholder — replace with real bundler when one is added)'"
   }
 }
