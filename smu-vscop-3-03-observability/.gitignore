@@ -1,0 +1,24 @@
+# Build output
+bin/
+obj/
+out/
+
+# Visual Studio / Rider
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+# Logs + test results
+*.log
+TestResults/
+
+# Secrets
+.env
+.env.*
+appsettings.Local.json
+
+# OS cruft
+.DS_Store
+Thumbs.db
