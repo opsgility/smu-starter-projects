@@ -22,15 +22,29 @@ grounded in these team conventions.
 - Error responses must flow through `IProblemDetailsService`. Never write a
   `return Results.BadRequest("string")`.
 
-## Logging + observability (introduced in Lesson 6)
+## Logging + observability (Lesson 6)
 
-- Every endpoint opens an `ILogger<T>` scope keyed on business ids:
-  `productId`, `correlationId`, and `operation`.
-- Correlation id comes from the `X-Correlation-Id` header (middleware mints a
-  GUID when the header is absent) and is echoed on every response.
-- Rate limiting uses `System.Threading.RateLimiting`. Global policy is a fixed
-  window; per-endpoint write policies are sliding window partitioned on the
-  authenticated user id.
+- Logging flows through Serilog (`UseSerilog` wired in `Program.cs`); the console
+  sink is enough for the lab VM. Course 7 adds the OTel + Application Insights
+  sink.
+- Every endpoint opens an `ILogger<Program>` scope keyed on business ids via a
+  `Dictionary<string, object>` payload. The two canonical keys are:
+  - **`ProductId`** — the aggregate id for the request (never `productId`,
+    `Productid`, or `product_id` — the key is PascalCase).
+  - **`MerchantId`** — the authenticated user's `merchant_id` claim; falls back
+    to `"anonymous"` when the claim is absent.
+- Correlation id comes from the `X-Correlation-Id` header. The pre-staged
+  `CorrelationIdMiddleware` mints a GUID when the header is absent, pushes the
+  value onto `HttpContext.Items["HalcyonCorrelationId"]` and the `ILogger`
+  scope, and echoes it on the response via `Response.OnStarting`.
+- Rate limiting (Exercise 3) uses `System.Threading.RateLimiting`. Global policy
+  is a fixed-window partitioned by remote IP; per-endpoint write policy is a
+  sliding-window partitioned by `httpContext.User.Identity?.Name ?? "anonymous"`,
+  attached to the Products POST with `.RequireRateLimiting("writes-per-user")`.
+  `UseRateLimiter()` MUST follow `UseRouting()` — Microsoft Learn flags this
+  as the single most-common misconfiguration.
+- Load tests (Exercise 5) use NBomber. Scenarios assert the global policy and
+  the per-endpoint policy both hold under burst.
 
 ## Narrative
 

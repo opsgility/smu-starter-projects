@@ -1,13 +1,22 @@
 using Asp.Versioning;
 using FluentValidation;
 using Halcyon.Adventure.Api.Infrastructure;
+using Halcyon.Adventure.Api.Middleware;
 using Halcyon.Adventure.Api.Products;
 using Halcyon.Adventure.Api.Products.Comparison;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Serilog is the Halcyon house logger. The console sink is enough for the lab
+// VM — Course 7 wires the OpenTelemetry sink to Application Insights.
+builder.Host.UseSerilog((context, services, configuration) => configuration
+    .ReadFrom.Configuration(context.Configuration)
+    .ReadFrom.Services(services)
+    .Enrich.FromLogContext()
+    .WriteTo.Console(outputTemplate:
+        "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}"));
 
 // OpenAPI 3.1 (default in .NET 10).
 builder.Services.AddOpenApi();
@@ -54,6 +63,13 @@ if (app.Environment.IsDevelopment())
 app.UseExceptionHandler();
 app.UseStatusCodePages();
 app.UseHttpsRedirection();
+
+// Correlation id runs outermost so every downstream handler + log line + response
+// body carries the id. Lesson 6 Exercise 2 reviews the pre-staged middleware
+// with Copilot Agent mode. Lesson 6 Exercise 3 chains .RequireRateLimiting() on
+// the versioned endpoint groups below; UseRateLimiter() must follow UseRouting
+// — the student adds the two UseRouting/UseRateLimiter lines there.
+app.UseCorrelationId();
 
 var versions = app.NewApiVersionSet()
     .HasApiVersion(new ApiVersion(1, 0))
