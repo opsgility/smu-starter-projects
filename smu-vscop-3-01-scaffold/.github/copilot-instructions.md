@@ -10,19 +10,19 @@ GitHub Copilot reads this file on every chat turn in this repository. Keep every
 
 ## Architecture rules
 
-1. **Thin controllers.** A controller action never contains business logic — only parameter binding, a single service call, and the response shape. If an action grows past ten lines, that is a signal to extract a service.
-2. **Service layer handles the work.** Inject an `IProductService` (or equivalent per aggregate) into controllers. Services own the EF Core calls, business rules, mapping, and error outcomes.
+1. **Thin endpoint handlers.** A minimal-API handler (or controller action, when earned) never contains business logic — only parameter binding, a single service call, and the response shape. If a handler grows past ten lines, that is a signal to extract a service.
+2. **Service layer handles the work.** Inject an `IProductService` (or equivalent per aggregate) into endpoint handlers. Services own the EF Core calls, business rules, mapping, and error outcomes.
 3. **Async end-to-end.** Every I/O-touching method is `async Task<T>` with `CancellationToken` plumbed through from the controller signature down to `DbContext` calls. Never `.Result`, `.Wait()`, `.GetAwaiter().GetResult()`, or sync EF Core methods.
-4. **`TypedResults` returns.** Controllers and minimal-API endpoints return `Results<Ok<T>, NotFound, ProblemHttpResult>` (or similar discriminated unions) so OpenAPI 3.1 can describe the shape without `[ProducesResponseType]` annotations. Never return the untyped `IResult` from `Results.Ok(...)`.
-5. **Minimal APIs by default; controllers when earned.** Reach for minimal APIs unless the endpoint set needs model binding attributes, filters, or OpenAPI operation metadata that controllers express more cleanly. Lesson 1 walks the decision table.
+4. **`TypedResults` returns.** Minimal-API handlers (and controllers, when used) return `Results<Ok<T>, NotFound, ProblemHttpResult>` (or similar discriminated unions) so OpenAPI 3.1 can describe the shape without `[ProducesResponseType]` annotations. Never return the untyped `IResult` from `Results.Ok(...)`.
+5. **Minimal APIs by default.** Every endpoint in this course is a minimal-API handler organised into a `MapProducts(this IEndpointRouteBuilder app)` extension method. Controllers are allowed only when the endpoint set needs model binding attributes, filters, or OpenAPI operation metadata that controllers express more cleanly — none of the Course 3 endpoints hit that bar.
 6. **Problem-details for every error.** 4xx and 5xx responses use RFC 7807 problem-details via `TypedResults.Problem(...)` or `IProblemDetailsService`. Never return a bare `string` error body.
 
 ## Code style
 
 - **Nullable reference types on.** Non-nullable by default; use `?` deliberately.
 - **File-scoped namespaces, top-level statements for `Program.cs`.** No `Startup.cs` — everything in `Program.cs`.
-- **Primary constructors on services and controllers** (`public class ProductService(AdventureWorksContext db, ILogger<ProductService> logger) : IProductService`).
-- **`sealed`** on service and controller classes unless a derivation is explicitly needed.
+- **Primary constructors on services** (`public sealed class ProductService(AdventureWorksContext db, ILogger<ProductService> logger) : IProductService`). Minimal-API handlers receive dependencies through the handler-delegate parameter list, not through a constructor.
+- **`sealed`** on service classes unless a derivation is explicitly needed.
 - **Records for DTOs** (`public sealed record ProductResponse(int ProductId, string Name, ...)`). Classes for aggregates with behaviour.
 - **No `AutoMapper`.** Hand-rolled mapping methods (`static ProductResponse ToResponse(Product p) => new(p.ProductID, p.Name, ...)`). Marcus's team found the convention-magic bugs more expensive than the mapping lines.
 - **Naming:** `PascalCase` types, `camelCase` locals, `_camelCase` private fields, async methods end in `Async`.
@@ -44,7 +44,7 @@ GitHub Copilot reads this file on every chat turn in this repository. Keep every
 
 ## Testing
 
-- **xUnit** with `Microsoft.AspNetCore.Mvc.Testing`. One test class per controller or endpoint group.
+- **xUnit** with `Microsoft.AspNetCore.Mvc.Testing`. One test class per endpoint group (`ProductsEndpointsTests`, `OrdersEndpointsTests`).
 - **Arrange-Act-Assert** with blank lines separating the three. No helper methods that hide the Arrange step.
 - Tests use `WebApplicationFactory<Program>` and a scoped in-memory `AdventureWorksContext` where feasible; the Lesson 4 validation lab adds the first test suite.
 
@@ -52,11 +52,11 @@ GitHub Copilot reads this file on every chat turn in this repository. Keep every
 
 - **Feature branches off `main`, squash-merge via GitHub UI.** Delete the branch after merge.
 - **Copilot-generated PR title + description** via the Visual Studio 2026 Git Changes window — Lesson 2 exercise 5 walks the flow.
-- **Every PR passes the Git-agent review** before the reviewer is tagged.
+- **Every PR passes the Git-agent review (`@git`)** before the reviewer is tagged.
 
 ## Things to flag back instead of writing
 
-- A controller action with inline SQL or raw ADO.NET — route through EF Core + the service layer.
+- A minimal-API handler (or controller action) with inline SQL or raw ADO.NET — route through EF Core + the service layer.
 - A physical `DELETE` on `Production.Product` or any other acquired-system table — soft-delete is the rule.
 - Hard-coded connection strings — read from `IConfiguration` keyed on `"ConnectionStrings:AdventureWorks"`.
 - `Results.Ok(x)` without a `TypedResults` wrapper — rewrite as `TypedResults.Ok(x)` so the OpenAPI shape stays accurate.

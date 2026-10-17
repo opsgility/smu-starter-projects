@@ -32,7 +32,7 @@ VS 2026 opens the solution automatically on lab launch; the student does not run
 
 1. Open `HalcyonAdventureApi.sln` in Visual Studio 2026.
 2. Press F5 to launch `Halcyon.Adventure.Api` under IIS Express; the browser opens on `https://localhost:7229`.
-3. The default route returns `404` — the first exercise adds the Products controller skeleton.
+3. The default route returns `404` — the first exercise adds the first Products endpoint via Copilot ghost text.
 
 ## Authentication
 
