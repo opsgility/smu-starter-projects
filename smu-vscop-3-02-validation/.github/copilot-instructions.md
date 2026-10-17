@@ -4,49 +4,57 @@ Halcyon Insurance acquired Adventure Works Cycles last quarter. The modernizatio
 
 Follow these conventions when Copilot proposes code in this repo.
 
+## Solution layout
+
+- `src/Halcyon.Adventure.Api` — ASP.NET Core 10 minimal-API host.
+- `src/Halcyon.Adventure.Shared` — contract records (request / response DTOs). Both the API and any future client project reference these.
+- `tests/Halcyon.Adventure.Api.Tests` — xUnit integration tests driven by `WebApplicationFactory<Program>`.
+
+Keep request / response records in `Halcyon.Adventure.Shared`. Infrastructure (middleware, repositories, EF entities) stays in `Halcyon.Adventure.Api`. Never duplicate a record across the two projects.
+
 ## Framework and surface
 
 - Target framework is **.NET 10**. Do not propose .NET 8 or .NET 9 patterns.
-- API surface is **ASP.NET Core minimal APIs**. Controllers are reserved for the two edge cases Marcus signed off on (SignalR hubs; a legacy webhook adapter). Do not introduce new controllers without a Christopher-level approval.
-- Every endpoint returns `TypedResults.*` wrapped in `Results<T1, T2, ...>` where more than one status code is possible. Do not use `Results.*` — the OpenAPI document relies on `TypedResults` for the response shape.
-- OpenAPI document shape is **OpenAPI 3.1**. It is served from `/openapi/v1.yaml` and `/openapi/v1.json`. Do not re-introduce Swashbuckle; the project uses the built-in `Microsoft.AspNetCore.OpenApi` package.
-
-## Versioning
-
-- URL + header versioning via `Asp.Versioning.Http`. Routes live under `/api/v{apiVersion:apiVersion}` and `Api-Version: 1.0` is accepted as a header alternative.
-- Default version is `1.0`. Unversioned requests fall through to `v1`.
-- When Copilot proposes a new endpoint, place it inside the versioned `MapGroup` and call `.HasApiVersion(new ApiVersion(major, minor))` on the sub-group.
+- API surface is **ASP.NET Core minimal APIs**. Controllers are reserved for the two edge cases Marcus signed off on (SignalR hubs; a legacy webhook adapter).
+- Every endpoint returns `TypedResults.*` wrapped in `Results<T1, T2, ...>` where more than one status code is possible. Do not use `Results.*` — the OpenAPI 3.1 document relies on `TypedResults` for the response shape.
+- OpenAPI document shape is **OpenAPI 3.1**, served from `/openapi/v1.yaml` and `/openapi/v1.json` via `Microsoft.AspNetCore.OpenApi`. Do not re-introduce Swashbuckle.
 
 ## Data access
 
-- `AdventureWorksContext` is a narrow DbContext that only projects the slice of `AdventureWorks.Production` that this API serves. Do not add `DbSet<T>` entries for unrelated schemas; EF Core 10 scaffolding for the broader schema lives in Course 4's `Halcyon.Adventure.Data` project.
-- Reads use `.AsNoTracking()`. Writes go through the tracked path.
-- SQL Server 2025 Developer Edition is baked into VM type 11; the local connection string is in `appsettings.json`.
+- The starter uses an in-memory `IProductRepository` for lab scope. Course 4 swaps the repository for an EF Core 10 scaffold against `AdventureWorks.Production.Product`.
+- Keep the repository interface narrow — `GetAll / Get / Add / Update / Delete` only.
 
 ## Request / response records
 
-- Request payloads are `record` types in `Products/`. Use records (not classes) for request + response DTOs so .NET 10 minimal-API validation (added in Lesson 4) picks them up automatically.
-- Keep DTO records separate from EF entities. Never return `Product` directly; always project to `ProductDto`.
-- Do not add validation attributes yet. The next pull request (Lesson 4) wires `AddValidation()` + DataAnnotations + an `IValidatableObject` cross-field rule + a custom `IProblemDetailsService`. Copilot should flag the absence of validation as a known follow-up rather than adding it ad-hoc.
+- Payloads live in `src/Halcyon.Adventure.Shared/Products/`. Use `record` types so .NET 10 minimal-API validation (added in Exercise 2) picks them up automatically.
+- Keep DTO records separate from the EF-ready `Product` entity in the Api project. Never return `Product` directly; always project to `ProductDto`.
+- Validation attributes are deliberately absent in the starter. Exercise 2 wires `AddValidation()` + DataAnnotations, Exercise 3 lands the `IValidatableObject` margin rule.
 
-## Error responses (follow-up)
+## Error responses
 
-- Today the API returns `400 Bad Request` with no body on bind failures. Christopher flagged this at the Lesson 2 PR review — the next change wires RFC 7807 problem-details with a Halcyon correlation / trace id in every error response.
-- When Copilot sees `return Results.BadRequest(...)` in a proposal, prefer suggesting `TypedResults.ValidationProblem(...)` instead.
+- The starter calls `builder.Services.AddProblemDetails()` with no customization. Exercise 4 replaces that with the delegate overload that threads `halcyonTraceId` (from `CorrelationIdMiddleware`) onto every problem-details body.
+- When Copilot sees `return Results.BadRequest(...)` in a proposal, prefer suggesting `TypedResults.ValidationProblem(...)` instead so the response routes through `IProblemDetailsService`.
+
+## Correlation + middleware
+
+- `CorrelationIdMiddleware` is already present at `src/Halcyon.Adventure.Api/Middleware/CorrelationIdMiddleware.cs`. It reads `X-Correlation-Id`, mints a GUID if the header is absent, stores it in `HttpContext.Items["HalcyonCorrelationId"]`, pushes it onto the `ILogger` scope, and echoes it on the response via `Response.OnStarting`.
+- The middleware is wired first in the pipeline (`app.UseMiddleware<CorrelationIdMiddleware>()` before any endpoint map). Do not move it later.
 
 ## Testing
 
-- xUnit is the house test framework. Tests live under a sibling `tests/Halcyon.Adventure.Api.Tests` project that lands in Lesson 4 — do not scaffold a separate test framework (NUnit, MSTest) when asked for tests.
+- xUnit is the house framework. Integration tests use `WebApplicationFactory<Program>` and the baseline suite in `tests/Halcyon.Adventure.Api.Tests/Products/ProductsEndpointsTests.cs`.
+- One test class per endpoint group — `ProductsEndpointsTests`, `BatchImportValidationTests` (added in Exercise 5), `ProblemDetailsTraceIdTests` (added in Exercise 4).
+- Reuse the existing fixture via `IClassFixture<WebApplicationFactory<Program>>`. Do not spin up a second host.
 
 ## Naming
 
-- Namespaces mirror the folder path under `Halcyon.Adventure.Api`.
-- Minimal-API modules are `public static class <Area>Api` with a `Map<Area>Api` extension method on `RouteGroupBuilder`.
-- Endpoint names use `WithName("<VerbNoun>")` — `ListProducts`, `GetProduct`, `CreateProduct`, `UpdateProduct`, `DeleteProduct`.
+- Namespaces mirror the folder path (`Halcyon.Adventure.Api.Products`, `Halcyon.Adventure.Shared.Products`).
+- Minimal-API modules are `public static class <Area>Endpoints` with a `Map<Area>Endpoints` extension method on `IEndpointRouteBuilder`.
+- Endpoint names use `WithName("<VerbNoun>")` — `ListProducts`, `GetProduct`, `CreateProduct`, `UpdateProduct`, `DeleteProduct`, `BatchImportProducts`.
 
 ## What NOT to propose
 
 - No AutoMapper. Hand-written `ToDto(...)` is the house style.
 - No MediatR. The team evaluated it in Q3 and rejected the dependency.
-- No in-memory `List<T>` fakes outside tests. The API talks to SQL Server.
 - No `async void`.
+- No validation attributes on the batch-import record — Exercise 5 switches the batch-import endpoint to FluentValidation specifically because its rules (duplicate-SKU detection, batch-size limits) fit chaining better than attributes.
