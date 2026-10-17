@@ -1,0 +1,11 @@
+# scratch/
+
+Per-exercise scratch artifacts that are useful during the lab but don't need to live beyond the student's PR. The exercises write:
+
+- `lesson2-review-findings.md` (Lesson 2 Exercise 4) — Copilot Ask-mode review of the scaffolded DbContext
+- `lesson4-slow-report-sql.log` (Lesson 4 Exercise 2) — the 11-SELECT N+1 trace
+- `lesson4-fast-report-sql.log` (Lesson 4 Exercise 4) — the 3-SELECT fixed trace
+- `lesson4-benchmark-report.md` (Lesson 4 Exercise 5) — the BenchmarkDotNet markdown table
+- `lesson4-pr-body.md` + `lesson6-pr-body.md` — the Copilot-drafted PR descriptions
+
+The folder is .gitignored by default; students who want to commit scratch artifacts have to `git add -f`.
