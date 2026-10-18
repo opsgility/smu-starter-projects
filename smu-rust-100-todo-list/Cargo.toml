@@ -1,0 +1,9 @@
+[package]
+name = "todo_list"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+# Capstone of SMU-RUST-100 — pure std library, no external crates.
+# Students write every piece themselves.
