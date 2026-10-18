@@ -1,0 +1,14 @@
+# Cargo build output
+target/
+Cargo.lock
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Secrets (none for this starter, but keep the pattern)
+.env
+.env.local
