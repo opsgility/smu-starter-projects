@@ -1,0 +1,13 @@
+/target
+Cargo.lock
+# Editor noise
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Re-include src/bin — the root-level .gitignore ignores `bin/` globally for
+# .NET starters' bin/ output directories. Rust uses src/bin/ for additional
+# binary entry points, so we need to override here.
+!src/bin/
+!src/bin/*.rs
