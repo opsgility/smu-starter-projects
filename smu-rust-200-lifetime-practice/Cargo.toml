@@ -1,0 +1,8 @@
+[package]
+name = "lifetime_practice"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "lifetime_practice"
+path = "src/main.rs"
