@@ -1,0 +1,14 @@
+[package]
+name = "borrow_checker_drills"
+version = "0.1.0"
+edition = "2024"
+
+# This starter ships 12 intentionally-broken small programs. Each one lives in
+# src/bin/drillNN.rs so you can run it standalone with `cargo run --bin drillNN`.
+#
+# Your job across the exercises: run each drill, read the compiler error, apply
+# the smallest fix that makes it compile, and verify it prints "drill NN passed".
+#
+# No external dependencies — every drill uses only std.
+
+[dependencies]
