@@ -1,0 +1,10 @@
+# Rust build output
+/target
+Cargo.lock
+
+# Editor noise
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
