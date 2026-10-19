@@ -1,0 +1,12 @@
+[package]
+name = "guess_the_number"
+version = "0.1.0"
+edition = "2024"
+
+# Note on starter contents (for the course author):
+#   The `rand` crate is deliberately NOT declared here. Exercise 2 of the lab
+#   walks the student through `cargo add rand` — the first time they add an
+#   external crate from crates.io. If `rand` were already in [dependencies]
+#   the exercise would lose its teaching moment, so leave it out.
+
+[dependencies]
