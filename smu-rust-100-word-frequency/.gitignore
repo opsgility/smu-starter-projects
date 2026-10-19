@@ -1,0 +1,13 @@
+# Rust build output
+target/
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Local env overrides (none expected for this lab, but future-proof)
+.env
+.env.local
