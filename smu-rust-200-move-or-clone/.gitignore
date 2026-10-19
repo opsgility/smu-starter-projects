@@ -1,0 +1,9 @@
+# Repo root .gitignore has `bin/` as a global rule (legacy .NET rule). Rust's
+# standard multi-binary layout is `src/bin/<name>.rs` — override here so git
+# tracks every case binary.
+!src/bin/
+!src/bin/*.rs
+
+# Standard Rust ignores
+/target
+Cargo.lock

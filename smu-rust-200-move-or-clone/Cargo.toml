@@ -1,0 +1,13 @@
+[package]
+name = "move_or_clone"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "main"
+path = "src/main.rs"
+
+# Six broken cases — each src/bin/case0N.rs is a tiny program that fails
+# to compile because of a wrong move / clone / Copy / borrow choice.
+# Student runs each with `cargo run --bin case0N`, reads the compiler
+# error, applies the right fix, then re-runs to see `caseNN passed`.
