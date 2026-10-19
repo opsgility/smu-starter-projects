@@ -1,0 +1,7 @@
+# Root repo `.gitignore` has `bin/` as a global rule (legacy .NET starters).
+# Override here so Rust's standard multi-binary layout under src/bin/ is tracked.
+!src/bin/
+!src/bin/*.rs
+
+/target
+Cargo.lock

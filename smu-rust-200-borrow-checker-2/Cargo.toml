@@ -1,0 +1,52 @@
+[package]
+name = "borrow_checker_2"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "drill01"
+path = "src/bin/drill01.rs"
+
+[[bin]]
+name = "drill02"
+path = "src/bin/drill02.rs"
+
+[[bin]]
+name = "drill03"
+path = "src/bin/drill03.rs"
+
+[[bin]]
+name = "drill04"
+path = "src/bin/drill04.rs"
+
+[[bin]]
+name = "drill05"
+path = "src/bin/drill05.rs"
+
+[[bin]]
+name = "drill06"
+path = "src/bin/drill06.rs"
+
+[[bin]]
+name = "drill07"
+path = "src/bin/drill07.rs"
+
+[[bin]]
+name = "drill08"
+path = "src/bin/drill08.rs"
+
+[[bin]]
+name = "drill09"
+path = "src/bin/drill09.rs"
+
+[[bin]]
+name = "drill10"
+path = "src/bin/drill10.rs"
+
+[[bin]]
+name = "drill11"
+path = "src/bin/drill11.rs"
+
+[[bin]]
+name = "drill12"
+path = "src/bin/drill12.rs"
