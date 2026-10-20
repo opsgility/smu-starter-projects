@@ -7,11 +7,11 @@
     <AssemblyName>anchorline-order-processor</AssemblyName>
     <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
     <ContainerRepository>anchorline-order-processor</ContainerRepository>
-    <ContainerBaseImage>mcr.microsoft.com/dotnet/nightly/runtime:10.0-noble-chiseled</ContainerBaseImage>
+    <ContainerBaseImage>mcr.microsoft.com/dotnet/runtime:10.0-noble-chiseled</ContainerBaseImage>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Azure.Identity" Version="1.13.2" />
-    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.18.2" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
+    <PackageReference Include="Azure.Identity" Version="1.*" />
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.*" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.*" />
   </ItemGroup>
 </Project>

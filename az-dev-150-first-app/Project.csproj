@@ -7,6 +7,6 @@
     <AssemblyName>anchorline-first-app</AssemblyName>
     <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
     <ContainerRepository>anchorline-first-app</ContainerRepository>
-    <ContainerBaseImage>mcr.microsoft.com/dotnet/nightly/aspnet:10.0-noble-chiseled</ContainerBaseImage>
+    <ContainerBaseImage>mcr.microsoft.com/dotnet/aspnet:10.0-noble-chiseled</ContainerBaseImage>
   </PropertyGroup>
 </Project>
