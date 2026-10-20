@@ -1,0 +1,6 @@
+language = "C"
+include_guard = "MYCALC_H"
+cpp_compat = true
+
+[export]
+item_types = ["functions"]

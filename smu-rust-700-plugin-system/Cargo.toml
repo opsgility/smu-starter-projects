@@ -1,0 +1,3 @@
+[workspace]
+members = ["host", "plugin-api", "hello-plugin", "plugin-macros"]
+resolver = "2"

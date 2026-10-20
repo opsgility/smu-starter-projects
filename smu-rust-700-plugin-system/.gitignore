@@ -1,0 +1,11 @@
+# Course 7 starter — Rust defaults with explicit src/bin override.
+target/
+Cargo.lock
+*.swp
+.idea/
+.vscode/
+
+# The repo-root .gitignore has a blanket "bin/" rule for legacy .NET starters.
+# Rust uses src/bin/ for named binary targets; whitelist it back here.
+!src/bin/
+!src/bin/*.rs

@@ -1,0 +1,4 @@
+[package]
+name = "smu-rust-700-raw-ptr-list"
+version = "0.1.0"
+edition = "2024"

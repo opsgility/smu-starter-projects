@@ -1,0 +1,7 @@
+[package]
+name = "smu-rust-700-call-c-lib"
+version = "0.1.0"
+edition = "2024"
+
+[build-dependencies]
+cc = "1"
