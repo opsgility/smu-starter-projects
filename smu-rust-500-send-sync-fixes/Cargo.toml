@@ -1,0 +1,28 @@
+[package]
+name = "rust-concurrent-send-sync-fixes"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "drill01"
+path = "src/bin/drill01.rs"
+
+[[bin]]
+name = "drill02"
+path = "src/bin/drill02.rs"
+
+[[bin]]
+name = "drill03"
+path = "src/bin/drill03.rs"
+
+[[bin]]
+name = "drill04"
+path = "src/bin/drill04.rs"
+
+[[bin]]
+name = "drill05"
+path = "src/bin/drill05.rs"
+
+[[bin]]
+name = "drill06"
+path = "src/bin/drill06.rs"

@@ -1,0 +1,7 @@
+/target
+Cargo.lock
+
+# Rust uses src/bin/ for secondary binaries; override the root-level
+# bin/ ignore so src/bin/*.rs is tracked.
+!src/bin/
+!src/bin/*.rs
