@@ -1,0 +1,11 @@
+[package]
+name = "smu-rust-600-tcp-echo"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "smu_rust_600_tcp_echo"
+path = "src/lib.rs"
+
+[dependencies]
+tokio = { version = "1.47", features = ["full"] }
