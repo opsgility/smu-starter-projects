@@ -1,0 +1,7 @@
+/target
+Cargo.lock
+
+# The six drills live in src/bin/*.rs. The repo root .gitignore ignores bin/
+# globally; we override here so the drill files are tracked.
+!src/bin/
+!src/bin/*.rs
