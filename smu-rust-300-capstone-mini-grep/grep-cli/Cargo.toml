@@ -1,15 +1,11 @@
 [package]
-name = "grep_cli"
+name = "grep-cli"
 version = "0.1.0"
 edition = "2024"
 publish = false
 
-[[bin]]
-name = "grep-cli"
-path = "src/main.rs"
-
 [dependencies]
-grep_core = { path = "../grep-core" }
+grep-core = { path = "../grep-core" }
 anyhow = { workspace = true }
 clap = { workspace = true }
 serde = { workspace = true }
