@@ -4,7 +4,8 @@ use tokio_stream::StreamExt;
 
 #[tokio::test]
 async fn yields_three_ticks() {
-    let mut t = Ticker::new(Duration::from_millis(50), 3);
+    let t = Ticker::new(Duration::from_millis(50), 3);
+    tokio::pin!(t);
     let mut received = vec![];
     while let Some(n) = t.next().await {
         received.push(n);
