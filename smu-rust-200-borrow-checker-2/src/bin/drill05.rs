@@ -1,5 +1,7 @@
-// EXPECTED ERROR: E0596 — cannot borrow `self.count` as mutable, as it is
-//                          behind a `&` reference
+// EXPECTED ERROR: E0594 — cannot assign to `self.count`, which is behind a
+//                          `&` reference. (Older Rust emitted E0596 for the
+//                          same shape — the help block names the fix either
+//                          way: `&mut self`.)
 // HINT: `increment(&self)` takes a shared reference but mutates. Fix is at
 //       the METHOD DEFINITION: change to `&mut self`. Then the binding in
 //       main must be `let mut counter = ...`.
