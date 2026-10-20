@@ -1,0 +1,13 @@
+[package]
+name = "smu-rust-600-custom-stream"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+tokio = { version = "1.47", features = ["full"] }
+tokio-stream = "0.1"
+futures-core = "0.3"
+pin-project-lite = "0.2"

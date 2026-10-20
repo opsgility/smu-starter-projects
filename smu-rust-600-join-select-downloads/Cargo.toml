@@ -1,0 +1,10 @@
+[package]
+name = "smu-rust-600-join-select-downloads"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+tokio = { version = "1.47", features = ["full"] }

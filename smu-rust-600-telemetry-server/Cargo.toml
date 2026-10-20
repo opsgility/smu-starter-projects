@@ -1,0 +1,12 @@
+[package]
+name = "smu-rust-600-telemetry-server"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "smu_rust_600_telemetry_server"
+path = "src/lib.rs"
+
+[dependencies]
+tokio = { version = "1.47", features = ["full"] }
+tokio-util = { version = "0.7", features = ["rt"] }

@@ -1,0 +1,6 @@
+/target
+Cargo.lock
+
+# Root .gitignore excludes bin/ globally; re-include src/bin for Rust binaries.
+!src/bin/
+!src/bin/*.rs
