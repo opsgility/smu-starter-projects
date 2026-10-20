@@ -1,0 +1,6 @@
+/target
+Cargo.lock
+
+# Re-include src/bin — root .gitignore ignores `bin/` globally.
+!src/bin/
+!src/bin/*.rs

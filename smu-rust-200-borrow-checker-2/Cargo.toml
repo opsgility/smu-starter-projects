@@ -1,0 +1,13 @@
+[package]
+name = "borrow_checker_2"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+# Twelve intentionally-broken drills under src/bin/drillNN.rs covering the
+# eight common borrow-checker error codes (E0382, E0505, E0502, E0499,
+# E0596, E0384, E0507, E0515/E0597). Each drill compiles to one error; your
+# job across Exercises 2-4 is to read the compiler output and apply the
+# minimal structural fix.
+
+[dependencies]

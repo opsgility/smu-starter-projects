@@ -1,0 +1,12 @@
+[package]
+name = "borrows_practice"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+# Five borrow-checker drills under src/bin/drillNN.rs. Four compile as
+# shipped; drill05 fails with E0502 on purpose so you can see iterator
+# invalidation first-hand. Exercise 2 breaks drill01 by hand to see the same
+# shape in a different setting.
+
+[dependencies]
