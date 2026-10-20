@@ -6,6 +6,7 @@
 // Exercise 5 (optional) tries #[derive(Hash)] on a struct with f64 and
 // observes why floats aren't Hash.
 
+#[derive(Debug)]
 pub struct AppConfig {
     pub host: String,
     pub port: u16,
