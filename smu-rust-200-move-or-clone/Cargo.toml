@@ -1,0 +1,12 @@
+[package]
+name = "move_or_clone"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+# Six intentionally-broken small programs. Each lives in src/bin/caseNN.rs so
+# you can run it standalone with `cargo run --bin caseNN`. Your job across
+# Exercises 2-3 is to apply the smallest fix (move vs clone vs borrow) that
+# makes each one print `caseNN passed`.
+
+[dependencies]

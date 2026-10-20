@@ -1,0 +1,7 @@
+/target
+Cargo.lock
+
+# Re-include src/bin — the root .gitignore ignores `bin/` globally for legacy
+# .NET starter output directories. Rust uses src/bin/ for binary entry points.
+!src/bin/
+!src/bin/*.rs
