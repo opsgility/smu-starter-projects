@@ -1,0 +1,24 @@
+@LumenLogistics.Api_HostAddress = https://localhost:7042
+
+### Service root
+GET {{LumenLogistics.Api_HostAddress}}/
+Accept: application/json
+
+### List all packages
+GET {{LumenLogistics.Api_HostAddress}}/packages
+Accept: application/json
+
+### Get one package by id
+GET {{LumenLogistics.Api_HostAddress}}/packages/LMN0001
+Accept: application/json
+
+### Create a package
+POST {{LumenLogistics.Api_HostAddress}}/packages
+Content-Type: application/json
+
+{
+  "id": "LMN0004",
+  "recipient": "Morgan Chen",
+  "destination": "Portland, OR",
+  "status": "Pending"
+}

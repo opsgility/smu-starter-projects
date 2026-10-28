@@ -1,0 +1,34 @@
+## .NET build output
+bin/
+obj/
+out/
+*.user
+*.suo
+*.rsuser
+
+## Visual Studio
+.vs/
+.vshistory/
+*.vspx
+*.psess
+
+## Test results
+TestResults/
+*.coverage
+*.trx
+
+## Package caches
+*.nupkg
+packages/
+
+## OS
+.DS_Store
+Thumbs.db
+
+## Rider / Resharper
+.idea/
+*.DotSettings.user
+
+## Local secrets
+appsettings.*.local.json
+*.env
