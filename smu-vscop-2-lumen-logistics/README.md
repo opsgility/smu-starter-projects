@@ -48,4 +48,4 @@ Packages are kept in memory and seeded at startup — this is a teaching project
 
 ## About this starter
 
-Every exercise in the course works against this same codebase. The narrative follows **Alex Rivera**, a new .NET developer at Lumen Logistics onboarding under engineering lead **Priya Shah**. Both characters are fictional.
+Every exercise in the course works against this same codebase. The narrative follows **Alex Rivera**, a new .NET developer at Lumen Logistics onboarding under engineering lead **Michael Peters**. Both characters are fictional.
