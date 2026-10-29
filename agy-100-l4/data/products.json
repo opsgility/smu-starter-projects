@@ -1,0 +1,17 @@
+[
+  { "id": "SKU-001", "name": "Cargo Pallet Standard", "category": "pallet", "unitCost": 42.50 },
+  { "id": "SKU-002", "name": "Cargo Pallet Heavy-Duty", "category": "pallet", "unitCost": 68.00 },
+  { "id": "SKU-003", "name": "Stretch Wrap Roll (18in)", "category": "wrapping", "unitCost": 14.25 },
+  { "id": "SKU-004", "name": "Shipping Label 4x6 (500ct)", "category": "label", "unitCost": 22.00 },
+  { "id": "SKU-005", "name": "Corrugated Box Medium", "category": "box", "unitCost": 3.75 },
+  { "id": "SKU-006", "name": "Corrugated Box Large", "category": "box", "unitCost": 5.90 },
+  { "id": "SKU-007", "name": "Packing Tape Clear (6pk)", "category": "wrapping", "unitCost": 18.40 },
+  { "id": "SKU-008", "name": "Bubble Wrap (24in x 100ft)", "category": "wrapping", "unitCost": 32.00 },
+  { "id": "SKU-009", "name": "Shipping Label 2x4 (1000ct)", "category": "label", "unitCost": 28.50 },
+  { "id": "SKU-010", "name": "Cargo Pallet Economy", "category": "pallet", "unitCost": 28.00 },
+  { "id": "SKU-011", "name": "Corrugated Box Small", "category": "box", "unitCost": 2.25 },
+  { "id": "SKU-012", "name": "Fragile Stickers (500ct)", "category": "label", "unitCost": 11.00 },
+  { "id": "SKU-013", "name": "Shrink Wrap Industrial", "category": "wrapping", "unitCost": 95.00 },
+  { "id": "SKU-014", "name": "Pallet Jack Standard", "category": "equipment", "unitCost": 420.00 },
+  { "id": "SKU-015", "name": "Hand Truck Steel", "category": "equipment", "unitCost": 185.00 }
+]
