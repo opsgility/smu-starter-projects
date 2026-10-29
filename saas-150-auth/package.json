@@ -1,0 +1,31 @@
+{
+  "name": "saas-150-auth",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Starter for SAAS-150 Lesson 1 — password hashing and session cookies. Scaffold.",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "migrate:up": "node-pg-migrate up",
+    "migrate:down": "node-pg-migrate down",
+    "migrate:create": "node-pg-migrate create"
+  },
+  "dependencies": {
+    "hono": "^4.6.14",
+    "@hono/node-server": "^1.13.7",
+    "pg": "^8.13.1",
+    "dotenv": "^16.4.5",
+    "node-pg-migrate": "^7.9.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "@types/pg": "^8.11.10",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}
