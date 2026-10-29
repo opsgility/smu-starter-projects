@@ -1,0 +1,16 @@
+{
+  "name": "lumen-trail-deployment",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:api": "npm --workspace apps/api run dev",
+    "dev:web": "npm --workspace apps/web run dev",
+    "build:api": "npm --workspace apps/api run build",
+    "build:web": "npm --workspace apps/web run build",
+    "start:api": "npm --workspace apps/api run start",
+    "start:web": "npm --workspace apps/web run start"
+  }
+}
