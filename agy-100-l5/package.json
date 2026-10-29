@@ -1,0 +1,14 @@
+{
+  "name": "meridian-utils",
+  "version": "0.1.0",
+  "description": "Meridian Devworks shared TypeScript utilities — fresh project for the AGY-100 SKILL.md + /boost lab",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.11.0"
+  }
+}
