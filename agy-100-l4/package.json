@@ -1,0 +1,12 @@
+{
+  "name": "meridian-api",
+  "version": "1.0.0",
+  "description": "Meridian Devworks internal API skeleton — pagination + filtering practice for AGY-100 L8",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.0"
+  }
+}
