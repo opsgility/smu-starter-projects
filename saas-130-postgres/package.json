@@ -1,0 +1,24 @@
+{
+  "name": "saas-130-postgres",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Starter for SAAS-130 Lesson 1 — connect to Postgres and run your first SELECT.",
+  "type": "module",
+  "scripts": {
+    "connect": "tsx src/connect.ts",
+    "query": "tsx src/query.ts"
+  },
+  "dependencies": {
+    "pg": "^8.13.1",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "@types/pg": "^8.11.10",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

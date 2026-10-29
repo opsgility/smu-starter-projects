@@ -1,0 +1,29 @@
+{
+  "name": "saas-130-postgres-l4",
+  "version": "0.4.0",
+  "private": true,
+  "description": "Starter for SAAS-130 Lesson 4 — transactions and concurrency. End-state of Lesson 3.",
+  "type": "module",
+  "scripts": {
+    "connect": "tsx src/connect.ts",
+    "migrate:up": "node-pg-migrate up",
+    "migrate:down": "node-pg-migrate down",
+    "migrate:redo": "node-pg-migrate redo",
+    "migrate:create": "node-pg-migrate create",
+    "join": "tsx src/join.ts"
+  },
+  "dependencies": {
+    "pg": "^8.13.1",
+    "dotenv": "^16.4.5",
+    "node-pg-migrate": "^7.9.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "@types/pg": "^8.11.10",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

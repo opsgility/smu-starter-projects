@@ -1,0 +1,25 @@
+{
+  "name": "saas-130-postgres-l2",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Starter for SAAS-130 Lesson 2 — schema design. End-state of Lesson 1.",
+  "type": "module",
+  "scripts": {
+    "connect": "tsx src/connect.ts",
+    "setup": "tsx src/setup.ts",
+    "list-items": "tsx src/list-items.ts"
+  },
+  "dependencies": {
+    "pg": "^8.13.1",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "@types/pg": "^8.11.10",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}
