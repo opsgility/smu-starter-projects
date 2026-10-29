@@ -1,0 +1,13 @@
+[project]
+name = "meridian-geometry"
+version = "0.1.0"
+description = "Geometry helpers for Meridian Devworks logistics tooling"
+authors = [{ name = "Meridian Devworks", email = "dev@meridian-devworks.example" }]
+requires-python = ">=3.10"
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
