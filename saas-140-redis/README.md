@@ -13,7 +13,7 @@ saas-140-redis/
   README.md              # this file
   .gitignore             # Node ignores + .env
   .env.example           # REDIS_URL + PORT
-  package.json           # Hono + @hono/node-server + ioredis — all preinstalled in the container
+  package.json           # Hono + @hono/node-server + node-redis v4 — all preinstalled in the container
   tsconfig.json          # Node 22 ESM + strict mode
   src/
     index.ts             # the API — one /health endpoint, nothing else
@@ -61,5 +61,5 @@ None. SAAS-140 is local to the lab container. The Redis instance is unauthentica
 
 - **Redis is already running** — you don't need `redis-server` or `brew install redis` or any of that. The container's startup script boots Redis as a managed sidecar. If `redis-cli ping` doesn't return `PONG`, flag it to the left-hand helper; it's a container bug, not a lesson step.
 - **This starter is shared across all SAAS-140 lessons but Lessons 2-5 each have their own folder** named `saas-140-redis-l2`, `-l3`, `-l4`, `-l5`. Each one is the end state of the previous lesson so you can start a lab mid-course without rebuilding everything.
-- **`package.json` lists `ioredis`** — a popular Node Redis client. Lesson 1 uses it from a small script before you wire it into the Hono app. Later lessons use it directly in the API.
+- **`package.json` lists `node-redis v4`** — a popular Node Redis client. Lesson 1 uses it from a small script before you wire it into the Hono app. Later lessons use it directly in the API.
 - **If you break the starter**, click End Lab and re-launch. The container is thrown away and rebuilt from this folder every launch.

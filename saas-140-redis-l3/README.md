@@ -18,7 +18,7 @@ saas-140-redis-l3/
   README.md              # this file
   .gitignore             # Node ignores + .env
   .env.example           # REDIS_URL + PORT
-  package.json           # Hono + ioredis + friends
+  package.json           # Hono + node-redis v4 + friends
   tsconfig.json          # Node 22 ESM + strict mode
   src/
     index.ts             # /health, /favorites, /popular-routes (cache-aside), /login, /me, /logout

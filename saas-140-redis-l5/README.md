@@ -19,7 +19,7 @@ saas-140-redis-l5/
   README.md              # this file
   .gitignore             # Node ignores + .env
   .env.example           # REDIS_URL + PORT
-  package.json           # Hono + ioredis + friends; adds a `worker` script
+  package.json           # Hono + node-redis v4 + friends; adds a `worker` script
   tsconfig.json          # Node 22 ESM + strict mode
   src/
     index.ts             # API — POST /signup does everything inline (the problem)

@@ -20,7 +20,7 @@ saas-140-redis-l4/
   README.md              # this file
   .gitignore             # Node ignores + .env
   .env.example           # REDIS_URL + PORT
-  package.json           # Hono + ioredis + friends
+  package.json           # Hono + node-redis v4 + friends
   tsconfig.json          # Node 22 ESM + strict mode
   src/
     index.ts             # everything from L1-L3 plus POST /routes (unprotected)
