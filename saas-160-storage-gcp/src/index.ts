@@ -1,20 +1,24 @@
 // Lumen Trail backend — SAAS-160 Lesson 1 starter.
 //
-// This file is intentionally tiny. Lesson 1 is about learning the GCS mental
-// model via gcloud: buckets, objects, keys. You create a bucket, upload a
-// file with `gcloud storage cp`, and read it back — no API code yet.
-// By the end of Lesson 2 this file grows a /photos endpoint.
+// L1 is about the GCS mental model. You create a bucket from the gcloud CLI
+// and upload a sample photo — all through gcloud, no API code required yet.
+// The /health route confirms STORAGE_TRACK + which track is live.
 
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
+import { appConfig } from "./config.js";
 
 const app = new Hono();
 
 app.get("/health", (c) =>
-  c.json({ status: "ok", project: process.env.GCP_PROJECT_ID ?? "<unset>" })
+  c.json({
+    status: "ok",
+    track: appConfig.track,
+    gcs_bucket: appConfig.gcs.bucket || "<unset>",
+    azure_container: appConfig.azure.container || "<unset>",
+  }),
 );
 
-const port = Number(process.env.PORT ?? 3000);
-serve({ fetch: app.fetch, port }, (info) => {
+serve({ fetch: app.fetch, port: appConfig.port }, (info) => {
   console.log(`Lumen Trail API listening on http://localhost:${info.port}`);
 });

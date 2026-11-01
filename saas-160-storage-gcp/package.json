@@ -1,19 +1,32 @@
 {
   "name": "saas-160-storage-gcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "Object storage on GCS — SAAS-160 Lesson 1 starter",
+  "description": "File uploads and object storage — SAAS-160 Lesson 1 starter",
   "type": "module",
-  "scripts": { "dev": "tsx watch src/index.ts", "start": "tsx src/index.ts" },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "migrate": "tsx migrations/up.ts"
+  },
   "dependencies": {
     "hono": "^4.6.14",
     "@hono/node-server": "^1.13.7",
-    "@google-cloud/storage": "^7.14.0"
+    "@google-cloud/storage": "^7.14.0",
+    "@azure/storage-blob": "^12.26.0",
+    "@azure/identity": "^4.5.0",
+    "multer": "^1.4.5-lts.1",
+    "pg": "^8.13.1",
+    "dotenv": "^16.4.5"
   },
   "devDependencies": {
     "@types/node": "^22.9.0",
+    "@types/multer": "^1.4.12",
+    "@types/pg": "^8.11.10",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3"
   },
-  "engines": { "node": ">=22.0.0" }
+  "engines": {
+    "node": ">=22.0.0"
+  }
 }
