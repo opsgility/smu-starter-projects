@@ -1,96 +1,109 @@
 // Lumen Trail backend API — SAAS-140 Lesson 4 starter.
 //
-// End state of Lesson 3 — sessions now live in Redis under the key `sess:<sid>`.
-// This lesson adds a new endpoint, POST /routes, that creates a hiking route
-// in a toy in-memory list. In production this would hit Postgres. The problem
-// is that the endpoint is unprotected: a bad actor can call it in a tight loop
-// and fill the system with junk. Your job is to add rate limiting so a single
-// IP (or logged-in user) can only create a few routes per minute.
+// L4 teaches rate limiting. The /items/:slug/favorite endpoint is on purpose
+// UNPROTECTED — a single curl loop can hammer it a thousand times a second.
+// The L4 exercises direct Claude Code to add hono-rate-limiter against the
+// endpoint, keyed by the signed-in userId (falling back to client IP), with
+// an INCR + TTL implementation backed by Redis.
+//
+// End-state from L3: /items cache-aside + invalidate on write + Redis-backed
+// sessions (two API processes share the sign-in).
 
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
-import { randomUUID } from "node:crypto";
-import Redis from "ioredis";
+import { getCookie, setCookie, deleteCookie } from "hono/cookie";
+import { randomBytes } from "node:crypto";
+import { query } from "./db.js";
+import { connectRedis } from "./redis.js";
+import { getOrSet, invalidate } from "./cache.js";
+import { sessions } from "./sessions.js";
 
-const redis = new Redis(process.env.REDIS_URL ?? "redis://127.0.0.1:6379");
-const app = new Hono();
+await connectRedis();
+
+type Variables = { userId?: number; email?: string };
+const app = new Hono<{ Variables: Variables }>();
+
+app.use("*", async (c, next) => {
+  const sid = getCookie(c, "sid");
+  if (sid) {
+    const record = await sessions.get(sid);
+    if (record) {
+      c.set("userId", record.userId);
+      c.set("email", record.email);
+    }
+  }
+  await next();
+});
 
 app.get("/health", (c) => c.json({ status: "ok" }));
 
-app.get("/favorites/:userId", async (c) => {
-  const userId = c.req.param("userId");
-  const routeIds = await redis.smembers(`fav:${userId}`);
-  return c.json({ userId, favorites: routeIds });
+app.get("/items", async (c) => {
+  const items = await getOrSet("items:all", 60, async () => {
+    const { rows } = await query(
+      "SELECT id, slug, name, description, price_cents, rating FROM trail_items ORDER BY id",
+    );
+    return rows;
+  });
+  return c.json({ items });
 });
 
-async function computePopularRoutes() {
-  await new Promise((r) => setTimeout(r, 800));
-  return [
-    { id: "r-001", name: "Rainier Wonderland Loop", score: 94 },
-    { id: "r-002", name: "Zion Narrows", score: 91 }
-  ];
-}
-
-app.get("/popular-routes", async (c) => {
-  const cached = await redis.get("popular-routes");
-  if (cached) return c.json({ routes: JSON.parse(cached), source: "cache" });
-  const routes = await computePopularRoutes();
-  await redis.set("popular-routes", JSON.stringify(routes), "EX", 60);
-  return c.json({ routes, source: "fresh" });
+app.patch("/items/:slug", async (c) => {
+  const slug = c.req.param("slug");
+  const body = (await c.req.json().catch(() => ({}))) as { name?: string };
+  const { rowCount } = await query(
+    "UPDATE trail_items SET name = COALESCE($2, name), updated_at = NOW() WHERE slug = $1",
+    [slug, body.name ?? null],
+  );
+  if (rowCount === 0) return c.json({ error: "not_found" }, 404);
+  await invalidate("items:all");
+  return c.json({ status: "ok" });
 });
 
-// ---- Sessions in Redis (end state of Lesson 3) ----
-
-const users: Record<string, { id: string; name: string }> = {
-  "alice@lumentrail.test": { id: "u-alice", name: "Alice Explorer" },
-  "bob@lumentrail.test": { id: "u-bob", name: "Bob Beginner" }
-};
-
-const SESSION_TTL_SEC = 7 * 24 * 60 * 60;
-
-app.post("/login", async (c) => {
-  const body = await c.req.json().catch(() => ({}));
-  const email = typeof body?.email === "string" ? body.email : "";
-  const user = users[email];
-  if (!user) return c.json({ error: "unknown user" }, 401);
-  const sid = randomUUID();
-  await redis.set(`sess:${sid}`, JSON.stringify({ userId: user.id }), "EX", SESSION_TTL_SEC);
-  return c.json({ sessionId: sid, user });
+// TODO (L4 Exercise 2): protect this endpoint with hono-rate-limiter —
+// 20 requests per 10 seconds per userId. The L4 exercises walk the full build.
+app.post("/items/:slug/favorite", async (c) => {
+  const userId = c.get("userId");
+  if (!userId) return c.json({ error: "no_session" }, 401);
+  const slug = c.req.param("slug");
+  const { rows } = await query("SELECT id FROM trail_items WHERE slug = $1", [slug]);
+  if (rows.length === 0) return c.json({ error: "not_found" }, 404);
+  await query(
+    "INSERT INTO favorites (user_id, item_id) VALUES ($1, $2) ON CONFLICT DO NOTHING",
+    [userId, rows[0].id],
+  );
+  return c.json({ status: "ok" });
 });
 
-app.get("/me", async (c) => {
-  const sid = c.req.header("x-session-id") ?? "";
-  const raw = await redis.get(`sess:${sid}`);
-  if (!raw) return c.json({ error: "no session" }, 401);
-  return c.json(JSON.parse(raw));
+// --- auth helpers (unchanged from L3) ---
+
+app.post("/signin", async (c) => {
+  const body = (await c.req.json().catch(() => ({}))) as { email?: string };
+  if (!body.email) return c.json({ error: "missing_email" }, 400);
+  const { rows } = await query(
+    "SELECT id, email FROM users WHERE email = $1",
+    [body.email],
+  );
+  if (rows.length === 0) return c.json({ error: "no_such_user" }, 404);
+  const sid = randomBytes(32).toString("hex");
+  await sessions.create(sid, { userId: rows[0].id, email: rows[0].email });
+  setCookie(c, "sid", sid, { httpOnly: true, sameSite: "Lax", path: "/" });
+  return c.json({ status: "ok" });
 });
 
-app.post("/logout", async (c) => {
-  const sid = c.req.header("x-session-id") ?? "";
-  await redis.del(`sess:${sid}`);
-  return c.json({ ok: true });
+app.post("/signout", async (c) => {
+  const sid = getCookie(c, "sid");
+  if (sid) await sessions.destroy(sid);
+  deleteCookie(c, "sid", { path: "/" });
+  return c.json({ status: "ok" });
 });
 
-// ---- NEW: the endpoint you'll rate-limit ----
-
-const routes: Array<{ id: string; name: string; createdBy: string }> = [];
-
-app.post("/routes", async (c) => {
-  const body = await c.req.json().catch(() => ({}));
-  const name = typeof body?.name === "string" ? body.name : "";
-  if (!name) return c.json({ error: "name required" }, 400);
-  const sid = c.req.header("x-session-id") ?? "";
-  const raw = await redis.get(`sess:${sid}`);
-  const userId = raw ? (JSON.parse(raw).userId as string) : "anonymous";
-  const route = { id: `r-${randomUUID().slice(0, 8)}`, name, createdBy: userId };
-  routes.push(route);
-  return c.json(route, 201);
+app.get("/me", (c) => {
+  const userId = c.get("userId");
+  if (!userId) return c.json({ error: "no_session" }, 401);
+  return c.json({ userId, email: c.get("email") });
 });
-
-app.get("/routes", (c) => c.json({ routes }));
 
 const port = Number(process.env.PORT ?? 3000);
-
 serve({ fetch: app.fetch, port }, (info) => {
   console.log(`Lumen Trail API listening on http://localhost:${info.port}`);
 });

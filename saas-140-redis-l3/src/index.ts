@@ -1,81 +1,84 @@
 // Lumen Trail backend API — SAAS-140 Lesson 3 starter.
 //
-// End state of Lesson 2 — /popular-routes is cache-aside backed. This lesson
-// introduces a toy auth flow: POST /login hands back a session id, GET /me
-// looks up the user by session id, POST /logout destroys it. Sessions are
-// stored in a plain in-memory Map, so every server restart logs everyone out.
-// Your job is to move the session store to Redis so sessions survive restarts
-// and can be shared across multiple server processes.
+// L3 teaches session storage. The in-memory Map in src/sessions.ts is wrong on
+// purpose — two API processes split sessions by whoever answered the signin
+// request. The exercises direct Claude Code to swap the Map for node-redis
+// SET/GET with TTL and prove the two-process test now works.
+//
+// End-state from L2: /items cache-aside, invalidate on write.
 
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
-import { randomUUID } from "node:crypto";
-import Redis from "ioredis";
+import { getCookie, setCookie, deleteCookie } from "hono/cookie";
+import { randomBytes } from "node:crypto";
+import { query } from "./db.js";
+import { connectRedis } from "./redis.js";
+import { getOrSet, invalidate } from "./cache.js";
+import { sessions } from "./sessions.js";
 
-const redis = new Redis(process.env.REDIS_URL ?? "redis://127.0.0.1:6379");
+await connectRedis();
+
 const app = new Hono();
 
 app.get("/health", (c) => c.json({ status: "ok" }));
 
-app.get("/favorites/:userId", async (c) => {
-  const userId = c.req.param("userId");
-  const routeIds = await redis.smembers(`fav:${userId}`);
-  return c.json({ userId, favorites: routeIds });
+app.get("/items", async (c) => {
+  const items = await getOrSet("items:all", 60, async () => {
+    const { rows } = await query(
+      "SELECT id, slug, name, description, price_cents, rating FROM trail_items ORDER BY id",
+    );
+    return rows;
+  });
+  return c.json({ items });
 });
 
-async function computePopularRoutes() {
-  await new Promise((r) => setTimeout(r, 800));
-  return [
-    { id: "r-001", name: "Rainier Wonderland Loop", score: 94 },
-    { id: "r-002", name: "Zion Narrows", score: 91 },
-    { id: "r-003", name: "Angels Rest", score: 88 }
-  ];
-}
-
-app.get("/popular-routes", async (c) => {
-  const cached = await redis.get("popular-routes");
-  if (cached) return c.json({ routes: JSON.parse(cached), source: "cache" });
-  const routes = await computePopularRoutes();
-  await redis.set("popular-routes", JSON.stringify(routes), "EX", 60);
-  return c.json({ routes, source: "fresh" });
+app.patch("/items/:slug", async (c) => {
+  const slug = c.req.param("slug");
+  const body = (await c.req.json().catch(() => ({}))) as { name?: string };
+  const { rowCount } = await query(
+    "UPDATE trail_items SET name = COALESCE($2, name), updated_at = NOW() WHERE slug = $1",
+    [slug, body.name ?? null],
+  );
+  if (rowCount === 0) return c.json({ error: "not_found" }, 404);
+  await invalidate("items:all");
+  return c.json({ status: "ok" });
 });
 
-// ---- Auth-ish bits — the subject of Lesson 3 ----
-
-// Toy user "database" — a real app would use Postgres.
-const users: Record<string, { id: string; name: string }> = {
-  "alice@lumentrail.test": { id: "u-alice", name: "Alice Explorer" },
-  "bob@lumentrail.test": { id: "u-bob", name: "Bob Beginner" }
-};
-
-// IN-MEMORY sessions. Dies on every server restart. YOUR JOB is to replace this.
-const sessions = new Map<string, { userId: string; createdAt: number }>();
-
-app.post("/login", async (c) => {
-  const body = await c.req.json().catch(() => ({}));
-  const email = typeof body?.email === "string" ? body.email : "";
-  const user = users[email];
-  if (!user) return c.json({ error: "unknown user" }, 401);
-  const sid = randomUUID();
-  sessions.set(sid, { userId: user.id, createdAt: Date.now() });
-  return c.json({ sessionId: sid, user });
+// Session routes — in-memory for now; L3 Exercise 3 swaps for Redis.
+app.post("/signin", async (c) => {
+  const body = (await c.req.json().catch(() => ({}))) as { email?: string };
+  if (!body.email) return c.json({ error: "missing_email" }, 400);
+  const { rows } = await query(
+    "SELECT id, email FROM users WHERE email = $1",
+    [body.email],
+  );
+  if (rows.length === 0) return c.json({ error: "no_such_user" }, 404);
+  const sid = randomBytes(32).toString("hex");
+  await sessions.create(sid, {
+    userId: rows[0].id,
+    email: rows[0].email,
+    expiresAt: Date.now() + 1000 * 60 * 60 * 24,
+  });
+  setCookie(c, "sid", sid, { httpOnly: true, sameSite: "Lax", path: "/" });
+  return c.json({ status: "ok" });
 });
 
-app.get("/me", (c) => {
-  const sid = c.req.header("x-session-id") ?? "";
-  const sess = sessions.get(sid);
-  if (!sess) return c.json({ error: "no session" }, 401);
-  return c.json({ userId: sess.userId });
+app.get("/me", async (c) => {
+  const sid = getCookie(c, "sid");
+  if (!sid) return c.json({ error: "no_session" }, 401);
+  const record = await sessions.get(sid);
+  if (!record) return c.json({ error: "no_session" }, 401);
+  return c.json({ userId: record.userId, email: record.email });
 });
 
-app.post("/logout", (c) => {
-  const sid = c.req.header("x-session-id") ?? "";
-  sessions.delete(sid);
-  return c.json({ ok: true });
+app.post("/signout", async (c) => {
+  const sid = getCookie(c, "sid");
+  if (sid) await sessions.destroy(sid);
+  deleteCookie(c, "sid", { path: "/" });
+  return c.json({ status: "ok" });
 });
 
 const port = Number(process.env.PORT ?? 3000);
-
 serve({ fetch: app.fetch, port }, (info) => {
   console.log(`Lumen Trail API listening on http://localhost:${info.port}`);
 });
