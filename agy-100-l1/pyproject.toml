@@ -1,0 +1,13 @@
+[project]
+name = "meridian-cli"
+version = "1.0.0"
+description = "Meridian Devworks logistics command-line tool"
+authors = [{ name = "Meridian Devworks", email = "dev@meridian-devworks.example" }]
+requires-python = ">=3.10"
+
+[project.scripts]
+meridian-cli = "cli:main"
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
